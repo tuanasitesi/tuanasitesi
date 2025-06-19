@@ -1,0 +1,27 @@
+{
+  "aylikGelir": 18400,
+  "aylikGider": 16200,
+  "kalanBakiye": 2200,
+  "aidatGelirleri": {
+    "Ocak": 4000,
+    "Şubat": 4200,
+    "Mart": 3800,
+    "Nisan": 4400
+  },
+  "giderDagilimi": {
+    "Elektrik": 3200,
+    "Temizlik": 2600,
+    "Bakım-Onarım": 1800,
+    "Güvenlik": 4000,
+    "Diğer": 2600
+  },
+  "aidatOdemeyenler": {
+    "A Blok": 3,
+    "B Blok": 2,
+    "C Blok": 5
+  },
+  "odemeDurumu": {
+    "Ödedi": 30,
+    "Ödemedi": 10
+  }
+}
