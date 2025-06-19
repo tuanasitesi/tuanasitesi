@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri - Tuana Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f8;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+    .galeri {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .galeri img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .galeri img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Tuana Sitesi Galeri</h1>
+  <div class="galeri" id="galeriListesi"></div>
+
+  <script>
+    const resimler = [
+      "https://i.ibb.co/m8Wzmq5/site1.jpg",
+      "https://i.ibb.co/3FfyGcG/site2.jpg",
+      "https://i.ibb.co/DY09mSk/site3.jpg",
+      "https://i.ibb.co/j4QZQLZ/site4.jpg"
+    ];
+
+    const galeriDiv = document.getElementById("galeriListesi");
+
+    resimler.forEach(url => {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "Galeri Resmi";
+      galeriDiv.appendChild(img);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aidat Ödeme Kayıtları - Tuana Sitesi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .bos-veri {
+      text-align: center;
+      color: #888;
+      font-size: 1.1rem;
+      padding: 2rem;
+    }
+    #grafikContainer {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    canvas {
+      max-width: 100%;
+    }
+    .filtreler {
+      max-width: 800px;
+      margin: 1rem auto 2rem auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filtreler select {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .rapor-paneli {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .rapor-paneli h2 {
+      margin-bottom: 1rem;
+    }
+    .rapor-paneli pre {
+      background: #f4f4f4;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>📄 Aidat Ödeme Kayıtları</h1>
+
+  <div id="grafikContainer">
+    <canvas id="aylikGrafik"></canvas>
+  </div>
+
+  <div class="filtreler">
+    <select id="filtreAy">
+      <option value="">Tüm Aylar</option>
+    </select>
+    <select id="filtreDaire">
+      <option value="">Tüm Daireler</option>
+    </select>
+    <select id="filtreTur">
+      <option value="">Tüm Türler</option>
+    </select>
+  </div>
+
+  <div id="icerik"></div>
+
+  <div class="rapor-paneli">
+    <h2>📋 Toplam Gelir-Gider Özeti (İşletme Defteri Formatı)</h2>
+    <pre id="raporMetni"></pre>
+  </div>
+
+  <script>
+    const veriler = JSON.parse(localStorage.getItem("odemeler") || "[]");
+
+    const filtreAy = document.getElementById("filtreAy");
+    const filtreDaire = document.getElementById("filtreDaire");
+    const filtreTur = document.getElementById("filtreTur");
+
+    // filtre seçenekleri hazırla
+    const aySet = new Set();
+    const daireSet = new Set();
+    const turSet = new Set();
+
+    veriler.forEach(kayit => {
+      const tarih = new Date(kayit.tarih);
+      if (!isNaN(tarih)) {
+        const ay = tarih.getFullYear() + "-" + String(tarih.getMonth() + 1).padStart(2, "0");
+        aySet.add(ay);
+      }
+      daireSet.add(kayit.daire);
+      turSet.add(kayit.tur);
+    });
+
+    [...aySet].sort().forEach(ay => {
+      const opt = document.createElement("option");
+      opt.value = ay;
+      opt.textContent = ay;
+      filtreAy.appendChild(opt);
+    });
+
+    [...daireSet].sort().forEach(daire => {
+      const opt = document.createElement("option");
+      opt.value = daire;
+      opt.textContent = daire;
+      filtreDaire.appendChild(opt);
+    });
+
+    [...turSet].sort().forEach(tur => {
+      const opt = document.createElement("option");
+      opt.value = tur;
+      opt.textContent = tur;
+      filtreTur.appendChild(opt);
+    });
+
+    filtreAy.addEventListener("change", guncelleTablo);
+    filtreDaire.addEventListener("change", guncelleTablo);
+    filtreTur.addEventListener("change", guncelleTablo);
+
+    function guncelleTablo() {
+      const ayDeger = filtreAy.value;
+      const daireDeger = filtreDaire.value;
+      const turDeger = filtreTur.value;
+
+      const filtreli = veriler.filter(kayit => {
+        const tarih = new Date(kayit.tarih);
+        const ay = tarih.getFullYear() + "-" + String(tarih.getMonth() + 1).padStart(2, "0");
+        return (
+          (!ayDeger || ay === ayDeger) &&
+          (!daireDeger || kayit.daire === daireDeger) &&
+          (!turDeger || kayit.tur === turDeger)
+        );
+      });
+
+      if (filtreli.length === 0) {
+        document.getElementById("icerik").innerHTML = "<div class='bos-veri'>Filtreye uyan ödeme bulunamadı.</div>";
+        document.getElementById("raporMetni").textContent = "- Veri bulunamadı.";
+        return;
+      }
+
+      let html = `<table><thead><tr>
+        <th>Daire</th>
+        <th>Tutar (TL)</th>
+        <th>Tarih</th>
+        <th>Tür</th>
+        <th>Açıklama</th>
+      </tr></thead><tbody>`;
+
+      let toplamGelir = 0;
+      let toplamGider = 0;
+      let raporSatir = "";
+
+      filtreli.forEach(kayit => {
+        const tutar = parseFloat(kayit.tutar);
+        const tarih = kayit.tarih;
+        const satir = `• ${tarih} - ${kayit.tur.toUpperCase()} - ${kayit.daire} - ${tutar.toFixed(2)} TL - ${kayit.aciklama || "-"}`;
+
+        if (kayit.tur.toLowerCase().includes("gider")) {
+          toplamGider += tutar;
+        } else {
+          toplamGelir += tutar;
+        }
+
+        raporSatir += satir + "\n";
+
+        html += `<tr>
+          <td>${kayit.daire}</td>
+          <td>${tutar.toFixed(2)}</td>
+          <td>${tarih}</td>
+          <td>${kayit.tur}</td>
+          <td>${kayit.aciklama || "-"}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table>`;
+      document.getElementById("icerik").innerHTML = html;
+
+      const rapor = `📌 Toplam Gelir: ${toplamGelir.toFixed(2)} TL\n📌 Toplam Gider: ${toplamGider.toFixed(2)} TL\n📌 Kalan Bakiye: ${(toplamGelir - toplamGider).toFixed(2)} TL\n\n${raporSatir}`;
+      document.getElementById("raporMetni").textContent = rapor;
+    }
+
+    // grafik oluştur
+    const aylikToplam = {};
+    veriler.forEach(kayit => {
+      const tarih = new Date(kayit.tarih);
+      if (!isNaN(tarih)) {
+        const ay = tarih.getFullYear() + "-" + String(tarih.getMonth() + 1).padStart(2, "0");
+        aylikToplam[ay] = (aylikToplam[ay] || 0) + parseFloat(kayit.tutar);
+      }
+    });
+
+    const aylar = Object.keys(aylikToplam).sort();
+    const toplamlar = aylar.map(ay => aylikToplam[ay]);
+
+    if (aylar.length > 0) {
+      const ctx = document.getElementById("aylikGrafik").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: aylar,
+          datasets: [{
+            label: "Aylık Toplam Ödeme (TL)",
+            data: toplamlar,
+            backgroundColor: "#3498db"
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: "Aylık Toplam Aidat ve Giderler" }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    guncelleTablo();
+  </script>
+</body>
+</html>

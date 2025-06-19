@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yönetici Paneli - Tuana Sitesi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+    .kutular {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .kutu {
+      background: #fff;
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      min-width: 200px;
+    }
+    .kutu h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+      color: #34495e;
+    }
+    .kutu span {
+      color: #888;
+      font-size: 1rem;
+    }
+    .grafikler {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .grafik {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Tuana Sitesi Yönetici Paneli</h1>
+  <div class="kutular">
+    <div class="kutu">
+      <span>Aylık Gelir</span>
+      <h2 id="gelir">₺ -</h2>
+    </div>
+    <div class="kutu">
+      <span>Aylık Gider</span>
+      <h2 id="gider">₺ -</h2>
+    </div>
+    <div class="kutu">
+      <span>Kalan Bakiye</span>
+      <h2 id="bakiye">₺ -</h2>
+    </div>
+  </div>
+
+  <div class="grafikler">
+    <div class="grafik">
+      <h3 style="text-align:center">Aidat Gelirleri (Aylık)</h3>
+      <canvas id="aidatGeliriGrafik"></canvas>
+    </div>
+    <div class="grafik">
+      <h3 style="text-align:center">Gider Dağılımı</h3>
+      <canvas id="giderGrafik"></canvas>
+    </div>
+    <div class="grafik">
+      <h3 style="text-align:center">Aidat Ödemeyen (Blok)</h3>
+      <canvas id="odemeyenGrafik"></canvas>
+    </div>
+    <div class="grafik">
+      <h3 style="text-align:center">Ödeme Durumu</h3>
+      <canvas id="odemeDurumGrafik"></canvas>
+    </div>
+  </div>
+
+  <script>
+    fetch('dashboard-veri.json')
+      .then(res => res.json())
+      .then(data => {
+        // Kutular
+        document.getElementById("gelir").textContent = `₺${data.aylikGelir}`;
+        document.getElementById("gider").textContent = `₺${data.aylikGider}`;
+        document.getElementById("bakiye").textContent = `₺${data.kalanBakiye}`;
+
+        // Aidat Geliri Grafiği
+        new Chart(document.getElementById('aidatGeliriGrafik'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(data.aidatGelirleri),
+            datasets: [{
+              label: 'Aidat Geliri (₺)',
+              data: Object.values(data.aidatGelirleri),
+              backgroundColor: '#3498db'
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Gider Grafiği
+        new Chart(document.getElementById('giderGrafik'), {
+          type: 'pie',
+          data: {
+            labels: Object.keys(data.giderDagilimi),
+            datasets: [{
+              data: Object.values(data.giderDagilimi),
+              backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c', '#8e44ad', '#3498db']
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Aidat Ödemeyen Bloklar
+        new Chart(document.getElementById('odemeyenGrafik'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(data.aidatOdemeyenler),
+            datasets: [{
+              label: 'Aidat Ödemeyen Daire Sayısı',
+              data: Object.values(data.aidatOdemeyenler),
+              backgroundColor: '#e74c3c'
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Ödeme Durumu
+        new Chart(document.getElementById('odemeDurumGrafik'), {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(data.odemeDurumu),
+            datasets: [{
+              data: Object.values(data.odemeDurumu),
+              backgroundColor: ['#2ecc71', '#e74c3c']
+            }]
+          },
+          options: { responsive: true }
+        });
+      })
+      .catch(err => {
+        console.error('Veri yüklenemedi:', err);
+      });
+  </script>
+</body>
+</html>

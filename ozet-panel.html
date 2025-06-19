@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Özet Panel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 2rem;
+    }
+    .panel {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .bilgi-kutusu {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #3498db;
+    }
+    .bilgi-kutusu strong {
+      display: inline-block;
+      width: 150px;
+    }
+    .btn {
+      display: block;
+      margin: 2rem auto 0;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel" id="ozetPanel">
+    <h2>💼 Aidat Özet Paneli</h2>
+    <div class="bilgi-kutusu"><strong>Ad Soyad:</strong> <span id="ad"></span></div>
+    <div class="bilgi-kutusu"><strong>Daire No:</strong> <span id="daire"></span></div>
+    <div class="bilgi-kutusu"><strong>Toplam Ödeme:</strong> <span id="toplam"></span> ₺</div>
+    <div class="bilgi-kutusu"><strong>Ödeme Sayısı:</strong> <span id="adet"></span></div>
+    <div class="bilgi-kutusu"><strong>Kalan Borç:</strong> <span id="borc"></span> ₺</div>
+  </div>
+
+  <button class="btn" onclick="exportPDF()">PDF Olarak İndir</button>
+
+  <script>
+    const aktif = JSON.parse(localStorage.getItem("aktifKullanici"));
+    const odemeler = JSON.parse(localStorage.getItem("odemeler")) || [];
+
+    if (!aktif) {
+      document.body.innerHTML = "<p style='text-align:center;'>Giriş yapılmamış.</p>";
+    } else {
+      document.getElementById("ad").textContent = aktif.ad;
+      document.getElementById("daire").textContent = aktif.daire;
+
+      const benimOdemelerim = odemeler.filter(o => o.daire == aktif.daire);
+      const toplam = benimOdemelerim.reduce((sum, o) => sum + Number(o.tutar || 0), 0);
+      const adet = benimOdemelerim.length;
+      const beklenenToplam = 12 * 500; // örnek yıllık aidat 500₺ x 12 ay
+      const kalan = Math.max(beklenenToplam - toplam, 0);
+
+      document.getElementById("toplam").textContent = toplam.toFixed(2);
+      document.getElementById("adet").textContent = adet;
+      document.getElementById("borc").textContent = kalan.toFixed(2);
+    }
+
+    async function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("Aidat Özet Raporu", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Ad Soyad: ${aktif.ad}`, 20, 40);
+      doc.text(`Daire No: ${aktif.daire}`, 20, 50);
+      doc.text(`Toplam Ödeme: ${document.getElementById("toplam").textContent} ₺`, 20, 60);
+      doc.text(`Ödeme Sayısı: ${document.getElementById("adet").textContent}`, 20, 70);
+      doc.text(`Kalan Borç: ${document.getElementById("borc").textContent} ₺`, 20, 80);
+
+      doc.save("aidat-ozet.pdf");
+    }
+  </script>
+</body>
+</html>

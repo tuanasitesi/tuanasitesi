@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duyuru Ekle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-kutu {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .mesaj {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-kutu">
+    <h2>Yeni Duyuru Ekle</h2>
+    <label for="baslik">Başlık</label>
+    <input type="text" id="baslik" required>
+
+    <label for="icerik">İçerik</label>
+    <textarea id="icerik" rows="5" required></textarea>
+
+    <button onclick="duyuruEkle()">Kaydet</button>
+    <div class="mesaj" id="mesaj"></div>
+  </div>
+
+  <script>
+    function duyuruEkle() {
+      const baslik = document.getElementById("baslik").value.trim();
+      const icerik = document.getElementById("icerik").value.trim();
+      const mesaj = document.getElementById("mesaj");
+
+      if (!baslik || !icerik) {
+        mesaj.textContent = "Lütfen tüm alanları doldurun.";
+        mesaj.style.color = "red";
+        return;
+      }
+
+      const tarih = new Date().toLocaleDateString("tr-TR");
+      const yeniDuyuru = { baslik, icerik, tarih };
+
+      const mevcutlar = JSON.parse(localStorage.getItem("duyurular") || "[]");
+      mevcutlar.push(yeniDuyuru);
+      localStorage.setItem("duyurular", JSON.stringify(mevcutlar));
+
+      mesaj.textContent = "✅ Duyuru başarıyla eklendi.";
+      mesaj.style.color = "green";
+
+      document.getElementById("baslik").value = "";
+      document.getElementById("icerik").value = "";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuana Sitesi Giriş</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ecf0f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .giris-karti {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1f6391;
+    }
+    .hata {
+      color: red;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="giris-karti">
+    <h2>Tuana Sitesi Giriş</h2>
+    <label for="kullanici">Kullanıcı Adı</label>
+    <input type="text" id="kullanici" placeholder="Örn: admin1">
+    <label for="sifre">Şifre</label>
+    <input type="password" id="sifre" placeholder="••••••••">
+    <button onclick="girisYap()">Giriş Yap</button>
+    <div id="hata" class="hata"></div>
+  </div>
+
+  <script>
+    async function girisYap() {
+      const k = document.getElementById('kullanici').value.trim();
+      const s = document.getElementById('sifre').value.trim();
+      const hataDiv = document.getElementById('hata');
+
+      try {
+        const res = await fetch('kullanicilar.json');
+        const kullanicilar = await res.json();
+
+        const kullanici = kullanicilar.find(u => u.kullanici === k && u.sifre === s);
+
+        if (!kullanici) {
+          hataDiv.textContent = "Kullanıcı adı veya şifre hatalı.";
+          return;
+        }
+
+        if (kullanici.rol === "admin") {
+          window.location.href = "dashboard.html";
+        } else {
+          window.location.href = "dashboard-malik.html";
+        }
+
+      } catch (error) {
+        hataDiv.textContent = "Veri alınamadı. Lütfen tekrar deneyin.";
+        console.error("JSON çekilemedi:", error);
+      }
+    }
+  </script>
+</body>
+</html>

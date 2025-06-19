@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İlan Ver - Tuana Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>📢 Yeni İlan Ver</h1>
+  <form id="ilanFormu">
+    <label for="baslik">İlan Başlığı:</label>
+    <input type="text" id="baslik" required>
+
+    <label for="icerik">İçerik:</label>
+    <textarea id="icerik" rows="5" required></textarea>
+
+    <label for="tarih">Tarih:</label>
+    <input type="date" id="tarih" required>
+
+    <button type="submit">İlanı Kaydet</button>
+  </form>
+
+  <script>
+    document.getElementById("ilanFormu").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const ilan = {
+        baslik: document.getElementById("baslik").value,
+        icerik: document.getElementById("icerik").value,
+        tarih: document.getElementById("tarih").value
+      };
+
+      const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+      ilanlar.push(ilan);
+      localStorage.setItem("ilanlar", JSON.stringify(ilanlar));
+
+      alert("İlan başarıyla eklendi!");
+      this.reset();
+    });
+  </script>
+</body>
+</html>

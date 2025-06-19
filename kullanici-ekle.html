@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yeni Kullanıcı Ekle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-kutu {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .mesaj {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-kutu">
+    <h2>Yeni Kullanıcı Ekle</h2>
+    <label for="kullanici">Kullanıcı Adı</label>
+    <input type="text" id="kullanici" required>
+
+    <label for="sifre">Şifre</label>
+    <input type="password" id="sifre" required>
+
+    <label for="rol">Rol</label>
+    <select id="rol">
+      <option value="admin">Yönetici</option>
+      <option value="malik">Daire Sahibi</option>
+      <option value="kiraci">Kiracı</option>
+    </select>
+
+    <button onclick="kullaniciEkle()">Ekle</button>
+    <div class="mesaj" id="mesaj"></div>
+  </div>
+
+  <script>
+    async function kullaniciEkle() {
+      const k = document.getElementById('kullanici').value.trim();
+      const s = document.getElementById('sifre').value.trim();
+      const r = document.getElementById('rol').value;
+      const mesajDiv = document.getElementById('mesaj');
+
+      if (!k || !s) {
+        mesajDiv.textContent = "Lütfen tüm alanları doldurun.";
+        mesajDiv.style.color = "red";
+        return;
+      }
+
+      try {
+        const res = await fetch('kullanicilar.json');
+        const mevcutlar = await res.json();
+
+        const yeni = { kullanici: k, sifre: s, rol: r };
+        mevcutlar.push(yeni);
+
+        localStorage.setItem("kullanicilar-yeni", JSON.stringify(mevcutlar));
+        mesajDiv.textContent = "✅ Yeni kullanıcı localStorage'a eklendi (simülasyon).";
+        mesajDiv.style.color = "green";
+
+      } catch (error) {
+        mesajDiv.textContent = "Hata oluştu. Sunucuya bağlanılamadı.";
+        mesajDiv.style.color = "red";
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>

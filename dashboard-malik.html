@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malik Paneli - Tuana Sitesi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+    .istatistikler {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .kutu {
+      background: #fff;
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      min-width: 280px;
+    }
+    .kutu h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+      color: #34495e;
+    }
+    .kutu span {
+      color: #888;
+      font-size: 1rem;
+    }
+    .grafik-alan {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .duyuru {
+      margin-top: 3rem;
+      background: #fff3cd;
+      padding: 1rem 1.5rem;
+      border-left: 5px solid #ffc107;
+      border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏠 Tuana Sitesi - Malik Paneli</h1>
+
+  <div class="istatistikler">
+    <div class="kutu">
+      <span>Bu Ayki Aidat</span>
+      <h2>₺460</h2>
+    </div>
+    <div class="kutu">
+      <span>Ödeme Durumu</span>
+      <h2 style="color: #2ecc71;">✅ Ödendi</h2>
+    </div>
+    <div class="kutu">
+      <span>Son Ödeme Tarihi</span>
+      <h2>15 Haziran 2025</h2>
+    </div>
+  </div>
+
+  <div class="grafik-alan">
+    <h3 style="text-align:center; margin-bottom:1rem;">💰 Genel Gider Dağılımı</h3>
+    <canvas id="giderGrafik"></canvas>
+  </div>
+
+  <div class="duyuru">
+    <strong>📢 Son Duyuru:</strong> A Blok asansör bakım çalışması tamamlanmıştır. Yeni sistem devreye alınmıştır.
+  </div>
+
+  <script>
+    // Genel Gider Grafiği (örnek veri)
+    new Chart(document.getElementById('giderGrafik'), {
+      type: 'pie',
+      data: {
+        labels: ['Güvenlik', 'Temizlik', 'Bakım', 'Elektrik', 'Yönetim'],
+        datasets: [{
+          data: [2500, 1500, 2000, 1000, 1000],
+          backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c', '#8e44ad', '#3498db']
+        }]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>

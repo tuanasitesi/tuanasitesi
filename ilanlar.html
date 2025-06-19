@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İlanlar - Tuana Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+    .ilan-listesi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .ilan {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .ilan h2 {
+      color: #34495e;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .ilan p {
+      color: #555;
+    }
+    .ilan .tarih {
+      text-align: right;
+      color: #888;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📃 Tüm İlanlar</h1>
+  <div class="ilan-listesi" id="ilanListesi"></div>
+
+  <script>
+    const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+    const container = document.getElementById("ilanListesi");
+
+    if (ilanlar.length === 0) {
+      container.innerHTML = "<p style='text-align:center;'>Henüz ilan bulunmamaktadır.</p>";
+    } else {
+      ilanlar.forEach(i => {
+        const card = document.createElement("div");
+        card.className = "ilan";
+        card.innerHTML = `
+          <h2>${i.baslik}</h2>
+          <p>${i.icerik}</p>
+          <div class="tarih">📅 ${i.tarih}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

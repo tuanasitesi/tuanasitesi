@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yeni Ödeme Kaydı</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #2ecc71;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #27ae60;
+    }
+    .uyari {
+      color: red;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Yeni Ödeme Girişi</h1>
+
+  <div id="uyariMesaji" class="uyari" style="display:none;">Bu sayfaya yalnızca yönetici veya admin erişebilir.</div>
+
+  <form id="odemeFormu" style="display:none">
+    <label for="daire">Daire No</label>
+    <input type="text" id="daire" required>
+
+    <label for="tutar">Tutar (TL)</label>
+    <input type="number" id="tutar" required>
+
+    <label for="tarih">Tarih</label>
+    <input type="date" id="tarih" required>
+
+    <label for="tur">Tür</label>
+    <select id="tur" required>
+      <option value="Aidat">Aidat</option>
+      <option value="Gider">Gider</option>
+    </select>
+
+    <label for="aciklama">Açıklama</label>
+    <textarea id="aciklama" rows="3"></textarea>
+
+    <button type="submit">Kaydet</button>
+  </form>
+
+  <script>
+    const kullaniciRol = localStorage.getItem("kullaniciRol");
+    const form = document.getElementById("odemeFormu");
+    const uyari = document.getElementById("uyariMesaji");
+
+    if (kullaniciRol === "admin" || kullaniciRol === "yonetici") {
+      form.style.display = "block";
+    } else {
+      uyari.style.display = "block";
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const yeniKayit = {
+        daire: document.getElementById("daire").value.trim(),
+        tutar: parseFloat(document.getElementById("tutar").value),
+        tarih: document.getElementById("tarih").value,
+        tur: document.getElementById("tur").value,
+        aciklama: document.getElementById("aciklama").value.trim()
+      };
+
+      const mevcutVeri = JSON.parse(localStorage.getItem("odemeler") || "[]");
+      mevcutVeri.push(yeniKayit);
+      localStorage.setItem("odemeler", JSON.stringify(mevcutVeri));
+
+      alert("Ödeme kaydı başarıyla eklendi.");
+      form.reset();
+    });
+  </script>
+</body>
+</html>

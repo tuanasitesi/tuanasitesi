@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duyurular - Tuana Sitesi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .duyuru-listesi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .duyuru {
+      background-color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .duyuru h2 {
+      font-size: 1.2rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+    .duyuru p {
+      font-size: 1rem;
+      color: #555;
+    }
+    .duyuru .tarih {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 1rem;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <h1>📢 Tuana Sitesi Duyuruları</h1>
+  <div class="duyuru-listesi" id="duyuruListesi"></div>
+
+  <script>
+    try {
+      const duyurular = JSON.parse(localStorage.getItem("duyurular")) || [];
+      const container = document.getElementById("duyuruListesi");
+
+      if (duyurular.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>Henüz duyuru bulunmamaktadır.</p>";
+      } else {
+        duyurular.forEach(d => {
+          const card = document.createElement("div");
+          card.className = "duyuru";
+          card.innerHTML = `
+            <h2>${d.baslik}</h2>
+            <p>${d.icerik}</p>
+            <div class="tarih">📅 ${d.tarih}</div>
+          `;
+          container.appendChild(card);
+        });
+      }
+    } catch (error) {
+      document.getElementById("duyuruListesi").innerHTML =
+        "<p style='text-align:center; color: red;'>Duyurular yüklenemedi.</p>";
+      console.error("Duyuru verisi çekilemedi:", error);
+    }
+  </script>
+</body>
+</html>
