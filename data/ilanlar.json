@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "baslik": "Satılık Kombi",
+    "aciklama": "Az kullanılmış, bakımlı kombi. Fiyat: 2.000 TL.",
+    "ilanSahibi": "A3 No'lu Daire - Ali Kaya",
+    "tarih": "2025-06-19"
+  },
+  {
+    "id": 2,
+    "baslik": "Temizlik Yardımı Aranıyor",
+    "aciklama": "Haftalık temizlik için yardımcı arıyoruz. Detaylı bilgi için iletişime geçiniz.",
+    "ilanSahibi": "C1 No'lu Daire - Zeynep Yıldız",
+    "tarih": "2025-06-18"
+  }
+]
