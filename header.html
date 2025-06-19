@@ -1,0 +1,44 @@
+<!-- Ortak Navbar (header.html) -->
+<nav class="navbar">
+  <a href="dashboard.html">🏠 Yönetim Paneli</a>
+  <a href="profil.html">👤 Profil</a>
+  <a href="duyurular.html">📢 Duyurular</a>
+  <a href="raporlar.html">📄 Raporlar</a>
+  <a href="galeri.html">🖼️ Galeri</a>
+  <a href="ilanlar.html">📋 İlanlar</a>
+  <a href="odeme-kayitlari.html">💰 Aidatlar</a>
+  <a href="site-kurallari.html">📘 Kurallar</a>
+  <a href="giris.html" onclick="localStorage.clear()">🚪 Çıkış</a>
+</nav>
+
+<style>
+  .navbar {
+    background-color: #2c3e50;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background-color: #34495e;
+    transition: background-color 0.3s;
+  }
+  .navbar a:hover {
+    background-color: #1abc9c;
+  }
+</style>
+
+<script>
+  // Oturum bilgisi olmayan kullanıcıyı yönlendirme (isteğe bağlı)
+  const kullanici = JSON.parse(localStorage.getItem("aktifKullanici"));
+  if (!kullanici) {
+    window.location.href = "giris.html";
+  }
+</script>
