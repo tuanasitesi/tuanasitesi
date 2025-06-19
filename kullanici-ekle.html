@@ -57,6 +57,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div class="form-kutu">
     <h2>Yeni Kullanıcı Ekle</h2>
     <label for="kullanici">Kullanıcı Adı</label>
