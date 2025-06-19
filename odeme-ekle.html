@@ -56,6 +56,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <h1>Yeni Ödeme Girişi</h1>
 
   <div id="uyariMesaji" class="uyari" style="display:none;">Bu sayfaya yalnızca yönetici veya admin erişebilir.</div>
