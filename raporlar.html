@@ -36,6 +36,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <h1>📄 Raporlar</h1>
   <ul id="raporListesi">
     <!-- JavaScript ile yüklenecek -->
