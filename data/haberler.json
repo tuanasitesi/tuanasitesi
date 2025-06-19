@@ -2,13 +2,31 @@
   {
     "baslik": "A Blok Asansör Yenilendi",
     "tarih": "2025-06-20",
-    "aciklama": "Geçen hafta başlayan bakım süreci başarıyla tamamlandı.",
+    "aciklama": "Geçen hafta başlayan bakım süreci başarıyla tamamlandı. Yeni sistem kartlı geçiş desteklidir.",
     "gorsel": "assets/img/asansor.jpg"
   },
   {
     "baslik": "Bahçe Aydınlatmaları LED’e Dönüştürüldü",
     "tarih": "2025-06-18",
-    "aciklama": "Enerji verimliliği için tüm aydınlatmalar yenilendi.",
+    "aciklama": "Enerji verimliliği için tüm aydınlatmalar LED sistemiyle güncellendi.",
     "gorsel": "assets/img/aydinlatma.jpg"
+  },
+  {
+    "baslik": "Güvenlik Kameraları Yenilendi",
+    "tarih": "2025-06-15",
+    "aciklama": "Tüm blok girişlerine yüksek çözünürlüklü IP kameralar yerleştirildi.",
+    "gorsel": "assets/img/kamera.jpg"
+  },
+  {
+    "baslik": "Oyun Parkı Zemin Kaplaması Yenilendi",
+    "tarih": "2025-06-10",
+    "aciklama": "Çocuk güvenliği için kauçuk zemin kaplaması serildi.",
+    "gorsel": "assets/img/oyunparki.jpg"
+  },
+  {
+    "baslik": "Yazlık Peyzaj Düzenlemesi Yapıldı",
+    "tarih": "2025-06-05",
+    "aciklama": "Mevsim çiçekleri dikildi, çim biçme çalışmaları tamamlandı.",
+    "gorsel": "assets/img/peyzaj.jpg"
   }
 ]
