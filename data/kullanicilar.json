@@ -24,10 +24,11 @@
     "yetki": "admin"
   },
   {
-  "kullaniciAdi": "hasanb",
-  "sifre": "2025",
-  "adSoyad": "Hasan Bayraktar",
+  "id":4,
+  "adSoyad": "Hasan Bolulu",
   "daireNo": "C3",
+  "kullaniciAdi": "hasanb",
+  "sifre": "1234",
   "yetki": "malik"
 }
 ]
