@@ -59,6 +59,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <header>
     <h1>🏢 Tuana Sitesi Dijital Yönetim</h1>
     <p>Şeffaf, erişilebilir ve modern site yönetimi.</p>
