@@ -103,7 +103,7 @@
 
   <script>
     // Veri yükleme
-    fetch('dashboard-veri.json')
+    fetch('data/dashboard-veri.json')
       .then(res => res.json())
       .then(data => {
         document.getElementById("gelir").textContent = `₺${data.aylikGelir}`;
