@@ -33,6 +33,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div class="kapsayici">
     <h1>📘 Tuana Sitesi Kuralları</h1>
     <ul>
