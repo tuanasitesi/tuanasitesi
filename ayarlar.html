@@ -59,6 +59,7 @@
   </style>
 </head>
 <body>
+  <div id="navbar"></div>
   <div class="ayarlar-kapsayici">
     <h1>⚙️ Ayarlar</h1>
 
@@ -96,5 +97,10 @@
       }
     }
   </script>
+  <script>
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => document.getElementById("navbar").innerHTML = html);
+</script>
 </body>
 </html>
