@@ -59,6 +59,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div id="navbar"></div>
   <div class="ayarlar-kapsayici">
     <h1>⚙️ Ayarlar</h1>
