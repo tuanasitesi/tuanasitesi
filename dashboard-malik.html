@@ -14,8 +14,13 @@
     }
     h1 {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       color: #2c3e50;
+    }
+    h2#hosgeldin {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 2rem;
     }
     .istatistikler {
       display: flex;
@@ -42,8 +47,8 @@
       font-size: 1rem;
     }
     .grafik-alan {
-      max-width: 500px;
-      margin: auto;
+      max-width: 600px;
+      margin: 2rem auto;
       background: #fff;
       padding: 1rem;
       border-radius: 12px;
@@ -59,10 +64,30 @@
       margin-left: auto;
       margin-right: auto;
     }
+    table {
+      margin: 3rem auto;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 800px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    th {
+      background: #2980b9;
+      color: white;
+    }
   </style>
 </head>
 <body>
   <h1>🏠 Tuana Sitesi - Malik Paneli</h1>
+  <h2 id="hosgeldin">Hoş geldiniz...</h2>
 
   <div class="istatistikler">
     <div class="kutu">
@@ -80,27 +105,80 @@
   </div>
 
   <div class="grafik-alan">
-    <h3 style="text-align:center; margin-bottom:1rem;">💰 Genel Gider Dağılımı</h3>
-    <canvas id="giderGrafik"></canvas>
+    <h3 style="text-align:center;">📈 Site Geneli Aidat Gelirleri</h3>
+    <canvas id="aidatGeliriGrafik"></canvas>
+  </div>
+
+  <div class="grafik-alan">
+    <h3 style="text-align:center;">📊 Site Geneli Gider Dağılımı</h3>
+    <canvas id="giderDagilimGrafik"></canvas>
   </div>
 
   <div class="duyuru">
     <strong>📢 Son Duyuru:</strong> A Blok asansör bakım çalışması tamamlanmıştır. Yeni sistem devreye alınmıştır.
   </div>
 
+  <table>
+    <thead>
+      <tr>
+        <th>Tarih</th>
+        <th>Tutar (₺)</th>
+        <th>Tür</th>
+      </tr>
+    </thead>
+    <tbody id="odemeTablosu"></tbody>
+  </table>
+
   <script>
-    // Genel Gider Grafiği (örnek veri)
-    new Chart(document.getElementById('giderGrafik'), {
-      type: 'pie',
-      data: {
-        labels: ['Güvenlik', 'Temizlik', 'Bakım', 'Elektrik', 'Yönetim'],
-        datasets: [{
-          data: [2500, 1500, 2000, 1000, 1000],
-          backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c', '#8e44ad', '#3498db']
-        }]
-      },
-      options: { responsive: true }
-    });
+    const aktif = JSON.parse(localStorage.getItem("aktifKullanici"));
+    if (aktif) {
+      document.getElementById("hosgeldin").textContent = `👋 Hoş geldiniz, ${aktif.adSoyad} (${aktif.daireNo})`;
+    }
+
+    // Kişisel aidat geçmişi
+    fetch('data/odeme-kayitlari.json')
+      .then(res => res.json())
+      .then(veriler => {
+        const sadeceBenim = veriler.filter(v => v.daireNo === aktif.daireNo);
+        const tbody = document.getElementById("odemeTablosu");
+        sadeceBenim.forEach(v => {
+          tbody.innerHTML += `<tr><td>${v.tarih}</td><td>${v.tutar}</td><td>${v.tur}</td></tr>`;
+        });
+      })
+      .catch(err => console.error("Ödeme verisi alınamadı:", err));
+
+    // Gelir ve gider grafikleri
+    fetch('data/dashboard-veri.json')
+      .then(res => res.json())
+      .then(data => {
+        // Aidat Geliri Grafiği
+        new Chart(document.getElementById('aidatGeliriGrafik'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(data.aidatGelirleri),
+            datasets: [{
+              label: 'Aidat Geliri (₺)',
+              data: Object.values(data.aidatGelirleri),
+              backgroundColor: '#3498db'
+            }]
+          },
+          options: { responsive: true }
+        });
+
+        // Gider Dağılımı Grafiği
+        new Chart(document.getElementById('giderDagilimGrafik'), {
+          type: 'pie',
+          data: {
+            labels: Object.keys(data.giderDagilimi),
+            datasets: [{
+              data: Object.values(data.giderDagilimi),
+              backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c', '#8e44ad', '#3498db']
+            }]
+          },
+          options: { responsive: true }
+        });
+      })
+      .catch(err => console.error("Gelir-gider verisi alınamadı:", err));
   </script>
 </body>
 </html>
