@@ -1,238 +1,193 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Tarzı Footer Test</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        /* GENEL STİLLER */
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        main {
-            flex: 1;
-            padding: 20px;
-            background: #f6f8fa;
-        }
-        
-        /* FOOTER STİLLERİ */
-        .github-footer {
-            background-color: #24292e;
-            color: #ffffff;
-            padding: 40px 0 20px;
-            margin-top: auto;
-        }
-        
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        
-        .footer-logo {
-            flex: 1;
-            min-width: 200px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-logo svg {
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .footer-logo span {
-            color: #6a737d;
-            font-size: 14px;
-        }
-        
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            flex: 2;
-            justify-content: space-between;
-        }
-        
-        .link-column {
-            min-width: 150px;
-            margin-bottom: 30px;
-        }
-        
-        .link-column h4 {
-            color: #f0f6fc;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-        
-        .link-column a {
-            display: block;
-            color: #6a737d;
-            text-decoration: none;
-            margin-bottom: 10px;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        
-        .link-column a:hover {
-            color: #f0f6fc;
-            text-decoration: underline;
-        }
-        
-        .footer-social {
-            flex: 1;
-            min-width: 200px;
-            text-align: right;
-        }
-        
-        .footer-social a {
-            color: #6a737d;
-            font-size: 24px;
-            margin-left: 15px;
-            transition: color 0.2s;
-            display: inline-block;
-        }
-        
-        .footer-social a:hover {
-            color: #f0f6fc;
-            transform: translateY(-2px);
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid #2f363d;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-        
-        .legal-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .legal-links a {
-            color: #6a737d;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 12px;
-            transition: color 0.2s;
-        }
-        
-        .legal-links a:hover {
-            color: #f0f6fc;
-            text-decoration: underline;
-        }
-        
-        /* RESPONSIVE AYARLAR */
-        @media (max-width: 768px) {
-            .footer-container {
-                flex-direction: column;
-            }
-            
-            .footer-social {
-                text-align: left;
-                margin-top: 20px;
-            }
-            
-            .footer-social a {
-                margin-left: 0;
-                margin-right: 15px;
-            }
-            
-            .link-column {
-                width: 50%;
-            }
-        }
-        
-        /* TEST İÇİN EK STİLLER */
-        .test-content {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .test-title {
-            color: #24292e;
-            border-bottom: 1px solid #e1e4e8;
-            padding-bottom: 10px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modern Footer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .footer {
+      background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+      color: #fff;
+      padding-top: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3498db, #9b59b6);
+    }
+    
+    .footer-links h5 {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .footer-links h5::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #3498db;
+      border-radius: 3px;
+    }
+    
+    .footer-links a {
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-links a:hover {
+      color: #3498db;
+      padding-left: 5px;
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: #fff;
+      margin-right: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+      background: #3498db;
+      transform: translateY(-3px);
+    }
+    
+    .footer-bottom {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      max-width: 400px;
+    }
+    
+    .newsletter-form input {
+      border-radius: 30px 0 0 30px !important;
+      border-right: none;
+    }
+    
+    .newsletter-form button {
+      border-radius: 0 30px 30px 0 !important;
+      background: #3498db;
+      border: none;
+      padding: 0 20px;
+    }
+    
+    .contact-info i {
+      color: #3498db;
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <main>
-        <div class="test-content">
-            <h1 class="test-title">GitHub Footer Test Sayfası</h1>
-            <p>Bu sayfa, GitHub tarzı footer tasarımını test etmek için oluşturulmuştur. Aşağıda footer alanını görebilirsiniz.</p>
-            <p>İçerik buraya kadar devam eder ve footer her zaman sayfanın en altında kalır.</p>
-        </div>
-    </main>
-    
-    <footer class="github-footer">
-        <div class="footer-container">
-            <div class="footer-logo">
-                <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32">
-                    <path fill="#ffffff" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
-                </svg>
-                <span>© 2023 GitHub, Inc.</span>
-            </div>
-            
-            <div class="footer-links">
-                <div class="link-column">
-                    <h4>Features</h4>
-                    <a href="#">Code Review</a>
-                    <a href="#">Project Management</a>
-                    <a href="#">Integrations</a>
-                </div>
-                
-                <div class="link-column">
-                    <h4>Community</h4>
-                    <a href="#">Developers</a>
-                    <a href="#">Sponsors</a>
-                    <a href="#">Forum</a>
-                </div>
-                
-                <div class="link-column">
-                    <h4>Resources</h4>
-                    <a href="#">Documentation</a>
-                    <a href="#">API</a>
-                    <a href="#">Help</a>
-                </div>
-                
-                <div class="link-column">
-                    <h4>Company</h4>
-                    <a href="#">About</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Careers</a>
-                </div>
-            </div>
-            
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <div class="legal-links">
-                <a href="#">Terms</a>
-                <a href="#">Privacy</a>
-                <a href="#">Security</a>
-                <a href="#">Status</a>
-                <a href="#">Contact GitHub</a>
-            </div>
-        </div>
-    </footer>
+
+  <!-- Ana içerik alanı (örnek amaçlı) -->
+  <main class="container py-5">
+    <h1 class="text-center mb-4">Ana İçerik</h1>
+    <p class="text-center">Bu alan sayfanızın ana içeriği için ayrılmıştır. Footer her zaman sayfanın en altında görünecektir.</p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+              <h4 class="mb-4">Tuana Sitesi</h4>
+              <p class="mb-4">Dijital yönetim sistemimizle ilgili tüm güncel bilgiler ve duyurular burada paylaşılmaktadır.</p>
+              
+              <div class="mb-4">
+                  <h6 class="mb-3">Bültenimize Abone Olun</h6>
+                  <form class="newsletter-form">
+                      <input type="email" class="form-control" placeholder="E-posta adresiniz" required>
+                      <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+                  </form>
+              </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-6">
+              <div class="footer-links">
+                  <h5>Linkler</h5>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Anasayfa</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Hakkımızda</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Hizmetler</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Galeri</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Blog</a>
+              </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-6">
+              <div class="footer-links">
+                  <h5>Yönetim</h5>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Site Kuralları</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Yönetim Kurulu</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Toplantılar</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Duyurular</a>
+                  <a href="#"><i class="fas fa-chevron-right me-2"></i> Dilek/Şikayet</a>
+              </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6">
+              <div class="footer-links">
+                  <h5>İletişim</h5>
+                  <div class="contact-info mb-3">
+                      <p><i class="fas fa-map-marker-alt"></i> 1234 Site Cad. No:5, İstanbul</p>
+                      <p><i class="fas fa-phone"></i> (0212) 123 45 67</p>
+                      <p><i class="fas fa-envelope"></i> info@tuanasitesi.com</p>
+                  </div>
+                  
+                  <h6 class="mt-4 mb-3">Bizi Takip Edin</h6>
+                  <div class="social-icons">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                      <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="footer-bottom text-center">
+          <div class="row">
+              <div class="col-md-6 text-md-start mb-3 mb-md-0">
+                  <p class="mb-0">© 2025 Tuana Sitesi. Tüm hakları saklıdır.</p>
+              </div>
+              <div class="col-md-6 text-md-end">
+                  <a href="#" class="text-white me-3">Gizlilik Politikası</a>
+                  <a href="#" class="text-white me-3">Kullanım Şartları</a>
+                  <a href="#" class="text-white">Çerez Politikası</a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
