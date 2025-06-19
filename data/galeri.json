@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "gorselUrl": "assets/img/blok-boyasi.jpg",
+    "aciklama": "A blok giriş boyama çalışması",
+    "tarih": "2025-06-10"
+  },
+  {
+    "id": 2,
+    "gorselUrl": "assets/img/asansor-yenileme.jpg",
+    "aciklama": "B blok asansör yenileme tamamlandı",
+    "tarih": "2025-05-30"
+  }
+]
