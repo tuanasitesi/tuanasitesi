@@ -49,6 +49,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div class="panel" id="ozetPanel">
     <h2>💼 Aidat Özet Paneli</h2>
     <div class="bilgi-kutusu"><strong>Ad Soyad:</strong> <span id="ad"></span></div>
