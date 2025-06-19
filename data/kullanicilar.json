@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "adSoyad": "Ahmet Yılmaz",
+    "daireNo": "A1",
+    "kullaniciAdi": "ahmety",
+    "sifre": "1234",
+    "yetki": "malik"
+  },
+  {
+    "id": 2,
+    "adSoyad": "Zeynep Demir",
+    "daireNo": "B2",
+    "kullaniciAdi": "zeynepd",
+    "sifre": "1234",
+    "yetki": "kiraci"
+  },
+  {
+    "id": 3,
+    "adSoyad": "Mehmet Karaca",
+    "daireNo": "Yönetim",
+    "kullaniciAdi": "admin",
+    "sifre": "admin123",
+    "yetki": "admin"
+  }
+]
