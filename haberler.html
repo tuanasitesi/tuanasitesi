@@ -16,6 +16,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div class="container py-5">
     <h1 class="text-center mb-4">Sitemizden Haberler</h1>
     <div class="row" id="haberler-container">
