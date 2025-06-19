@@ -71,33 +71,41 @@
   </div>
 
   <script>
-    async function girisYap() {
-      const k = document.getElementById('kullanici').value.trim();
-      const s = document.getElementById('sifre').value.trim();
-      const hataDiv = document.getElementById('hata');
+  async function girisYap() {
+    const k = document.getElementById('kullanici').value.trim();
+    const s = document.getElementById('sifre').value.trim();
+    const hataDiv = document.getElementById('hata');
 
-      try {
-        const res = await fetch('kullanicilar.json');
-        const kullanicilar = await res.json();
+    try {
+      const res = await fetch('data/kullanicilar.json');
+      if (!res.ok) throw new Error("Veri alınamadı");
 
-        const kullanici = kullanicilar.find(u => u.kullanici === k && u.sifre === s);
+      const kullanicilar = await res.json();
 
-        if (!kullanici) {
-          hataDiv.textContent = "Kullanıcı adı veya şifre hatalı.";
-          return;
-        }
+      const kullanici = kullanicilar.find(u => u.kullaniciAdi === k && u.sifre === s);
 
-        if (kullanici.rol === "admin") {
-          window.location.href = "dashboard.html";
-        } else {
-          window.location.href = "dashboard-malik.html";
-        }
-
-      } catch (error) {
-        hataDiv.textContent = "Veri alınamadı. Lütfen tekrar deneyin.";
-        console.error("JSON çekilemedi:", error);
+      if (!kullanici) {
+        hataDiv.textContent = "Kullanıcı adı veya şifre hatalı.";
+        return;
       }
+
+      // Giriş yapan kullanıcı bilgisi localStorage'a yazılıyor
+      localStorage.setItem("aktifKullanici", JSON.stringify(kullanici));
+
+      // Yetkiye göre yönlendirme
+      if (kullanici.yetki === "admin" || kullanici.yetki === "yonetici") {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "dashboard-malik.html";
+      }
+
+    } catch (error) {
+      hataDiv.textContent = "Veri alınamadı. Lütfen tekrar deneyin.";
+      console.error("JSON çekilemedi:", error);
     }
-  </script>
+  }
+</script>
+
+  
 </body>
 </html>
