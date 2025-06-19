@@ -18,6 +18,15 @@
   </style>
 </head>
 <body>
+<div id="header-footer"></div>
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
+
   <div class="form-container">
     <h3 class="mb-4">Yeni Haber Ekle</h3>
     <form id="haberForm">
