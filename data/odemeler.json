@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "daireNo": "A1",
+    "adSoyad": "Ahmet Yılmaz",
+    "tarih": "2025-06-01",
+    "tutar": 1000,
+    "aciklama": "Haziran aidatı",
+    "tur": "aidat"
+  },
+  {
+    "id": 2,
+    "daireNo": "B2",
+    "adSoyad": "Zeynep Demir",
+    "tarih": "2025-06-01",
+    "tutar": 1000,
+    "aciklama": "Haziran aidatı",
+    "tur": "aidat"
+  },
+  {
+    "id": 3,
+    "daireNo": "Yönetim",
+    "adSoyad": "Yönetim",
+    "tarih": "2025-06-05",
+    "tutar": 480,
+    "aciklama": "Asansör bakımı",
+    "tur": "gider"
+  }
+]
