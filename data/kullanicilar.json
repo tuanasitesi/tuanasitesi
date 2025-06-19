@@ -22,5 +22,12 @@
     "kullaniciAdi": "admin",
     "sifre": "admin123",
     "yetki": "admin"
-  }
+  },
+  {
+  "kullaniciAdi": "hasanb",
+  "sifre": "2025",
+  "adSoyad": "Hasan Bayraktar",
+  "daireNo": "C3",
+  "yetki": "malik"
+}
 ]
