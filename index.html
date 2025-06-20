@@ -3,108 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tuana Sitesi - Dijital Yönetim</title>
+  <title>Tuana Sitesi Giriş</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #a2c4ff, #dbefff);
-      color: #1a1a1a;
+      background: linear-gradient(135deg, #d2e0fb, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
-      padding: 0;
-    }
-
-    header {
-      padding: 60px 20px 20px;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      color: #003366;
-      margin: 0;
+      max-width: 360px;
+      width: 100%;
     }
 
     h2 {
-      font-size: 1.2rem;
-      color: #333;
-      margin-top: 10px;
-      font-weight: normal;
+      margin-bottom: 20px;
+      color: #003366;
     }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
     }
 
-    .feature-box {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .feature-box:hover {
-      transform: translateY(-5px);
+    button:hover {
+      background-color: #004a99;
     }
 
-    .feature-icon {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      margin-top: 40px;
+    .error {
+      color: red;
       font-size: 0.9rem;
-      color: #555;
-      padding: 20px;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-      h2 {
-        font-size: 1rem;
-      }
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Tuana Sitesi Dijital Yönetim</h1>
-    <h2>Şeffaf, erişilebilir ve modern site yönetimi</h2>
-  </header>
+  <div class="login-box">
+    <h2>Yönetici Girişi</h2>
+    <form onsubmit="return kontrolEt()">
+      <input type="text" id="kullanici" placeholder="Kullanıcı Adı" required />
+      <input type="password" id="sifre" placeholder="Şifre" required />
+      <button type="submit">Giriş Yap</button>
+      <div id="hata" class="error"></div>
+    </form>
+  </div>
 
-  <section class="features">
-    <div class="feature-box">
-      <div class="feature-icon">🛡️</div>
-      <h3>Güvenli Yaşam</h3>
-      <p>Huzurlu ve güvenli bir site ortamı</p>
-    </div>
-    <div class="feature-box">
-      <div class="feature-icon">🧹</div>
-      <h3>Temizlik ve Düzen</h3>
-      <p>Her zaman temiz ve düzenli alanlar</p>
-    </div>
-    <div class="feature-box">
-      <div class="feature-icon">👨‍💼</div>
-      <h3>Profesyonel Yönetim</h3>
-      <p>Deneyimli ve şeffaf site yönetimi</p>
-    </div>
-    <div class="feature-box">
-      <div class="feature-icon">🤝</div>
-      <h3>Güçlü Komşuluk Bağları</h3>
-      <p>Etkileşim ve dayanışma dolu bir topluluk</p>
-    </div>
-  </section>
+  <script>
+    function kontrolEt() {
+      const kullanici = document.getElementById("kullanici").value;
+      const sifre = document.getElementById("sifre").value;
 
-  <footer>
-    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır
-  </footer>
+      // Örnek şifre kontrolü (ileride gerçek sisteme bağlanabilir)
+      if (kullanici === "tuana" && sifre === "2025") {
+        window.location.href = "dashboard.html"; // Giriş sonrası yönlendirme
+        return false;
+      } else {
+        document.getElementById("hata").innerText = "Kullanıcı adı veya şifre yanlış.";
+        return false;
+      }
+    }
+  </script>
 </body>
 </html>
