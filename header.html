@@ -1,16 +1,15 @@
 <!-- Ortak Navbar (header.html) -->
 <nav class="navbar">
-  <a href="dashboard.html">🏠 Yönetim Paneli</a>
-  <a href="profil.html">👤 Profil</a>
-  <a href="duyurular.html">📢 Duyurular</a>
-  <a href="raporlar.html">📄 Raporlar</a>
-  <a href="galeri.html">🖼️ Galeri</a>
-  <a href="ilanlar.html">📋 İlanlar</a>
-  <a href="odeme-kayitlari.html">💰 Aidatlar</a>
-  <a href="site-kurallari.html">📘 Kurallar</a>
-  <a href="giris.html" onclick="localStorage.clear()">🚪 Çıkış</a>
+<a href="dashboard.html">🏠 Yönetim Paneli</a>
+<a href="profil.html">👤 Profil</a>
+<a href="duyurular.html">📢 Duyurular</a>
+<a href="raporlar.html">📄 Raporlar</a>
+<a href="galeri.html">🖼️ Galeri</a>
+<a href="ilanlar.html">📋 İlanlar</a>
+<a href="odeme-kayitlari.html">💰 Aidatlar</a>
+<a href="site-kurallari.html">📘 Kurallar</a>
+<a href="giris.html" onclick="localStorage.clear()">🚪 Çıkış</a>
 </nav>
-
 <style>
   .navbar {
     background-color: #2c3e50;
@@ -34,7 +33,6 @@
     background-color: #1abc9c;
   }
 </style>
-
 <script>
   // Oturum bilgisi olmayan kullanıcıyı yönlendirme (isteğe bağlı)
   const kullanici = JSON.parse(localStorage.getItem("aktifKullanici"));
