@@ -2,121 +2,109 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuana Sitesi - Ana Sayfa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tuana Sitesi - Dijital Yönetim</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #4b6cb7, #182848);
-      color: white;
-    }
-
-    .hero {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #a2c4ff, #dbefff);
+      color: #1a1a1a;
       text-align: center;
-      padding: 100px 20px;
+      padding: 0;
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    header {
+      padding: 60px 20px 20px;
     }
 
-    .hero p {
+    h1 {
+      font-size: 2.8rem;
+      color: #003366;
+      margin: 0;
+    }
+
+    h2 {
       font-size: 1.2rem;
-      max-width: 700px;
-      margin: auto;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+      color: #333;
+      margin-top: 10px;
+      font-weight: normal;
     }
 
-    .shortcut-links {
-      margin-top: 50px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 20px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
-    .shortcut {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 10px;
+    .feature-box {
+      background: white;
+      border-radius: 12px;
       padding: 20px;
-      width: 220px;
-      text-align: center;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
 
-    .shortcut:hover {
-      background: rgba(255,255,255,0.2);
-      cursor: pointer;
+    .feature-box:hover {
+      transform: translateY(-5px);
     }
 
-    .shortcut a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      display: block;
-    }
-
-    .shortcut i {
+    .feature-icon {
       font-size: 2rem;
       margin-bottom: 10px;
-      display: block;
     }
 
     footer {
-      background-color: #111;
-      text-align: center;
-      padding: 20px;
-      color: #ccc;
+      margin-top: 40px;
       font-size: 0.9rem;
-      margin-top: 100px;
+      color: #555;
+      padding: 20px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Tuana Sitesi Dijital Yönetim</h1>
+    <h2>Şeffaf, erişilebilir ve modern site yönetimi</h2>
+  </header>
 
-  <div class="hero">
-    <h1>Tuana Sitesi</h1>
-    <p>Güvenli, modern ve huzurlu bir yaşam alanı. Sakinlerinin mutluluğu önceliğimizdir.</p>
-
-    <div class="shortcut-links">
-      <div class="shortcut" onclick="goToLogin()">
-        <i class="fas fa-bullhorn"></i>
-        <a>Duyurular</a>
-      </div>
-      <div class="shortcut" onclick="goToLogin()">
-        <i class="fas fa-file-alt"></i>
-        <a>Raporlar</a>
-      </div>
-      <div class="shortcut" onclick="goToLogin()">
-        <i class="fas fa-credit-card"></i>
-        <a>Ödeme</a>
-      </div>
-      <div class="shortcut" onclick="goToLogin()">
-        <i class="fas fa-image"></i>
-        <a>Galeri</a>
-      </div>
-      <div class="shortcut" onclick="goToLogin()">
-        <i class="fas fa-newspaper"></i>
-        <a>Haberler</a>
-      </div>
+  <section class="features">
+    <div class="feature-box">
+      <div class="feature-icon">🛡️</div>
+      <h3>Güvenli Yaşam</h3>
+      <p>Huzurlu ve güvenli bir site ortamı</p>
     </div>
-  </div>
+    <div class="feature-box">
+      <div class="feature-icon">🧹</div>
+      <h3>Temizlik ve Düzen</h3>
+      <p>Her zaman temiz ve düzenli alanlar</p>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">👨‍💼</div>
+      <h3>Profesyonel Yönetim</h3>
+      <p>Deneyimli ve şeffaf site yönetimi</p>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">🤝</div>
+      <h3>Güçlü Komşuluk Bağları</h3>
+      <p>Etkileşim ve dayanışma dolu bir topluluk</p>
+    </div>
+  </section>
 
   <footer>
-    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
+    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır
   </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-  <script>
-    function goToLogin() {
-      window.location.href = "giris.html";
-    }
-  </script>
 </body>
 </html>
