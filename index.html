@@ -1,154 +1,102 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tuana Sitesi - Ana Sayfa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     body {
+      background: linear-gradient(to bottom, #e8f0ff, #f8f9fa);
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
-      margin: 0;
-      padding: 0;
     }
-    header, footer {
-      display: none; /* Header ve Footer bu sayfada gösterilmeyecek */
+
+    .carousel img {
+      max-height: 400px;
+      object-fit: cover;
     }
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
+
+    .motto-section {
+      padding: 2rem 0;
     }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #2c3e50;
-    }
-    .motto-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      max-width: 1000px;
-      margin: 2rem auto;
-    }
+
     .motto-card {
-      background: white;
-      padding: 1.5rem;
+      background-color: white;
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin: 1rem;
       text-align: center;
     }
-    .motto-card h3 {
-      color: #1a237e;
-      margin-bottom: 0.5rem;
-    }
-    .gallery {
-      position: relative;
-      width: 90%;
-      max-width: 1000px;
-      height: auto;
-      margin: 2rem auto;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    .gallery img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: opacity 1s ease-in-out;
-      border-radius: 15px;
-    }
-    .nav-btn {
+
+    .btn-login {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(255,255,255,0.7);
-      border: none;
-      font-size: 1.5rem;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      z-index: 2;
-      border-radius: 5px;
-    }
-    .left {
-      left: 10px;
-    }
-    .right {
-      right: 10px;
-    }
-    .login-link {
-      text-align: center;
-      margin-top: 3rem;
+      top: 15px;
+      right: 20px;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
 
-  <div class="hero">
-    <h1>Tuana Sitesi'ne Hoş Geldiniz</h1>
-    <p>Güvenli, düzenli ve huzurlu bir yaşam için...</p>
+  <!-- Giriş butonu -->
+  <a href="giris.html" class="btn btn-dark btn-login">🔐 Giriş Yap</a>
+
+  <!-- Resim geçiş alanı -->
+  <div id="carouselTuana" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="assets/Ekran görüntüsü 2025-06-20 233939.jpg" class="d-block w-100" alt="Tuana 1">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Ekran görüntüsü 2025-06-20 234002.jpg" class="d-block w-100" alt="Tuana 2">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Ekran görüntüsü 2025-06-20 234021.jpg" class="d-block w-100" alt="Tuana 3">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/Ekran görüntüsü 2025-06-20 234043.jpg" class="d-block w-100" alt="Tuana 4">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselTuana" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselTuana" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
   </div>
 
-  <div class="gallery">
-    <img id="galleryImage" src="assets/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-06-20%20233939.jpg" alt="Tuana" />
-    <button class="nav-btn left" onclick="prevImage()">◀</button>
-    <button class="nav-btn right" onclick="nextImage()">▶</button>
-  </div>
-
-  <div class="motto-container">
-    <div class="motto-card">
-      <h3>Güvenli Yaşam</h3>
-      <p>7/24 güvenlik hizmeti ve kamera sistemleriyle korunan bir site.</p>
+  <!-- Mottolar -->
+  <section class="motto-section container">
+    <div class="row">
+      <!-- Sol tarafta iki ana başlık -->
+      <div class="col-md-6">
+        <div class="motto-card">
+          <h4>Güvenli Yaşam</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="motto-card">
+              <h6>Profesyonel Yönetim</h6>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="motto-card">
+              <h6>Güçlü Komşuluk</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sağ tarafta ayrı kart -->
+      <div class="col-md-6">
+        <div class="motto-card h-100 d-flex align-items-center justify-content-center">
+          <h4>Temizlik ve Düzen</h4>
+        </div>
+      </div>
     </div>
-    <div class="motto-card">
-      <h3>Temizlik ve Düzen</h3>
-      <p>Ortak alanların düzenli temizliği ve peyzaj bakımı ile temiz bir çevre.</p>
-    </div>
-    <div class="motto-card">
-      <h3>Profesyonel Yönetim</h3>
-      <p>Deneyimli ve şeffaf bir yönetim anlayışıyla hizmet.</p>
-    </div>
-    <div class="motto-card">
-      <h3>Güçlü Komşuluk</h3>
-      <p>Sosyal dayanışma ve karşılıklı saygıya dayalı bir komşuluk ortamı.</p>
-    </div>
-  </div>
+  </section>
 
-  <div class="login-link">
-    <a href="giris.html" class="btn btn-primary">Yönetici Girişi</a>
-  </div>
-
-  <script>
-    const images = [
-      "assets/Ekran görüntüsü 2025-06-20 233939.jpg",
-      "assets/Ekran görüntüsü 2025-06-20 234002.jpg",
-      "assets/Ekran görüntüsü 2025-06-20 234021.jpg",
-      "assets/Ekran görüntüsü 2025-06-20 234043.jpg"
-    ].map(encodeURI);
-
-    let current = 0;
-    const imgElement = document.getElementById("galleryImage");
-
-    function showImage(index) {
-      current = (index + images.length) % images.length;
-      imgElement.style.opacity = 0;
-      setTimeout(() => {
-        imgElement.src = images[current];
-        imgElement.style.opacity = 1;
-      }, 500);
-    }
-
-    function nextImage() {
-      showImage(current + 1);
-    }
-
-    function prevImage() {
-      showImage(current - 1);
-    }
-
-    setInterval(nextImage, 8000);
-  </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
