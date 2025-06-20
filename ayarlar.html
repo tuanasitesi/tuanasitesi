@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayarlar - Tuana Sitesi</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ayarlar - Tuana Sitesi</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f3f5f9;
@@ -57,7 +58,7 @@
       background-color: #1e8449;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -67,26 +68,20 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <div id="navbar"></div>
-  <div class="ayarlar-kapsayici">
-    <h1>⚙️ Ayarlar</h1>
-
-    <label for="email">Bildirim E-posta</label>
-    <input type="email" id="email" placeholder="mail@example.com">
-
-    <div class="checkbox-row">
-      <input type="checkbox" id="bildirim" />
-      <label for="bildirim">Yeni duyuru ve ilanlar için bildirim almak istiyorum</label>
-    </div>
-
-    <label for="sifre">Yeni Şifre</label>
-    <input type="password" id="sifre" placeholder="********">
-
-    <button onclick="kaydetAyarlar()">Ayarları Kaydet</button>
-  </div>
-
-  <script>
+<div id="navbar"></div>
+<div class="ayarlar-kapsayici">
+<h1>⚙️ Ayarlar</h1>
+<label for="email">Bildirim E-posta</label>
+<input id="email" placeholder="mail@example.com" type="email"/>
+<div class="checkbox-row">
+<input id="bildirim" type="checkbox">
+<label for="bildirim">Yeni duyuru ve ilanlar için bildirim almak istiyorum</label>
+</input></div>
+<label for="sifre">Yeni Şifre</label>
+<input id="sifre" placeholder="********" type="password"/>
+<button onclick="kaydetAyarlar()">Ayarları Kaydet</button>
+</div>
+<script>
     function kaydetAyarlar() {
       const ayarlar = {
         email: document.getElementById("email").value,
@@ -106,7 +101,7 @@
       }
     }
   </script>
-  <script>
+<script>
   fetch("header.html")
     .then(res => res.text())
     .then(html => document.getElementById("navbar").innerHTML = html);
