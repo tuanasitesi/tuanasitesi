@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Özet Panel</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Özet Panel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f9;
@@ -47,7 +48,7 @@
       font-size: 1rem;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -57,19 +58,16 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <div class="panel" id="ozetPanel">
-    <h2>💼 Aidat Özet Paneli</h2>
-    <div class="bilgi-kutusu"><strong>Ad Soyad:</strong> <span id="ad"></span></div>
-    <div class="bilgi-kutusu"><strong>Daire No:</strong> <span id="daire"></span></div>
-    <div class="bilgi-kutusu"><strong>Toplam Ödeme:</strong> <span id="toplam"></span> ₺</div>
-    <div class="bilgi-kutusu"><strong>Ödeme Sayısı:</strong> <span id="adet"></span></div>
-    <div class="bilgi-kutusu"><strong>Kalan Borç:</strong> <span id="borc"></span> ₺</div>
-  </div>
-
-  <button class="btn" onclick="exportPDF()">PDF Olarak İndir</button>
-
-  <script>
+<div class="panel" id="ozetPanel">
+<h2>💼 Aidat Özet Paneli</h2>
+<div class="bilgi-kutusu"><strong>Ad Soyad:</strong> <span id="ad"></span></div>
+<div class="bilgi-kutusu"><strong>Daire No:</strong> <span id="daire"></span></div>
+<div class="bilgi-kutusu"><strong>Toplam Ödeme:</strong> <span id="toplam"></span> ₺</div>
+<div class="bilgi-kutusu"><strong>Ödeme Sayısı:</strong> <span id="adet"></span></div>
+<div class="bilgi-kutusu"><strong>Kalan Borç:</strong> <span id="borc"></span> ₺</div>
+</div>
+<button class="btn" onclick="exportPDF()">PDF Olarak İndir</button>
+<script>
     const aktif = JSON.parse(localStorage.getItem("aktifKullanici"));
     const odemeler = JSON.parse(localStorage.getItem("odemeler")) || [];
 
