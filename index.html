@@ -1,88 +1,83 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tuana Sitesi - Anasayfa</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuana Sitesi - Hoşgeldiniz</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+      font-family: Arial, sans-serif;
+      background: url('470d2e9d-2572-4d8d-a72f-a4218474e44f.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
     }
     header {
-      background-color: #f8f8f8;
-      text-align: center;
+      background-color: rgba(0, 0, 0, 0.6);
       padding: 1rem;
-      pointer-events: none; /* Linkleri etkisiz hale getir */
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    nav {
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem;
     }
     nav a {
-      margin: 0 10px;
+      color: #ffffff;
       text-decoration: none;
-      color: gray;
-      cursor: default;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #ffd700;
+    }
+    nav a:not([href="giris.html"]) {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    nav a {
+      pointer-events: auto;
     }
     main {
+      padding: 3rem;
       text-align: center;
-      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      max-width: 800px;
+      margin: 5rem auto;
+      border-radius: 10px;
     }
     h1 {
       font-size: 2.5rem;
-      color: #2c3e50;
+      margin-bottom: 1rem;
     }
     p {
       font-size: 1.2rem;
-      color: #555;
-      max-width: 600px;
-      margin: 1rem auto;
-    }
-    .btn {
-      display: inline-block;
-      padding: 1rem 2rem;
-      margin: 1rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      background-color: #3498db;
-      color: white;
-      cursor: default;
-      pointer-events: none; /* Butonları da pasifleştir */
-    }
-    footer {
-      background-color: #f1f1f1;
-      padding: 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      pointer-events: none;
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
   <header>
-    <nav>
-      <a>Ana Sayfa</a>
-      <a>Duyurular</a>
-      <a>Raporlar</a>
-      <a>Ödeme</a>
-      <a>Galeri</a>
-      <a>Haberler</a>
-      <a>İlanlar</a>
-    </nav>
+    🏠 Tuana Sitesi Dijital Platformu
   </header>
-
+  <nav>
+    <a href="giris.html">Ana Sayfa</a>
+    <a href="giris.html">Duyurular</a>
+    <a href="giris.html">Raporlar</a>
+    <a href="giris.html">Ödemeler</a>
+    <a href="giris.html">Galeri</a>
+    <a href="giris.html">Haberler</a>
+    <a href="giris.html">İlanlar</a>
+    <a href="giris.html">Giriş</a>
+  </nav>
   <main>
-    <h1>🏢 Tuana Sitesi Dijital Yönetim</h1>
-    <p>Şeffaflık, dijitalleşme ve katılımcı yönetim anlayışıyla modern bir site yaşamı sunuyoruz.</p>
-
-    <div class="btn">📢 Duyurular</div>
-    <div class="btn">📊 Raporlar</div>
-    <a href="giris.html" class="btn" style="pointer-events:auto; cursor:pointer; background-color:#2ecc71;">🔐 Giriş Yap</a>
+    <h1>✨ Tuana Sitesi Dijital Yönetim</h1>
+    <p>Şeffaf, erişilebilir ve modern site yönetimi.<br>
+    Sakinleriyle etkileşimi yücelten, dijital düzeni kolaylazeni kolayla\u015tıran bir platform.<br>
+    Huzurlu bir yaşam alanı için birlikte yönetelim.</p>
   </main>
-
-  <footer>
-    © 2025 Tuana Sitesi Yönetimi - Tüm Hakları Saklıdır.
-  </footer>
 </body>
 </html>
