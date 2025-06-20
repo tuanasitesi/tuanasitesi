@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yeni Kullanıcı Ekle</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Kullanıcı Ekle</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f7f9fb;
@@ -55,7 +56,7 @@
       font-weight: bold;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -65,27 +66,22 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <div class="form-kutu">
-    <h2>Yeni Kullanıcı Ekle</h2>
-    <label for="kullanici">Kullanıcı Adı</label>
-    <input type="text" id="kullanici" required>
-
-    <label for="sifre">Şifre</label>
-    <input type="password" id="sifre" required>
-
-    <label for="rol">Rol</label>
-    <select id="rol">
-      <option value="admin">Yönetici</option>
-      <option value="malik">Daire Sahibi</option>
-      <option value="kiraci">Kiracı</option>
-    </select>
-
-    <button onclick="kullaniciEkle()">Ekle</button>
-    <div class="mesaj" id="mesaj"></div>
-  </div>
-
-  <script>
+<div class="form-kutu">
+<h2>Yeni Kullanıcı Ekle</h2>
+<label for="kullanici">Kullanıcı Adı</label>
+<input id="kullanici" required="" type="text"/>
+<label for="sifre">Şifre</label>
+<input id="sifre" required="" type="password"/>
+<label for="rol">Rol</label>
+<select id="rol">
+<option value="admin">Yönetici</option>
+<option value="malik">Daire Sahibi</option>
+<option value="kiraci">Kiracı</option>
+</select>
+<button onclick="kullaniciEkle()">Ekle</button>
+<div class="mesaj" id="mesaj"></div>
+</div>
+<script>
     async function kullaniciEkle() {
       const k = document.getElementById('kullanici').value.trim();
       const s = document.getElementById('sifre').value.trim();
