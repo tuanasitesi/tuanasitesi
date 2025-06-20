@@ -15,12 +15,6 @@
       padding: 1rem;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      pointer-events: none;
-    }
-
     .container {
       text-align: center;
       margin-top: 2rem;
@@ -68,6 +62,7 @@
     }
 
     .slider {
+      position: relative;
       margin-top: 2rem;
       width: 90%;
       max-width: 1100px;
@@ -80,7 +75,7 @@
     .slides {
       display: flex;
       width: 400%;
-      animation: slide 12s infinite;
+      transition: transform 1s ease-in-out;
     }
 
     .slides img {
@@ -88,13 +83,20 @@
       object-fit: cover;
     }
 
-    @keyframes slide {
-      0%   { transform: translateX(0%); }
-      25%  { transform: translateX(-100%); }
-      50%  { transform: translateX(-200%); }
-      75%  { transform: translateX(-300%); }
-      100% { transform: translateX(0%); }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255,255,255,0.7);
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      z-index: 10;
     }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
 
     footer {
       margin-top: 2rem;
@@ -128,17 +130,40 @@
     </div>
 
     <div class="slider">
-      <div class="slides">
-        <img src="assets/Ekran görüntüsü 2025-06-20 233939.jpg" alt="Tuana 1" />
-        <img src="assets/Ekran görüntüsü 2025-06-20 234002.jpg" alt="Tuana 2" />
-        <img src="assets/Ekran görüntüsü 2025-06-20 234021.jpg" alt="Tuana 3" />
-        <img src="assets/Ekran görüntüsü 2025-06-20 234043.jpg" alt="Tuana 4" />
+      <button class="nav-btn prev" onclick="prevSlide()">◀</button>
+      <div class="slides" id="slideContainer">
+        <img src="assets/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-06-20%20233939.jpg" alt="Tuana 1" />
+        <img src="assets/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-06-20%20234002.jpg" alt="Tuana 2" />
+        <img src="assets/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-06-20%20234021.jpg" alt="Tuana 3" />
+        <img src="assets/Ekran%20g%C3%B6r%C3%BCnt%C3%BCs%C3%BC%202025-06-20%20234043.jpg" alt="Tuana 4" />
       </div>
+      <button class="nav-btn next" onclick="nextSlide()">▶</button>
     </div>
 
     <footer>
       © 2025 Tuana Sitesi - Tüm Hakları Saklıdır
     </footer>
   </div>
+
+  <script>
+    let index = 0;
+    const slides = document.getElementById("slideContainer");
+    const total = slides.children.length;
+
+    function showSlide(i) {
+      index = (i + total) % total;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() {
+      showSlide(index + 1);
+    }
+
+    function prevSlide() {
+      showSlide(index - 1);
+    }
+
+    setInterval(() => nextSlide(), 6000); // Daha yavaş geçiş (6 saniye)
+  </script>
 </body>
 </html>
