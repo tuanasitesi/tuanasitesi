@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tuana Sitesi Giriş</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tuana Sitesi Giriş</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #ecf0f1;
@@ -58,7 +59,7 @@
       margin-top: 1rem;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -68,18 +69,16 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <div class="giris-karti">
-    <h2>Tuana Sitesi Giriş</h2>
-    <label for="kullanici">Kullanıcı Adı</label>
-    <input type="text" id="kullanici" placeholder="Örn: admin1">
-    <label for="sifre">Şifre</label>
-    <input type="password" id="sifre" placeholder="••••••••">
-    <button onclick="girisYap()">Giriş Yap</button>
-    <div id="hata" class="hata"></div>
-  </div>
-
-  <script>
+<div class="giris-karti">
+<h2>Tuana Sitesi Giriş</h2>
+<label for="kullanici">Kullanıcı Adı</label>
+<input id="kullanici" placeholder="Örn: admin1" type="text"/>
+<label for="sifre">Şifre</label>
+<input id="sifre" placeholder="••••••••" type="password"/>
+<button onclick="girisYap()">Giriş Yap</button>
+<div class="hata" id="hata"></div>
+</div>
+<script>
     async function girisYap() {
       const k = document.getElementById('kullanici').value.trim();
       const s = document.getElementById('sifre').value.trim();
