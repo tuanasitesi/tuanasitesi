@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yeni Ödeme Kaydı</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Ödeme Kaydı</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
@@ -54,7 +55,7 @@
       margin-bottom: 1rem;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -64,34 +65,25 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <h1>Yeni Ödeme Girişi</h1>
-
-  <div id="uyariMesaji" class="uyari" style="display:none;">Bu sayfaya yalnızca yönetici veya admin erişebilir.</div>
-
-  <form id="odemeFormu" style="display:none">
-    <label for="daire">Daire No</label>
-    <input type="text" id="daire" required>
-
-    <label for="tutar">Tutar (TL)</label>
-    <input type="number" id="tutar" required>
-
-    <label for="tarih">Tarih</label>
-    <input type="date" id="tarih" required>
-
-    <label for="tur">Tür</label>
-    <select id="tur" required>
-      <option value="Aidat">Aidat</option>
-      <option value="Gider">Gider</option>
-    </select>
-
-    <label for="aciklama">Açıklama</label>
-    <textarea id="aciklama" rows="3"></textarea>
-
-    <button type="submit">Kaydet</button>
-  </form>
-
-  <script>
+<h1>Yeni Ödeme Girişi</h1>
+<div class="uyari" id="uyariMesaji" style="display:none;">Bu sayfaya yalnızca yönetici veya admin erişebilir.</div>
+<form id="odemeFormu" style="display:none">
+<label for="daire">Daire No</label>
+<input id="daire" required="" type="text"/>
+<label for="tutar">Tutar (TL)</label>
+<input id="tutar" required="" type="number"/>
+<label for="tarih">Tarih</label>
+<input id="tarih" required="" type="date"/>
+<label for="tur">Tür</label>
+<select id="tur" required="">
+<option value="Aidat">Aidat</option>
+<option value="Gider">Gider</option>
+</select>
+<label for="aciklama">Açıklama</label>
+<textarea id="aciklama" rows="3"></textarea>
+<button type="submit">Kaydet</button>
+</form>
+<script>
     const kullaniciRol = localStorage.getItem("kullaniciRol");
     const form = document.getElementById("odemeFormu");
     const uyari = document.getElementById("uyariMesaji");
