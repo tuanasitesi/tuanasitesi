@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malik Paneli - Tuana Sitesi</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Malik Paneli - Tuana Sitesi</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f6f9;
@@ -84,7 +85,7 @@
       color: white;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -94,51 +95,44 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <h1>🏠 Tuana Sitesi - Malik Paneli</h1>
-  <h2 id="hosgeldin">Hoş geldiniz...</h2>
-
-  <div class="istatistikler">
-    <div class="kutu">
-      <span>Bu Ayki Aidat</span>
-      <h2>₺460</h2>
-    </div>
-    <div class="kutu">
-      <span>Ödeme Durumu</span>
-      <h2 style="color: #2ecc71;">✅ Ödendi</h2>
-    </div>
-    <div class="kutu">
-      <span>Son Ödeme Tarihi</span>
-      <h2>15 Haziran 2025</h2>
-    </div>
+<h1>🏠 Tuana Sitesi - Malik Paneli</h1>
+<h2 id="hosgeldin">Hoş geldiniz...</h2>
+<div class="istatistikler">
+<div class="kutu">
+<span>Bu Ayki Aidat</span>
+<h2>₺460</h2>
+</div>
+<div class="kutu">
+<span>Ödeme Durumu</span>
+<h2 style="color: #2ecc71;">✅ Ödendi</h2>
+</div>
+<div class="kutu">
+<span>Son Ödeme Tarihi</span>
+<h2>15 Haziran 2025</h2>
+</div>
+</div>
+<div class="grafik-alan">
+<h3 style="text-align:center;">📈 Site Geneli Aidat Gelirleri</h3>
+<canvas id="aidatGeliriGrafik"></canvas>
+</div>
+<div class="grafik-alan">
+<h3 style="text-align:center;">📊 Site Geneli Gider Dağılımı</h3>
+<canvas id="giderDagilimGrafik"></canvas>
+</div>
+<div class="duyuru">
+<strong>📢 Son Duyuru:</strong> A Blok asansör bakım çalışması tamamlanmıştır. Yeni sistem devreye alınmıştır.
   </div>
-
-  <div class="grafik-alan">
-    <h3 style="text-align:center;">📈 Site Geneli Aidat Gelirleri</h3>
-    <canvas id="aidatGeliriGrafik"></canvas>
-  </div>
-
-  <div class="grafik-alan">
-    <h3 style="text-align:center;">📊 Site Geneli Gider Dağılımı</h3>
-    <canvas id="giderDagilimGrafik"></canvas>
-  </div>
-
-  <div class="duyuru">
-    <strong>📢 Son Duyuru:</strong> A Blok asansör bakım çalışması tamamlanmıştır. Yeni sistem devreye alınmıştır.
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Tarih</th>
-        <th>Tutar (₺)</th>
-        <th>Tür</th>
-      </tr>
-    </thead>
-    <tbody id="odemeTablosu"></tbody>
-  </table>
-
-  <script>
+<table>
+<thead>
+<tr>
+<th>Tarih</th>
+<th>Tutar (₺)</th>
+<th>Tür</th>
+</tr>
+</thead>
+<tbody id="odemeTablosu"></tbody>
+</table>
+<script>
     const aktif = JSON.parse(localStorage.getItem("aktifKullanici"));
     if (aktif) {
       document.getElementById("hosgeldin").textContent = `👋 Hoş geldiniz, ${aktif.adSoyad} (${aktif.daireNo})`;
