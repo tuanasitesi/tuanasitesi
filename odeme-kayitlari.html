@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aidat Ödeme Kayıtları - Tuana Sitesi</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aidat Ödeme Kayıtları - Tuana Sitesi</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
     body {
       font-family: Arial, sans-serif;
       background: #f9f9f9;
@@ -83,7 +84,7 @@
       white-space: pre-wrap;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -93,33 +94,27 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <h1>📄 Aidat Ödeme Kayıtları</h1>
-
-  <div id="grafikContainer">
-    <canvas id="aylikGrafik"></canvas>
-  </div>
-
-  <div class="filtreler">
-    <select id="filtreAy">
-      <option value="">Tüm Aylar</option>
-    </select>
-    <select id="filtreDaire">
-      <option value="">Tüm Daireler</option>
-    </select>
-    <select id="filtreTur">
-      <option value="">Tüm Türler</option>
-    </select>
-  </div>
-
-  <div id="icerik"></div>
-
-  <div class="rapor-paneli">
-    <h2>📋 Toplam Gelir-Gider Özeti (İşletme Defteri Formatı)</h2>
-    <pre id="raporMetni"></pre>
-  </div>
-
-  <script>
+<h1>📄 Aidat Ödeme Kayıtları</h1>
+<div id="grafikContainer">
+<canvas id="aylikGrafik"></canvas>
+</div>
+<div class="filtreler">
+<select id="filtreAy">
+<option value="">Tüm Aylar</option>
+</select>
+<select id="filtreDaire">
+<option value="">Tüm Daireler</option>
+</select>
+<select id="filtreTur">
+<option value="">Tüm Türler</option>
+</select>
+</div>
+<div id="icerik"></div>
+<div class="rapor-paneli">
+<h2>📋 Toplam Gelir-Gider Özeti (İşletme Defteri Formatı)</h2>
+<pre id="raporMetni"></pre>
+</div>
+<script>
     const veriler = JSON.parse(localStorage.getItem("odemeler") || "[]");
 
     const filtreAy = document.getElementById("filtreAy");
