@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>İlan Ver - Tuana Sitesi</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>İlan Ver - Tuana Sitesi</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f7fa;
@@ -49,7 +50,7 @@
       background-color: #2980b9;
     }
   </style>
-</head>
+<style>body { padding-bottom: 160px !important; }</style></head>
 <body>
 <div id="header-footer"></div>
 <script>
@@ -59,22 +60,17 @@
       document.getElementById('header-footer').innerHTML = data;
     });
 </script>
-
-  <h1>📢 Yeni İlan Ver</h1>
-  <form id="ilanFormu">
-    <label for="baslik">İlan Başlığı:</label>
-    <input type="text" id="baslik" required>
-
-    <label for="icerik">İçerik:</label>
-    <textarea id="icerik" rows="5" required></textarea>
-
-    <label for="tarih">Tarih:</label>
-    <input type="date" id="tarih" required>
-
-    <button type="submit">İlanı Kaydet</button>
-  </form>
-
-  <script>
+<h1>📢 Yeni İlan Ver</h1>
+<form id="ilanFormu">
+<label for="baslik">İlan Başlığı:</label>
+<input id="baslik" required="" type="text"/>
+<label for="icerik">İçerik:</label>
+<textarea id="icerik" required="" rows="5"></textarea>
+<label for="tarih">Tarih:</label>
+<input id="tarih" required="" type="date"/>
+<button type="submit">İlanı Kaydet</button>
+</form>
+<script>
     document.getElementById("ilanFormu").addEventListener("submit", function(e) {
       e.preventDefault();
 
