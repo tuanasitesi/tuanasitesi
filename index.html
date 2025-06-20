@@ -2,116 +2,143 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tuana Sitesi - Anasayfa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuana Sitesi</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #dceeff, #f6f9fc);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-      min-height: 100vh;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      pointer-events: none;
+    }
+
+    .container {
       text-align: center;
+      margin-top: 2rem;
     }
 
     h1 {
-      margin-top: 60px;
-      font-size: 2.5rem;
-      color: #003366;
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #004d40;
+      margin-bottom: 0.5rem;
     }
 
     h2 {
-      font-size: 1.3rem;
-      font-weight: normal;
-      color: #555;
-      margin-bottom: 30px;
+      font-size: 1.2rem;
+      color: #00796b;
+      margin-bottom: 2rem;
     }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      max-width: 800px;
-      margin: 0 auto 40px;
-      padding: 0 20px;
+    .card-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 1000px;
     }
 
     .card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background-color: #ffffff;
+      padding: 1rem 1.2rem;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      width: 280px;
       text-align: left;
     }
 
     .card h3 {
-      margin: 0 0 10px;
-      color: #003366;
+      font-size: 1.2rem;
+      color: #00695c;
+      margin-bottom: 0.5rem;
     }
 
     .card p {
-      margin: 0;
-      color: #555;
+      font-size: 0.95rem;
+      color: #424242;
+    }
+
+    .slider {
+      margin-top: 2rem;
+      width: 90%;
+      max-width: 1100px;
+      height: 260px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .slides {
+      display: flex;
+      width: 400%;
+      animation: slide 12s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      25%  { transform: translateX(-100%); }
+      50%  { transform: translateX(-200%); }
+      75%  { transform: translateX(-300%); }
+      100% { transform: translateX(0%); }
     }
 
     footer {
-      margin-top: auto;
-      padding: 20px;
-      font-size: 0.85rem;
+      margin-top: 2rem;
+      font-size: 0.8rem;
       color: #777;
-    }
-
-    .giris-button {
-      background-color: #0066cc;
-      color: white;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-bottom: 40px;
-      transition: background 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .giris-button:hover {
-      background-color: #004a99;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Tuana Sitesi Dijital Yönetim</h1>
+    <h2>Şeffaf, erişilebilir ve modern site yönetimi</h2>
 
-  <h1>Tuana Sitesi Dijital Yönetim</h1>
-  <h2>Şeffaf, erişilebilir ve modern site yönetimi</h2>
+    <div class="card-group">
+      <div class="card">
+        <h3>🔒 Güvenli Yaşam</h3>
+        <p>Huzurlu ve güvenli bir site ortamı</p>
+      </div>
+      <div class="card">
+        <h3>🧹 Temizlik ve Düzen</h3>
+        <p>Her zaman temiz ve düzenli alanlar</p>
+      </div>
+      <div class="card">
+        <h3>👔 Profesyonel Yönetim</h3>
+        <p>Deneyimli ve şeffaf site yönetimi</p>
+      </div>
+      <div class="card">
+        <h3>👥 Güçlü Komşuluk Bağları</h3>
+        <p>Etkileşim ve dayanışma dolu bir topluluk</p>
+      </div>
+    </div>
 
-  <div class="features">
-    <div class="card">
-      <h3>🔒 Güvenli Yaşam</h3>
-      <p>Huzurlu ve güvenli bir site ortamı</p>
+    <div class="slider">
+      <div class="slides">
+        <img src="assets/Ekran görüntüsü 2025-06-20 233939.jpg" alt="Tuana 1" />
+        <img src="assets/Ekran görüntüsü 2025-06-20 234002.jpg" alt="Tuana 2" />
+        <img src="assets/Ekran görüntüsü 2025-06-20 234021.jpg" alt="Tuana 3" />
+        <img src="assets/Ekran görüntüsü 2025-06-20 234043.jpg" alt="Tuana 4" />
+      </div>
     </div>
-    <div class="card">
-      <h3>🧹 Temizlik ve Düzen</h3>
-      <p>Her zaman temiz ve düzenli alanlar</p>
-    </div>
-    <div class="card">
-      <h3>👔 Profesyonel Yönetim</h3>
-      <p>Deneyimli ve şeffaf site yönetimi</p>
-    </div>
-    <div class="card">
-      <h3>👨‍👩‍👧‍👦 Güçlü Komşuluk Bağları</h3>
-      <p>Etkileşim ve dayanışma dolu bir topluluk</p>
-    </div>
+
+    <footer>
+      © 2025 Tuana Sitesi - Tüm Hakları Saklıdır
+    </footer>
   </div>
-
-  <a href="giris.html" class="giris-button">Giriş Yap</a>
-
-  <footer>
-    © 2025 Tuana Sitesi – Tüm Hakları Saklıdır
-  </footer>
-
 </body>
 </html>
