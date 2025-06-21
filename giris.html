@@ -6,89 +6,90 @@
   <title>Tuana Sitesi Giriş</title>
   <style>
     body {
-      background: #f6f7fb;
       font-family: Arial, sans-serif;
+      background: #f0f2f5;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      margin: 0;
     }
 
-    .login-box {
+    .login-container {
       background: white;
       padding: 40px;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      width: 320px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 24px;
-      color: #2c3e50;
+      width: 320px;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 14px;
     }
 
     button {
       background: #007bff;
       color: white;
       border: none;
-      padding: 12px;
-      width: 100%;
+      padding: 12px 20px;
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
+      width: 100%;
     }
 
     button:hover {
       background: #0056b3;
     }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="login-box">
-    <h2>Tuana Sitesi Giriş</h2>
-    <input type="email" id="email" placeholder="E-posta adresiniz" required />
-    <input type="password" id="sifre" placeholder="Şifre" required />
+  <div class="login-container">
+    <div class="title">Tuana Sitesi Giriş</div>
+    <input type="email" id="email" placeholder="E-posta adresi" />
+    <input type="password" id="password" placeholder="Şifre" />
     <button onclick="girisYap()">Giriş Yap</button>
   </div>
 
-  <!-- Supabase kütüphanesi -->
+  <!-- 1. Supabase kütüphanesini çağır -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Supabase istemci kurulumu -->
+  <!-- 2. Supabase istemcisi -->
   <script>
-    const supabase = supabase.createClient(
+    const supabase = window.supabase.createClient(
       "https://bgyhabtwemklbfgkflha.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJneWhhYnR3ZW1rbGJmZ2tmbGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0ODkyNjAsImV4cCI6MjA2NjA2NTI2MH0.vC9nHHwILHG02XGu9UJ3M3hdinZV1TwvULfKqAXhOtw"
     );
   </script>
 
-  <!-- Giriş fonksiyonu -->
+  <!-- 3. Giriş fonksiyonu -->
   <script>
     async function girisYap() {
       const email = document.getElementById("email").value;
-      const sifre = document.getElementById("sifre").value;
+      const password = document.getElementById("password").value;
 
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: sifre
+        email,
+        password
       });
 
       if (error) {
-        alert("Giriş başarısız: " + error.message);
+        alert("Hatalı giriş: " + error.message);
       } else {
-        window.location.href = "dashboard-malik.html";
+        alert("Giriş başarılı!");
+        window.location.href = "dashboard-malik.html"; // veya admin.html
       }
     }
   </script>
