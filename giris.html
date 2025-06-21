@@ -1,120 +1,62 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tuana Sitesi Giriş</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tuana Sitesi Giriş</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #ecf0f1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: #f1f3f6;
       height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0;
+      font-family: 'Segoe UI', sans-serif;
     }
-    .giris-karti {
+    .login-card {
       background: white;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       max-width: 400px;
+      width: 100%;
     }
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.3rem;
+    .login-title {
+      font-size: 1.5rem;
       font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      background: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1f6391;
-    }
-    .hata {
-      color: red;
       text-align: center;
-      margin-top: 1rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    .form-control:focus {
+      border-color: #3498db;
+      box-shadow: none;
+    }
+    .btn-primary {
+      background-color: #3498db;
+      border: none;
+      width: 100%;
     }
   </style>
-<style>body { padding-bottom: 160px !important; }</style></head>
+</head>
 <body>
-<div id="header-footer"></div>
-<script>
-  fetch('header-footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header-footer').innerHTML = data;
-    });
-</script>
-<div class="giris-karti">
-<h2>Tuana Sitesi Giriş</h2>
-<label for="kullanici">Kullanıcı Adı</label>
-<input id="kullanici" placeholder="Örn: admin1" type="text"/>
-<label for="sifre">Şifre</label>
-<input id="sifre" placeholder="••••••••" type="password"/>
-<button onclick="girisYap()">Giriş Yap</button>
-<div class="hata" id="hata"></div>
-</div>
-<script>
-    async function girisYap() {
-      const k = document.getElementById('kullanici').value.trim();
-      const s = document.getElementById('sifre').value.trim();
-      const hataDiv = document.getElementById('hata');
 
-      try {
-        const res = await fetch('data/kullanicilar.json');
-        if (!res.ok) throw new Error("Veri alınamadı");
+  <div class="login-card">
+    <div class="login-title">🔐 Tuana Sitesi Giriş</div>
+    <form action="dashboard.html" method="post">
+      <div class="mb-3">
+        <label for="username" class="form-label">Kullanıcı Adı</label>
+        <input type="text" id="username" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Şifre</label>
+        <input type="password" id="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Giriş Yap</button>
+    </form>
+  </div>
 
-        const kullanicilar = await res.json();
-
-        const kullanici = kullanicilar.find(u => u.kullaniciAdi === k && u.sifre === s);
-
-        if (!kullanici) {
-          hataDiv.textContent = "Kullanıcı adı veya şifre hatalı.";
-          return;
-        }
-
-        // Giriş bilgilerini kaydet
-        localStorage.setItem("aktifKullanici", JSON.stringify(kullanici));
-        localStorage.setItem("role", kullanici.yetki); // 👈 ROL bilgisi buraya yazılıyor
-
-        // Yönlendirme
-        if (["admin", "yonetici"].includes(kullanici.yetki)) {
-          window.location.href = "dashboard.html";
-        } else if (["malik", "kiraci"].includes(kullanici.yetki)) {
-          window.location.href = "dashboard-malik.html";
-        } else {
-          hataDiv.textContent = "Yetki tanımlı değil.";
-        }
-
-      } catch (error) {
-        hataDiv.textContent = "Veri alınamadı. Lütfen tekrar deneyin.";
-        console.error("JSON çekilemedi:", error);
-      }
-    }
-  </script>
 </body>
 </html>
