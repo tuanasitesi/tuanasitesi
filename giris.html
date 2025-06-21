@@ -2,80 +2,96 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Tuana Sitesi Giriş</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Tuana Sitesi Giriş</title>
   <style>
     body {
+      background: #f6f7fb;
       font-family: Arial, sans-serif;
-      background: #f0f2f5;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
+      margin: 0;
     }
+
     .login-box {
       background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      text-align: center;
     }
+
+    h2 {
+      margin-bottom: 24px;
+      color: #2c3e50;
+    }
+
     input {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
+      padding: 12px;
+      margin-bottom: 16px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 14px;
     }
+
     button {
-      width: 100%;
-      padding: 10px;
-      background-color: #0d6efd;
+      background: #007bff;
       color: white;
       border: none;
-      border-radius: 4px;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
     }
+
     button:hover {
-      background-color: #0b5ed7;
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
+
   <div class="login-box">
     <h2>Tuana Sitesi Giriş</h2>
-    <input type="email" id="email" placeholder="E-posta" />
-    <input type="password" id="password" placeholder="Şifre" />
+    <input type="email" id="email" placeholder="E-posta adresiniz" required />
+    <input type="password" id="sifre" placeholder="Şifre" required />
     <button onclick="girisYap()">Giriş Yap</button>
-    <p id="mesaj"></p>
   </div>
 
+  <!-- Supabase kütüphanesi -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Supabase istemci kurulumu -->
   <script>
     const supabase = supabase.createClient(
-      'https://bgyhabtwemklbfgkflha.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJneWhhYnR3ZW1rbGJmZ2tmbGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0ODkyNjAsImV4cCI6MjA2NjA2NTI2MH0.vC9nHHwILHG02XGu9UJ3M3hdinZV1TwvULfKqAXhOtw'
+      "https://bgyhabtwemklbfgkflha.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJneWhhYnR3ZW1rbGJmZ2tmbGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0ODkyNjAsImV4cCI6MjA2NjA2NTI2MH0.vC9nHHwILHG02XGu9UJ3M3hdinZV1TwvULfKqAXhOtw"
     );
+  </script>
 
+  <!-- Giriş fonksiyonu -->
+  <script>
     async function girisYap() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById("email").value;
+      const sifre = document.getElementById("sifre").value;
+
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
+        email: email,
+        password: sifre
       });
 
-      const mesaj = document.getElementById("mesaj");
       if (error) {
-        mesaj.innerText = "Giriş başarısız: " + error.message;
-        mesaj.style.color = "red";
+        alert("Giriş başarısız: " + error.message);
       } else {
-        mesaj.innerText = "Giriş başarılı, yönlendiriliyor...";
-        mesaj.style.color = "green";
-        window.location.href = "dashboard-malik.html"; // Giriş sonrası yönlenecek sayfa
+        window.location.href = "dashboard-malik.html";
       }
     }
   </script>
+
 </body>
 </html>
