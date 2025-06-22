@@ -13,7 +13,6 @@
       align-items: center;
       height: 100vh;
     }
-
     .login-container {
       background: white;
       padding: 40px;
@@ -22,7 +21,6 @@
       text-align: center;
       width: 320px;
     }
-
     input {
       width: 100%;
       padding: 10px;
@@ -31,7 +29,6 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
-
     button {
       background: #007bff;
       color: white;
@@ -42,11 +39,9 @@
       cursor: pointer;
       width: 100%;
     }
-
     button:hover {
       background: #0056b3;
     }
-
     .title {
       font-size: 20px;
       font-weight: bold;
@@ -65,7 +60,6 @@
 
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
     const supabase = window.supabase.createClient(
       "https://bgyhabtwemklbfgkflha.supabase.co",
@@ -87,21 +81,25 @@
       }
 
       const user = data.user;
-      const rol = user.user_metadata?.rol || 'malik'; // varsayılan rol: malik
+      const rol = user.user_metadata?.rol || "malik"; // metadata içinde "rol" varsa al, yoksa "malik"
+
+      localStorage.setItem("role", rol);
+      localStorage.setItem("email", email);
 
       alert("Giriş başarılı! Rolünüz: " + rol);
 
-      // Role göre yönlendirme
-      if (rol === 'admin') {
+      // Rol bazlı yönlendirme
+      if (rol === "admin") {
         window.location.href = "dashboard-admin.html";
-      } else if (rol === 'yonetici') {
+      } else if (rol === "yonetici") {
         window.location.href = "dashboard-yonetici.html";
-      } else if (rol === 'kiraci') {
+      } else if (rol === "kiraci") {
         window.location.href = "dashboard-kiraci.html";
       } else {
         window.location.href = "dashboard-malik.html";
       }
     }
   </script>
+
 </body>
 </html>
