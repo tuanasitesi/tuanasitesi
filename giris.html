@@ -1,105 +1,42 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuana Sitesi Giriş</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .login-container {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 320px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-  </style>
-</head>
-<body>
+<script>
+  async function girisYap() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  <div class="login-container">
-    <div class="title">Tuana Sitesi Giriş</div>
-    <input type="email" id="email" placeholder="E-posta adresi" />
-    <input type="password" id="password" placeholder="Şifre" />
-    <button onclick="girisYap()">Giriş Yap</button>
-  </div>
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-  <!-- Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const supabase = window.supabase.createClient(
-      "https://bgyhabtwemklbfgkflha.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJneWhhYnR3ZW1rbGJmZ2tmbGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0ODkyNjAsImV4cCI6MjA2NjA2NTI2MH0.vC9nHHwILHG02XGu9UJ3M3hdinZV1TwvULfKqAXhOtw"
-    );
+    if (error) {
+      alert("Hatalı giriş: " + error.message);
+    } else {
+      // Giriş başarılıysa kullanıcının profil bilgilerini al
+      const { data: userData, error: userError } = await supabase
+        .from("kullanicilar")
+        .select("rol")
+        .eq("email", email)
+        .single();
 
-    async function girisYap() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        alert("Hatalı giriş: " + error.message);
+      if (userError || !userData) {
+        alert("Rol bilgisi alınamadı.");
         return;
       }
 
-      const user = data.user;
-      const rol = user.user_metadata?.rol || "malik"; // metadata içinde "rol" varsa al, yoksa "malik"
+      const rol = userData.rol;
+      localStorage.setItem("role", rol); // rolü localStorage'a yaz
 
-      localStorage.setItem("role", rol);
-      localStorage.setItem("email", email);
-
-      alert("Giriş başarılı! Rolünüz: " + rol);
-
-      // Rol bazlı yönlendirme
       if (rol === "admin") {
         window.location.href = "dashboard-admin.html";
       } else if (rol === "yonetici") {
         window.location.href = "dashboard-yonetici.html";
+      } else if (rol === "malik") {
+        window.location.href = "dashboard-malik.html";
       } else if (rol === "kiraci") {
         window.location.href = "dashboard-kiraci.html";
       } else {
-        window.location.href = "dashboard-malik.html";
+        alert("Bilinmeyen kullanıcı rolü.");
       }
     }
-  </script>
-
-</body>
-</html>
+  }
+</script>
