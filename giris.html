@@ -63,19 +63,15 @@
     <button onclick="girisYap()">Giriş Yap</button>
   </div>
 
-  <!-- 1. Supabase kütüphanesini çağır -->
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 2. Supabase istemcisi -->
   <script>
     const supabase = window.supabase.createClient(
       "https://bgyhabtwemklbfgkflha.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJneWhhYnR3ZW1rbGJmZ2tmbGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA0ODkyNjAsImV4cCI6MjA2NjA2NTI2MH0.vC9nHHwILHG02XGu9UJ3M3hdinZV1TwvULfKqAXhOtw"
     );
-  </script>
 
-  <!-- 3. Giriş fonksiyonu -->
-  <script>
     async function girisYap() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
@@ -87,12 +83,25 @@
 
       if (error) {
         alert("Hatalı giriş: " + error.message);
+        return;
+      }
+
+      const user = data.user;
+      const rol = user.user_metadata?.rol || 'malik'; // varsayılan rol: malik
+
+      alert("Giriş başarılı! Rolünüz: " + rol);
+
+      // Role göre yönlendirme
+      if (rol === 'admin') {
+        window.location.href = "dashboard-admin.html";
+      } else if (rol === 'yonetici') {
+        window.location.href = "dashboard-yonetici.html";
+      } else if (rol === 'kiraci') {
+        window.location.href = "dashboard-kiraci.html";
       } else {
-        alert("Giriş başarılı!");
-        window.location.href = "dashboard-malik.html"; // veya admin.html
+        window.location.href = "dashboard-malik.html";
       }
     }
   </script>
-
 </body>
 </html>
