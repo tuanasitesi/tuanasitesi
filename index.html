@@ -28,6 +28,7 @@
       font-weight: 500;
       text-decoration: none;
       transition: 0.3s ease;
+      cursor: pointer;
     }
 
     .login-btn:hover {
@@ -95,10 +96,17 @@
 </head>
 <body>
 
-  <!-- Giriş Butonu -->
+  <!-- Sahte Giriş Butonu -->
   <div class="login-box">
-    <a href="giris.html" class="login-btn">🔐 Giriş</a>
+    <button class="login-btn" onclick="fakeLogin()">🔐 Giriş Yap</button>
   </div>
+
+  <script>
+    function fakeLogin() {
+      alert("Giriş başarılı! Haberler sayfasına yönlendiriliyorsunuz...");
+      window.location.href = "haberler.html";  // Haberler sayfasına yönlendirme
+    }
+  </script>
 
   <!-- Hoş Geldiniz ve Slogan -->
   <div class="hero-text">
