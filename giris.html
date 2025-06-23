@@ -2,82 +2,55 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tuana Sitesi Giriş</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      background: linear-gradient(to bottom, #f3f6fb, #e9edf4);
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .login-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      width: 350px;
-      text-align: center;
-    }
-    input {
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #084bcc;
-    }
-    #message {
-      margin-top: 10px;
-      color: #d33;
-      font-weight: bold;
-      min-height: 1.2em;
-    }
+    /* Basit stil, kendi kodunla değiştirebilirsin */
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .error { color: red; margin-top: 10px; }
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h2>Tuana Sitesi Giriş</h2>
-    <input type="text" id="kullanici" placeholder="Kullanıcı Adı" autofocus />
-    <input type="password" id="sifre" placeholder="Şifre" />
-    <button onclick="girisYap()">Giriş Yap</button>
-    <div id="message"></div>
-  </div>
+
+  <h2>Tuana Sitesi Giriş</h2>
+
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Kullanıcı Adı" required /><br /><br />
+    <input type="password" id="password" placeholder="Şifre" required /><br /><br />
+    <button type="submit">Giriş Yap</button>
+  </form>
+
+  <div id="errorMsg" class="error"></div>
 
   <script>
-    function girisYap() {
-      const kullanici = document.getElementById('kullanici').value.trim();
-      const sifre = document.getElementById('sifre').value.trim();
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-      // Buraya kendi kullanıcı adı ve şifreni yaz
-      const dogruKullanici = "admin";
-      const dogruSifre = "123456";
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-      if (kullanici === dogruKullanici && sifre === dogruSifre) {
-        localStorage.setItem("girisToken", "aktif");
-        window.location.href = "index.html";
-      } else {
-        document.getElementById('message').textContent = "Kullanıcı adı veya şifre hatalı!";
-      }
-    }
+      // Giriş kontrolü için API çağrısı
+      fetch('https://script.google.com/macros/s/AKfycbx_YwV61xCClL22mneUWbmthc55ZRAdGLMfeul8SwtQyDmkkHaEe-W75ag_a4b-bhM/exec', {
+        method: "POST",
+        body: JSON.stringify({ adSoyad: username, sifre: password }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Giriş başarılıysa haberler sayfasına yönlendir
+          window.location.href = "haberler.html";
+        } else {
+          // Başarısızsa hata mesajı göster
+          document.getElementById("errorMsg").innerText = "Kullanıcı adı veya şifre hatalı!";
+        }
+      })
+      .catch(err => {
+        document.getElementById("errorMsg").innerText = "Sunucu hatası, lütfen tekrar deneyin.";
+        console.error(err);
+      });
+    });
   </script>
+
 </body>
 </html>
