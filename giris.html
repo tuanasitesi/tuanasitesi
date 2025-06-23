@@ -2,87 +2,66 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tuana Sitesi Giriş</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      background-color: #f4f4f4;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+    #sonuc {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
+  <h2>Tuana Sitesi Giriş</h2>
+  <input type="text" id="malik" placeholder="Malik Adı" />
+  <input type="password" id="sifre" placeholder="Şifre" />
+  <button onclick="girisYap()">Giriş Yap</button>
+  <p id="sonuc"></p>
 
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white text-center">
-          <h4>Tuana Sitesi Giriş</h4>
-        </div>
-        <div class="card-body">
-          <div class="mb-3">
-            <label for="malik" class="form-label">Ad Soyad</label>
-            <input type="text" id="malik" class="form-control" placeholder="Örn: YILMAZ DUMAN" required>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Şifre</label>
-            <input type="password" id="password" class="form-control" required>
-          </div>
-          <button onclick="girisYap()" class="btn btn-primary w-100">Giriş Yap</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  <script>
+    async function girisYap() {
+      const malik = document.getElementById("malik").value;
+      const sifre = document.getElementById("sifre").value;
 
-<script>
-  const JSON_URL = "https://script.google.com/macros/s/AKfycbydzw8u7XyCgnxxTroGPBV-IUb4hWYNbfVVzTFAzYWY7DfFry958N0g-34SU7eYmrST/exec";
+      const url = "https://script.google.com/macros/s/AKfycbyJ_VWhANZfFImZX_MR71mqlI1AtPEQdZG2Ds_-3Fw0PTAKyKGiy2yc61gLtq7cQBQh/exec";
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
-  async function girisYap() {
-    const malik = document.getElementById("malik").value.trim().toUpperCase();
-    const password = document.getElementById("password").value;
+      try {
+        const response = await fetch(proxyUrl + url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ malik, sifre })
+        });
 
-    if (!malik || !password) {
-      alert("Lütfen ad soyad ve şifre giriniz.");
-      return;
-    }
+        const result = await response.json();
+        const sonuc = document.getElementById("sonuc");
 
-    try {
-      const response = await fetch(JSON_URL);
-      const users = await response.json();
-
-      const user = users.find(u =>
-        u.malik?.toUpperCase() === malik &&
-        u["şifre"] === password
-      );
-
-      if (!user) {
-        alert("Ad veya şifre hatalı.");
-        return;
+        if (result.success) {
+          sonuc.innerText = "✅ " + result.mesaj + " - " + result.rol + " (" + result.blok + "/" + result.daire + ")";
+          sonuc.style.color = "green";
+          // İstersen yönlendirme:
+          // window.location.href = "dashboard-" + result.rol.toLowerCase() + ".html";
+        } else {
+          sonuc.innerText = "❌ " + result.mesaj;
+          sonuc.style.color = "red";
+        }
+      } catch (error) {
+        document.getElementById("sonuc").innerText = "Sunucuya ulaşılamıyor: " + error.message;
+        document.getElementById("sonuc").style.color = "red";
       }
-
-      localStorage.setItem("role", user.rol.toLowerCase());
-      localStorage.setItem("adSoyad", user.malik);
-      localStorage.setItem("blok", user.blok);
-      localStorage.setItem("daire", user.daire);
-
-      const rolePages = {
-        "malik": "dashboard-malik.html",
-        "kiraci": "dashboard-kiraci.html",
-        "yonetici": "dashboard-yonetici.html",
-        "site görevlisi": "dashboard-gorevli.html",
-        "admin": "dashboard-admin.html"
-      };
-
-      const role = user.rol.toLowerCase();
-      if (rolePages[role]) {
-        window.location.href = rolePages[role];
-      } else {
-        alert("Tanımsız rol: " + user.rol);
-      }
-
-    } catch (e) {
-      console.error("Veri çekme hatası:", e);
-      alert("Sunucu bağlantı hatası.");
     }
-  }
-</script>
-
+  </script>
 </body>
 </html>
