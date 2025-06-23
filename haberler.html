@@ -1,138 +1,87 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sitemizden Haberler</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    body {
-      background: #f8f9fa;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Header/Footer container */
-    #header-footer {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto 4rem auto;
-      padding: 0 1rem;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #0d6efd;
-      font-weight: 700;
-    }
-
-    .row.g-4 {
-      gap: 1.5rem !important;
-    }
-
-    .haber-kart {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 6px 18px rgb(0 0 0 / 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .haber-kart:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 30px rgb(0 0 0 / 0.15);
-    }
-
-    .haber-img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-bottom: 4px solid #0d6efd;
-      flex-shrink: 0;
-    }
-
-    .card-body {
-      padding: 1rem 1.5rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .haber-baslik {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #0d6efd;
-      margin-bottom: 0.5rem;
-    }
-
-    .haber-tarih {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
-
-    .haber-aciklama {
-      font-size: 1rem;
-      color: #333;
-      flex-grow: 1;
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sitemizden Haberler</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+  body { background: #f8f9fa; font-family: Arial, sans-serif; padding-bottom: 160px !important; }
+  .haber-kart { 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border-radius: 12px; 
+    overflow: hidden; 
+    transition: 0.3s; 
+    background: white;
+  }
+  .haber-kart:hover { transform: scale(1.01); }
+  .haber-img { height: 200px; object-fit: cover; width: 100%; }
+  .haber-baslik { font-size: 1.25rem; font-weight: bold; margin-top: 0.5rem; color: #0d6efd; }
+  .haber-tarih { font-size: 0.9rem; color: #555; margin-bottom: 0.5rem; }
+  .haber-aciklama { font-size: 1rem; color: #333; margin-bottom: 1rem; }
+</style>
 </head>
 <body>
-  <div id="header-footer"></div>
 
-  <div class="container">
-    <h1>Sitemizden Haberler</h1>
-    <div class="row g-4" id="haberler-container">
-      <!-- Haber kartları buraya yüklenecek -->
-    </div>
+<!-- Header & Navigation -->
+<div id="header-footer"></div>
+
+<!-- Sayfa Başlığı -->
+<div class="container py-5">
+  <h1 class="text-center mb-4 text-primary">Sitemizden Haberler</h1>
+  <div class="row" id="haberler-container">
+    <!-- Haber kartları buraya gelecek -->
   </div>
+</div>
 
-  <script>
-    // Header ve Footer'ı tek defa yükle
-    fetch('header-footer.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('header-footer').innerHTML = data;
-      });
+<!-- Footer yükleme -->
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
+</script>
 
-    // Haberleri Google Apps Script API'sinden çek
-    fetch('https://script.google.com/macros/s/AKfycbzdiQggg9XByg8nHX5gLY9tM926pR7kHCuAr_opRbjRlVXXB5acSoOlNPf5mqjYM30l/exec')
-      .then(response => response.json())
-      .then(haberler => {
-        const container = document.getElementById('haberler-container');
-        container.innerHTML = ''; // Önce temizle
-        haberler.forEach(haber => {
-          const kart = document.createElement('div');
-          kart.className = 'col-md-6 col-lg-4';
-          kart.innerHTML = `
-            <div class="card haber-kart">
-              <img src="${haber.gorsel}" alt="${haber.baslik}" class="haber-img" />
-              <div class="card-body">
-                <div class="haber-baslik">${haber.baslik}</div>
-                <div class="haber-tarih">${haber.tarih}</div>
-                <p class="haber-aciklama">${haber.aciklama}</p>
-              </div>
+<script>
+  // Tarihi "19 Haziran 2025" formatına çevirir
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('tr-TR', options);
+  }
+
+  // Haberleri Google Apps Script API'sinden çek ve göster
+  fetch('https://script.google.com/macros/s/AKfycbzdiQggg9XByg8nHX5gLY9tM926pR7kHCuAr_opRbjRlVXXB5acSoOlNPf5mqjYM30l/exec')
+    .then(response => response.json())
+    .then(haberler => {
+      const container = document.getElementById('haberler-container');
+      container.innerHTML = ''; // Önce içerik temizle
+      haberler.forEach(haber => {
+        const kart = document.createElement('div');
+        kart.className = 'col-md-6 col-lg-4 mb-4';
+        kart.innerHTML = `
+          <div class="card haber-kart">
+            <img src="${haber.gorsel}" alt="${haber.baslik}" class="haber-img" />
+            <div class="card-body">
+              <div class="haber-baslik">${haber.baslik}</div>
+              <div class="haber-tarih">${formatDate(haber.tarih)}</div>
+              <p class="haber-aciklama">${haber.aciklama}</p>
             </div>
-          `;
-          container.appendChild(kart);
-        });
-      })
-      .catch(err => {
-        const container = document.getElementById('haberler-container');
-        container.innerHTML = '<p class="text-danger text-center">Haberler yüklenemedi.</p>';
-        console.error(err);
+          </div>
+        `;
+        container.appendChild(kart);
       });
-  </script>
+    })
+    .catch(err => {
+      const container = document.getElementById('haberler-container');
+      container.innerHTML = '<p class="text-danger text-center">Haberler yüklenemedi.</p>';
+      console.error('Haber yükleme hatası:', err);
+    });
+</script>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
