@@ -1,42 +1,88 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tuana Sitesi Giriş</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h4>Tuana Sitesi Giriş</h4>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="malik" class="form-label">Ad Soyad</label>
+            <input type="text" id="malik" class="form-control" placeholder="Örn: YILMAZ DUMAN" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Şifre</label>
+            <input type="password" id="password" class="form-control" required>
+          </div>
+          <button onclick="girisYap()" class="btn btn-primary w-100">Giriş Yap</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  const JSON_URL = "https://script.google.com/macros/s/AKfycbydzw8u7XyCgnxxTroGPBV-IUb4hWYNbfVVzTFAzYWY7DfFry958N0g-34SU7eYmrST/exec";
+
   async function girisYap() {
-    const email = document.getElementById("email").value;
+    const malik = document.getElementById("malik").value.trim().toUpperCase();
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    if (!malik || !password) {
+      alert("Lütfen ad soyad ve şifre giriniz.");
+      return;
+    }
 
-    if (error) {
-      alert("Hatalı giriş: " + error.message);
-    } else {
-      // Giriş başarılıysa kullanıcının profil bilgilerini al
-      const { data: userData, error: userError } = await supabase
-        .from("kullanicilar")
-        .select("rol")
-        .eq("email", email)
-        .single();
+    try {
+      const response = await fetch(JSON_URL);
+      const users = await response.json();
 
-      if (userError || !userData) {
-        alert("Rol bilgisi alınamadı.");
+      const user = users.find(u =>
+        u.malik?.toUpperCase() === malik &&
+        u["şifre"] === password
+      );
+
+      if (!user) {
+        alert("Ad veya şifre hatalı.");
         return;
       }
 
-      const rol = userData.rol;
-      localStorage.setItem("role", rol); // rolü localStorage'a yaz
+      localStorage.setItem("role", user.rol.toLowerCase());
+      localStorage.setItem("adSoyad", user.malik);
+      localStorage.setItem("blok", user.blok);
+      localStorage.setItem("daire", user.daire);
 
-      if (rol === "admin") {
-        window.location.href = "dashboard-admin.html";
-      } else if (rol === "yonetici") {
-        window.location.href = "dashboard-yonetici.html";
-      } else if (rol === "malik") {
-        window.location.href = "dashboard-malik.html";
-      } else if (rol === "kiraci") {
-        window.location.href = "dashboard-kiraci.html";
+      const rolePages = {
+        "malik": "dashboard-malik.html",
+        "kiraci": "dashboard-kiraci.html",
+        "yonetici": "dashboard-yonetici.html",
+        "site görevlisi": "dashboard-gorevli.html",
+        "admin": "dashboard-admin.html"
+      };
+
+      const role = user.rol.toLowerCase();
+      if (rolePages[role]) {
+        window.location.href = rolePages[role];
       } else {
-        alert("Bilinmeyen kullanıcı rolü.");
+        alert("Tanımsız rol: " + user.rol);
       }
+
+    } catch (e) {
+      console.error("Veri çekme hatası:", e);
+      alert("Sunucu bağlantı hatası.");
     }
   }
 </script>
+
+</body>
+</html>
