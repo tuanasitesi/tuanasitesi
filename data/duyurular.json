@@ -1,14 +1,17 @@
 [
   {
-    "id": 1,
-    "baslik": "A Blok Asansör Tadilatı Tamamlandı",
-    "icerik": "Geçen hafta başlayan çalışmalar sonucu A Blok asansörü bugün tamamlanarak kullanıma açılmıştır.",
-    "tarih": "2025-06-15"
+    "baslik": "Site Giriş Kapısı Bakımı",
+    "tarih": "2025-06-26",
+    "duyuru": "Giriş kapısı otomatik sistem bakımı 25 Haziran’da yapılacaktır. Geçici erişim sıkıntısı yaşanabilir."
   },
   {
-    "id": 2,
-    "baslik": "Yeni Giriş Sistemi Hakkında",
-    "icerik": "Kartlı ve şifreli yeni sistem 3 blokta aktif hale gelmiştir. Daire başına 730 TL ödeme yapılacaktır.",
-    "tarih": "2025-06-10"
+    "baslik": "Yazlık Su Kesintisi",
+    "tarih": "2025-06-30",
+    "duyuru": "Bölgesel su kesintisi nedeniyle 20-21 Haziran tarihlerinde su verilemeyecektir."
+  },
+  {
+    "baslik": "Yeni Çöp Toplama Takvimi",
+    "tarih": "2025-07-01",
+    "duyuru": "Çöp toplama günleri hafta içi Pazartesi, Çarşamba ve Cuma olarak değiştirilmiştir."
   }
 ]
