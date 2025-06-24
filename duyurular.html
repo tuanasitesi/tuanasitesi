@@ -5,7 +5,6 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Tuana Sitesi - Duyurular</title>
 
-<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
 <style>
@@ -53,7 +52,7 @@
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.07);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    border-left: 6px solid #0d6efd; /* Vurgu rengi */
+    border-left: 6px solid #0d6efd;
     transition: box-shadow 0.3s ease;
     cursor: default;
   }
@@ -98,7 +97,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-footer">
   <div class="container d-flex justify-content-between align-items-center">
     <div>🏘️ <strong>Tuana Sitesi</strong></div>
@@ -117,9 +115,7 @@
 
 <h1>Duyurular</h1>
 
-<div class="container" id="duyurular-container">
-  <!-- Duyurular burada listelenecek -->
-</div>
+<div class="container" id="duyurular-container"></div>
 
 <div class="nav-links">
   <a href="index.html">🏠 Ana Sayfa</a>
@@ -136,8 +132,9 @@
 </div>
 
 <script>
-  // Google Sheets API'den JSON çekme (örnek)
-  fetch('data/duyurular.json')
+  const DUYURU_JSON_URL = 'https://script.google.com/macros/s/AKfycbzdiQggg9XByg8nHX5gLY9tM926pR7kHCuAr_opRbjRlVXXB5acSoOlNPf5mqjYM30l/exec';
+
+  fetch(DUYURU_JSON_URL)
     .then(res => res.json())
     .then(duyurular => {
       const container = document.getElementById('duyurular-container');
@@ -147,17 +144,26 @@
         const div = document.createElement('div');
         div.className = 'duyuru-kart';
 
+        // Tarihi TR formatına çevirmek
+        let tarihFormat = duyuru.tarih;
+        try {
+          tarihFormat = new Date(duyuru.tarih).toLocaleDateString('tr-TR', {day:'2-digit', month:'long', year:'numeric'});
+        } catch {
+          // Tarih parse edilemezse ham hali kalsın
+        }
+
         div.innerHTML = `
           <div class="duyuru-baslik">${duyuru.baslik}</div>
-          <div class="duyuru-tarih">${new Date(duyuru.tarih).toLocaleDateString('tr-TR', {day:'2-digit',month:'long',year:'numeric'})}</div>
-          <div class="duyuru-aciklama">${duyuru.aciklama}</div>
+          <div class="duyuru-tarih">${tarihFormat}</div>
+          <div class="duyuru-aciklama">${duyuru.duyuru}</div>
         `;
 
         container.appendChild(div);
       });
     })
     .catch(err => {
-      document.getElementById('duyurular-container').innerHTML = '<p class="text-danger">Duyurular yüklenemedi.</p>';
+      const container = document.getElementById('duyurular-container');
+      container.innerHTML = '<p class="text-danger">Duyurular yüklenemedi.</p>';
       console.error(err);
     });
 </script>
