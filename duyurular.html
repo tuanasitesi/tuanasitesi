@@ -132,7 +132,7 @@
 </div>
 
 <script>
-  const DUYURU_JSON_URL = 'https://script.google.com/macros/s/AKfycbzdiQggg9XByg8nHX5gLY9tM926pR7kHCuAr_opRbjRlVXXB5acSoOlNPf5mqjYM30l/exec';
+  const DUYURU_JSON_URL = 'https://script.google.com/macros/s/AKfycbw7g3HYcAFNFaMteAzgs8_e1ciXUcgeiv1wG836RsYqfx9ax-TknlV2dza5tJI1dfit/exec';
 
   fetch(DUYURU_JSON_URL)
     .then(res => res.json())
@@ -144,12 +144,12 @@
         const div = document.createElement('div');
         div.className = 'duyuru-kart';
 
-        // Tarihi TR formatına çevirmek
+        // Tarih formatlama TR olarak
         let tarihFormat = duyuru.tarih;
         try {
           tarihFormat = new Date(duyuru.tarih).toLocaleDateString('tr-TR', {day:'2-digit', month:'long', year:'numeric'});
         } catch {
-          // Tarih parse edilemezse ham hali kalsın
+          // Tarih parse edilemezse olduğu gibi kalır
         }
 
         div.innerHTML = `
