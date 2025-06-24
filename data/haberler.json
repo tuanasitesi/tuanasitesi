@@ -1,32 +1,71 @@
 [
   {
+    "klasor": "haber1",
     "baslik": "A Blok Asansör Yenilendi",
     "tarih": "2025-06-20",
-    "aciklama": "Geçen hafta başlayan bakım süreci başarıyla tamamlandı. Yeni sistem kartlı geçiş desteklidir.",
-    "gorsel": "assets/img/asansor.jpg"
+    "aciklama": "Geçen hafta başlayan bakım süreci tamamlandı.",
+    "gorseller": [
+      "kapak.jpeg",
+      "haber1 (1).jpeg",
+      "haber1 (2).jpeg",
+      "haber1 (3).jpeg",
+      "haber1 (4).jpeg",
+      "haber1 (5).jpeg"
+    ]
   },
   {
+    "klasor": "haber2",
     "baslik": "Bahçe Aydınlatmaları LED’e Dönüştürüldü",
     "tarih": "2025-06-18",
-    "aciklama": "Enerji verimliliği için tüm aydınlatmalar LED sistemiyle güncellendi.",
-    "gorsel": "assets/img/aydinlatma.jpg"
+    "aciklama": "Enerji verimliliği için tüm aydınlatmalar yenilendi.",
+    "gorseller": [
+      "kapak.jpeg",
+      "haber2 (1).jpeg",
+      "haber2 (2).jpeg",
+      "haber2 (3).jpeg",
+      "haber2 (4).jpeg"
+    ]
   },
   {
+    "klasor": "haber3",
     "baslik": "Güvenlik Kameraları Yenilendi",
     "tarih": "2025-06-15",
     "aciklama": "Tüm blok girişlerine yüksek çözünürlüklü IP kameralar yerleştirildi.",
-    "gorsel": "assets/img/kamera.jpg"
+    "gorseller": [
+      "kapak.jpeg",
+      "haber3 (1).jpeg",
+      "haber3 (2).jpeg",
+      "haber3 (3).jpeg",
+      "haber3 (4).jpeg",
+      "haber3 (5).jpeg"
+    ]
   },
   {
+    "klasor": "haber4",
     "baslik": "Oyun Parkı Zemin Kaplaması Yenilendi",
     "tarih": "2025-06-10",
     "aciklama": "Çocuk güvenliği için kauçuk zemin kaplaması serildi.",
-    "gorsel": "assets/img/oyunparki.jpg"
+    "gorseller": [
+      "kapak.jpeg",
+      "haber4 (1).jpeg",
+      "haber4 (2).jpeg",
+      "haber4 (3).jpeg",
+      "haber4 (4).jpeg"
+    ]
   },
   {
+    "klasor": "haber5",
     "baslik": "Yazlık Peyzaj Düzenlemesi Yapıldı",
     "tarih": "2025-06-05",
     "aciklama": "Mevsim çiçekleri dikildi, çim biçme çalışmaları tamamlandı.",
-    "gorsel": "assets/img/peyzaj.jpg"
+    "gorseller": [
+      "kapak.jpeg",
+      "haber5 (1).jpeg",
+      "haber5 (2).jpeg",
+      "haber5 (3).jpeg",
+      "haber5 (4).jpeg",
+      "haber5 (5).jpeg",
+      "haber5 (6).jpeg"
+    ]
   }
 ]
