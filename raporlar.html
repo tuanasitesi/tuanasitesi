@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
 <meta charset="utf-8"/>
@@ -10,6 +9,11 @@
       font-family: Arial, sans-serif;
       background: #f9fafb;
       padding: 2rem;
+      margin: 0;
+    }
+    #rapor-container {
+      max-width: 700px;
+      margin: 0 auto;
     }
     h1 {
       text-align: center;
@@ -17,8 +21,6 @@
       margin-bottom: 2rem;
     }
     ul {
-      max-width: 600px;
-      margin: 0 auto;
       list-style: none;
       padding: 0;
     }
@@ -33,36 +35,58 @@
       text-decoration: none;
       color: #2980b9;
       font-weight: bold;
+      transition: color 0.3s;
     }
-  </style>
-<style>body { padding-bottom: 160px !important; }</style></head>
+    a:hover, a:focus {
+      color: #1a4d80;
+      text-decoration: underline;
+    }
+    #footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+      padding: 20px 0;
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+    }
+</style>
+<style>body { padding-bottom: 160px !important; }</style>
+</head>
 <body>
+
 <div id="header-footer"></div>
+
+<div id="rapor-container">
+  <h1>📄 Raporlar</h1>
+  <ul id="raporListesi">
+    <!-- JavaScript ile yüklenecek -->
+  </ul>
+</div>
+
+<div id="footer">
+  © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
+</div>
+
 <script>
   fetch('header-footer.html')
     .then(res => res.text())
     .then(data => {
       document.getElementById('header-footer').innerHTML = data;
     });
+
+  const raporlar = [
+    { ad: "Mayıs 2025 Gider Raporu", link: "raporlar/mayis2025.pdf" },
+    { ad: "Nisan 2025 Aidat Dağılımı", link: "raporlar/nisan2025.xlsx" },
+    { ad: "Mart 2025 Genel Giderler", link: "raporlar/mart2025.pdf" }
+  ];
+
+  const ul = document.getElementById("raporListesi");
+
+  raporlar.forEach(r => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${r.link}" target="_blank" rel="noopener noreferrer">📁 ${r.ad}</a>`;
+    ul.appendChild(li);
+  });
 </script>
-<h1>📄 Raporlar</h1>
-<ul id="raporListesi">
-<!-- JavaScript ile yüklenecek -->
-</ul>
-<script>
-    const raporlar = [
-      { ad: "Mayıs 2025 Gider Raporu", link: "raporlar/mayis2025.pdf" },
-      { ad: "Nisan 2025 Aidat Dağılımı", link: "raporlar/nisan2025.xlsx" },
-      { ad: "Mart 2025 Genel Giderler", link: "raporlar/mart2025.pdf" }
-    ];
-
-    const ul = document.getElementById("raporListesi");
-
-    raporlar.forEach(r => {
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="${r.link}" target="_blank">📁 ${r.ad}</a>`;
-      ul.appendChild(li);
-    });
-  </script>
 </body>
 </html>
