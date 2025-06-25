@@ -1,206 +1,165 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Galeri - Tuana Sitesi</title>
-
-<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-<!-- Lightbox CSS (Fancybox) -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"
-/>
-
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background: #f8f9fa;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding-bottom: 100px;
   }
   #header-footer {
     background-color: #222;
     color: #ddd;
-    padding: 15px 0;
+    padding: 20px 0;
+    font-size: 0.9rem;
   }
   #header-footer a {
-    color: #ddd;
+    color: #aaa;
     text-decoration: none;
-    margin-right: 20px;
+    margin-right: 15px;
     font-weight: 500;
-    transition: color 0.3s ease;
   }
   #header-footer a:hover {
-    color: #1a73e8;
+    color: white;
     text-decoration: underline;
   }
   #footer {
     background-color: #222;
     color: #aaa;
-    padding: 15px 0;
+    padding: 20px 0;
     font-size: 0.85rem;
-    text-align: center;
     position: fixed;
     bottom: 0;
     width: 100%;
+    text-align: center;
   }
   h1 {
     color: #1a73e8;
+    text-align: center;
+    margin: 30px 0 20px;
     font-weight: 700;
-    margin: 40px 0 30px;
-    text-align: center;
   }
-  .galeri-listesi {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 0 15px 50px;
-  }
-  .galeri-item {
-    background: white;
-    box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
-    border-radius: 12px;
-    padding: 10px;
-    width: 230px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-  }
-  .galeri-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgb(0 0 0 / 0.15);
-  }
-  .galeri-item img {
+  .gallery-img {
     width: 100%;
-    border-radius: 10px;
+    height: 180px;
     object-fit: cover;
-    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
   }
-  .galeri-baslik {
-    margin-top: 10px;
-    font-weight: 700;
-    color: #1a73e8;
-    font-size: 1.1rem;
+  .gallery-img:hover {
+    transform: scale(1.05);
   }
-  @media (max-width: 600px) {
-    .galeri-item {
-      width: 100%;
-    }
+  .gallery-item {
+    margin-bottom: 25px;
+  }
+  /* Modal */
+  .modal-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 10px;
+  }
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+  }
+  .modal-prev {
+    left: 10px;
+  }
+  .modal-next {
+    right: 10px;
   }
 </style>
-
 </head>
 <body>
 
-<div id="header-footer">
-  <div class="container d-flex justify-content-between align-items-center">
-    <div style="font-weight:bold; font-size:1.2rem;">🏘️ Tuana Sitesi</div>
-    <nav>
-      <a href="index.html">Ana Sayfa</a>
-      <a href="duyurular.html">Duyurular</a>
-      <a href="raporlar.html">Raporlar</a>
-      <a href="odeme.html">Ödeme</a>
-      <a href="galeri.html">Galeri</a>
-      <a href="haberler.html">Haberler</a>
-      <a href="ilanlar.html">İlanlar</a>
-      <a href="giris.html">Giriş</a>
-    </nav>
+<div id="header-footer"></div>
+
+<h1>📸 Tuana Sitesi Galeri</h1>
+
+<div class="container">
+  <div class="row" id="gallery-container">
+    <!-- Fotoğraflar buraya yüklenecek -->
   </div>
 </div>
 
-<h1>📸 Galeri</h1>
+<div id="footer">© 2025 Tuana Sitesi - Tüm Hakları Saklıdır.</div>
 
-<div class="galeri-listesi" id="galeri-listesi">
-  <!-- Galeri öğeleri buraya eklenecek -->
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered position-relative">
+    <span class="modal-nav modal-prev" id="modalPrev">&#10094;</span>
+    <span class="modal-nav modal-next" id="modalNext">&#10095;</span>
+    <div class="modal-content bg-transparent border-0 text-center">
+      <img src="" alt="Fotoğraf" id="modalImage" class="modal-img" />
+    </div>
+  </div>
 </div>
 
-<div id="footer">
-  © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
-</div>
-
-<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Fancybox JS -->
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
-
 <script>
-  // Galeri verisi: Her obje için kapak görseli ve başlık + tam boyut foto listesi
-  const galeriVerisi = [
-    {
-      baslik: "Yazlık Manzara",
-      kapak: "assets/galeri/yazlik1.jpg",
-      tamBoyut: [
-        "assets/galeri/yazlik1.jpg",
-        "assets/galeri/yazlik2.jpg",
-        "assets/galeri/yazlik3.jpg"
-      ]
-    },
-    {
-      baslik: "Bahçe Çiçekleri",
-      kapak: "assets/galeri/bahce1.jpg",
-      tamBoyut: [
-        "assets/galeri/bahce1.jpg",
-        "assets/galeri/bahce2.jpg"
-      ]
-    },
-    {
-      baslik: "Havuz Keyfi",
-      kapak: "assets/galeri/havuz1.jpg",
-      tamBoyut: [
-        "assets/galeri/havuz1.jpg",
-        "assets/galeri/havuz2.jpg",
-        "assets/galeri/havuz3.jpg",
-        "assets/galeri/havuz4.jpg"
-      ]
-    }
+  const galleryImages = [
+    "assets/galeri/photo1.jpg",
+    "assets/galeri/photo2.jpg",
+    "assets/galeri/photo3.jpg",
+    "assets/galeri/photo4.jpg",
+    "assets/galeri/photo5.jpg"
   ];
 
-  const liste = document.getElementById('galeri-listesi');
-  liste.innerHTML = '';
-
-  galeriVerisi.forEach((item, index) => {
+  const container = document.getElementById('gallery-container');
+  galleryImages.forEach((src, i) => {
     const div = document.createElement('div');
-    div.className = 'galeri-item';
-
-    // İlk resim tam boyutta açılacak ve diğerleri aynı grupta galeride olacak
-    let galleryLinks = item.tamBoyut.map((imgUrl, i) => {
-      // ilk görsel görünür, diğerleri gizli ama galeride gruplu gösterilecek
-      return `<a href="${imgUrl}" data-fancybox="gallery${index}" style="display: ${i === 0 ? 'block' : 'none'};">
-                <img src="${i === 0 ? item.kapak : imgUrl}" alt="${item.baslik} Fotoğrafı"/>
-              </a>`;
-    }).join('');
-
-    div.innerHTML = `
-      <div class="galeri-fancybox-wrapper">
-        ${galleryLinks}
-      </div>
-      <div class="galeri-baslik">${item.baslik}</div>
-    `;
-
-    liste.appendChild(div);
+    div.className = "col-md-4 gallery-item";
+    div.innerHTML = `<img src="${src}" alt="Fotoğraf ${i+1}" class="gallery-img" data-index="${i}"/>`;
+    container.appendChild(div);
   });
 
-  // Fancybox ayarları (opsiyonel özelleştirebilirsin)
-  Fancybox.bind("[data-fancybox]", {
-    Toolbar: {
-      display: [
-        "close",
-        "counter",
-        "zoom",
-        "slideshow",
-        "fullscreen",
-        "thumbs",
-        "download"
-      ]
+  let currentIndex = 0;
+  const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+  const modalImage = document.getElementById('modalImage');
+
+  function showModal(index) {
+    currentIndex = index;
+    modalImage.src = galleryImages[currentIndex];
+    modal.show();
+  }
+
+  container.addEventListener('click', (e) => {
+    if(e.target.classList.contains('gallery-img')){
+      showModal(parseInt(e.target.dataset.index));
     }
   });
+
+  document.getElementById('modalPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex === 0) ? galleryImages.length - 1 : currentIndex - 1;
+    modalImage.src = galleryImages[currentIndex];
+  });
+
+  document.getElementById('modalNext').addEventListener('click', () => {
+    currentIndex = (currentIndex === galleryImages.length - 1) ? 0 : currentIndex + 1;
+    modalImage.src = galleryImages[currentIndex];
+  });
+</script>
+
+<script>
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
+    });
 </script>
 
 </body>
