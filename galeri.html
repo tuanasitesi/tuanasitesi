@@ -2,11 +2,17 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <title>Galeri - Tuana Sitesi</title>
 
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Lightbox CSS (Fancybox) -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"
+/>
 
 <style>
   body {
@@ -14,12 +20,6 @@
     background-color: #f8f9fa;
     margin: 0;
     padding-bottom: 100px;
-  }
-  h1 {
-    color: #1a73e8;
-    font-weight: 700;
-    margin: 40px 0 30px;
-    text-align: center;
   }
   #header-footer {
     background-color: #222;
@@ -47,6 +47,12 @@
     bottom: 0;
     width: 100%;
   }
+  h1 {
+    color: #1a73e8;
+    font-weight: 700;
+    margin: 40px 0 30px;
+    text-align: center;
+  }
   .galeri-listesi {
     max-width: 1100px;
     margin: auto;
@@ -54,7 +60,7 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    padding: 0 15px;
+    padding: 0 15px 50px;
   }
   .galeri-item {
     background: white;
@@ -73,6 +79,8 @@
   .galeri-item img {
     width: 100%;
     border-radius: 10px;
+    object-fit: cover;
+    height: 150px;
   }
   .galeri-baslik {
     margin-top: 10px;
@@ -86,6 +94,7 @@
     }
   }
 </style>
+
 </head>
 <body>
 
@@ -108,34 +117,89 @@
 <h1>📸 Galeri</h1>
 
 <div class="galeri-listesi" id="galeri-listesi">
-  <!-- Galeri görselleri buraya yüklenecek -->
+  <!-- Galeri öğeleri buraya eklenecek -->
 </div>
 
 <div id="footer">
   © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
 </div>
 
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Fancybox JS -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
 <script>
-  // Örnek galeri verisi (dosya yolunu kendi projenize göre ayarlayın)
+  // Galeri verisi: Her obje için kapak görseli ve başlık + tam boyut foto listesi
   const galeriVerisi = [
-    { baslik: "Yazlık Manzara", resim: "assets/galeri/yazlik1.jpg" },
-    { baslik: "Bahçe Çiçekleri", resim: "assets/galeri/bahce1.jpg" },
-    { baslik: "Havuz Keyfi", resim: "assets/galeri/havuz1.jpg" },
-    { baslik: "Akşam Günbatımı", resim: "assets/galeri/gunbatimi1.jpg" },
-    { baslik: "Toplantı Alanı", resim: "assets/galeri/toplanti1.jpg" }
+    {
+      baslik: "Yazlık Manzara",
+      kapak: "assets/galeri/yazlik1.jpg",
+      tamBoyut: [
+        "assets/galeri/yazlik1.jpg",
+        "assets/galeri/yazlik2.jpg",
+        "assets/galeri/yazlik3.jpg"
+      ]
+    },
+    {
+      baslik: "Bahçe Çiçekleri",
+      kapak: "assets/galeri/bahce1.jpg",
+      tamBoyut: [
+        "assets/galeri/bahce1.jpg",
+        "assets/galeri/bahce2.jpg"
+      ]
+    },
+    {
+      baslik: "Havuz Keyfi",
+      kapak: "assets/galeri/havuz1.jpg",
+      tamBoyut: [
+        "assets/galeri/havuz1.jpg",
+        "assets/galeri/havuz2.jpg",
+        "assets/galeri/havuz3.jpg",
+        "assets/galeri/havuz4.jpg"
+      ]
+    }
   ];
 
   const liste = document.getElementById('galeri-listesi');
   liste.innerHTML = '';
 
-  galeriVerisi.forEach(item => {
+  galeriVerisi.forEach((item, index) => {
     const div = document.createElement('div');
     div.className = 'galeri-item';
+
+    // İlk resim tam boyutta açılacak ve diğerleri aynı grupta galeride olacak
+    let galleryLinks = item.tamBoyut.map((imgUrl, i) => {
+      // ilk görsel görünür, diğerleri gizli ama galeride gruplu gösterilecek
+      return `<a href="${imgUrl}" data-fancybox="gallery${index}" style="display: ${i === 0 ? 'block' : 'none'};">
+                <img src="${i === 0 ? item.kapak : imgUrl}" alt="${item.baslik} Fotoğrafı"/>
+              </a>`;
+    }).join('');
+
     div.innerHTML = `
-      <img src="${item.resim}" alt="${item.baslik}" />
+      <div class="galeri-fancybox-wrapper">
+        ${galleryLinks}
+      </div>
       <div class="galeri-baslik">${item.baslik}</div>
     `;
+
     liste.appendChild(div);
+  });
+
+  // Fancybox ayarları (opsiyonel özelleştirebilirsin)
+  Fancybox.bind("[data-fancybox]", {
+    Toolbar: {
+      display: [
+        "close",
+        "counter",
+        "zoom",
+        "slideshow",
+        "fullscreen",
+        "thumbs",
+        "download"
+      ]
+    }
   });
 </script>
 
