@@ -1,180 +1,122 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Yönetici Paneli - Tuana Sitesi</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tuana Sitesi - Kontrol Paneli</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 2rem;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #2c3e50;
-    }
-    .kutular {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-    .kutu {
-      background: #fff;
-      padding: 1.2rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      min-width: 200px;
-    }
-    .kutu h2 {
-      font-size: 1.4rem;
-      margin: 0.5rem 0;
-      color: #34495e;
-    }
-    .kutu span {
-      color: #888;
-      font-size: 1rem;
-    }
-    .grafikler {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .grafik {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-  </style>
-<style>body { padding-bottom: 160px !important; }</style></head>
+  body {
+    margin: 0;
+    padding-bottom: 60px;
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+  }
+  header {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    height: 60px;
+    background: #222;
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+  }
+  header nav a {
+    color: #aaa;
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  header nav a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    height: 50px;
+    background: #222;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+  }
+  main {
+    padding: 80px 20px 70px;
+    max-width: 1100px;
+    margin: auto;
+  }
+  h1 {
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+  .dashboard-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  }
+  .dashboard-card h2 {
+    color: #0d6efd;
+    margin-bottom: 15px;
+  }
+  .dashboard-card p {
+    font-size: 1.1rem;
+    color: #444;
+  }
+</style>
+</head>
 <body>
-<div id="header-footer"></div>
-<script>
-  fetch('header-footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header-footer').innerHTML = data;
-    });
-</script>
-<h1>📊 Tuana Sitesi Yönetici Paneli</h1>
-<div class="kutular">
-<div class="kutu">
-<span>Aylık Gelir</span>
-<h2 id="gelir">₺ -</h2>
-</div>
-<div class="kutu">
-<span>Aylık Gider</span>
-<h2 id="gider">₺ -</h2>
-</div>
-<div class="kutu">
-<span>Kalan Bakiye</span>
-<h2 id="bakiye">₺ -</h2>
-</div>
-</div>
-<div class="grafikler">
-<div class="grafik">
-<h3 style="text-align:center">Aidat Gelirleri (Aylık)</h3>
-<canvas id="aidatGeliriGrafik"></canvas>
-</div>
-<div class="grafik">
-<h3 style="text-align:center">Gider Dağılımı</h3>
-<canvas id="giderGrafik"></canvas>
-</div>
-<div class="grafik">
-<h3 style="text-align:center">Aidat Ödemeyen (Blok)</h3>
-<canvas id="odemeyenGrafik"></canvas>
-</div>
-<div class="grafik">
-<h3 style="text-align:center">Ödeme Durumu</h3>
-<canvas id="odemeDurumGrafik"></canvas>
-</div>
-</div>
-<!-- 👇 Admin'e Özel Butonlar -->
-<div id="admin-ekstra-butonlar" style="text-align:center; margin-top:2rem; display:none;">
-<h3>🔧 Yönetici İşlemleri</h3>
-<a class="btn btn-outline-primary m-2" href="odeme-ekle.html">➕ Aidat Girişi</a>
-<a class="btn btn-outline-success m-2" href="duyuru-ekle.html">📢 Duyuru Ekle</a>
-<a class="btn btn-outline-warning m-2" href="kullanici-ekle.html">👤 Kullanıcı Ekle</a>
-</div>
-<script>
-    // Veri yükleme
-    fetch('data/dashboard-veri.json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("gelir").textContent = `₺${data.aylikGelir}`;
-        document.getElementById("gider").textContent = `₺${data.aylikGider}`;
-        document.getElementById("bakiye").textContent = `₺${data.kalanBakiye}`;
 
-        new Chart(document.getElementById('aidatGeliriGrafik'), {
-          type: 'bar',
-          data: {
-            labels: Object.keys(data.aidatGelirleri),
-            datasets: [{
-              label: 'Aidat Geliri (₺)',
-              data: Object.values(data.aidatGelirleri),
-              backgroundColor: '#3498db'
-            }]
-          },
-          options: { responsive: true }
-        });
+<header>
+  <div>🏘️ <strong>Tuana Sitesi</strong></div>
+  <nav style="margin-left: 30px;">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="duyurular.html">Duyurular</a>
+    <a href="raporlar.html">Raporlar</a>
+    <a href="odeme.html">Ödeme</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="haberler.html">Haberler</a>
+    <a href="ilanlar.html">İlanlar</a>
+    <a href="giris.html">Giriş</a>
+  </nav>
+</header>
 
-        new Chart(document.getElementById('giderGrafik'), {
-          type: 'pie',
-          data: {
-            labels: Object.keys(data.giderDagilimi),
-            datasets: [{
-              data: Object.values(data.giderDagilimi),
-              backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c', '#8e44ad', '#3498db']
-            }]
-          },
-          options: { responsive: true }
-        });
+<main>
+  <h1>📊 Kontrol Paneli</h1>
 
-        new Chart(document.getElementById('odemeyenGrafik'), {
-          type: 'bar',
-          data: {
-            labels: Object.keys(data.aidatOdemeyenler),
-            datasets: [{
-              label: 'Aidat Ödemeyen Daire Sayısı',
-              data: Object.values(data.aidatOdemeyenler),
-              backgroundColor: '#e74c3c'
-            }]
-          },
-          options: { responsive: true }
-        });
+  <div class="dashboard-card">
+    <h2>Genel Durum</h2>
+    <p>Site genelinde yapılan çalışmalar, bakım ve onarımlar hakkında özet bilgiler.</p>
+  </div>
 
-        new Chart(document.getElementById('odemeDurumGrafik'), {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(data.odemeDurumu),
-            datasets: [{
-              data: Object.values(data.odemeDurumu),
-              backgroundColor: ['#2ecc71', '#e74c3c']
-            }]
-          },
-          options: { responsive: true }
-        });
-      })
-      .catch(err => {
-        console.error('Veri yüklenemedi:', err);
-      });
+  <div class="dashboard-card">
+    <h2>Ödeme Durumu</h2>
+    <p>Aidat ve diğer ödeme işlemleri hakkında güncel durum.</p>
+  </div>
 
-    // Admin kontrolü (localStorage üzerinden)
-    const rol = localStorage.getItem("role");
-    if (rol === "admin") {
-      document.getElementById("admin-ekstra-butonlar").style.display = "block";
-    }
-  </script>
+  <div class="dashboard-card">
+    <h2>Etkinlikler ve Haberler</h2>
+    <p>Yaklaşan etkinlikler ve sitedeki son gelişmeler.</p>
+  </div>
+
+  <div class="dashboard-card">
+    <h2>Duyurular</h2>
+    <p>Site sakinlerine yönelik önemli duyurular.</p>
+  </div>
+
+</main>
+
+<footer>
+  © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
+</footer>
+
 </body>
 </html>
