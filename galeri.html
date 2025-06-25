@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tuana Sitesi Galeri</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
+  /* Body ve temel ayarlar */
   body {
-    background: #f8f9fa;
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding-bottom: 100px;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+    /* Footer yüksekliği kadar bottom padding ver */
+    padding-bottom: 60px;
+    box-sizing: border-box;
   }
+  /* Header sabit üstte */
   #header-footer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background-color: #222;
     color: #ddd;
-    padding: 20px 0;
+    padding: 15px 0;
     font-size: 0.9rem;
+    z-index: 1000;
   }
   #header-footer a {
     color: #aaa;
@@ -28,15 +39,11 @@
     color: white;
     text-decoration: underline;
   }
-  #footer {
-    background-color: #222;
-    color: #aaa;
-    padding: 20px 0;
-    font-size: 0.85rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
+  /* İçerik üstten header yüksekliği kadar aşağıda başlar */
+  main {
+    padding-top: 55px;
+    max-width: 1100px;
+    margin: auto;
   }
   h1 {
     color: #1a73e8;
@@ -44,246 +51,54 @@
     margin: 30px 0 20px;
     font-weight: 700;
   }
-  .section-title {
-    font-size: 1.5rem;
-    margin-top: 40px;
-    color: #0d6efd;
-    border-bottom: 2px solid #0d6efd;
-    padding-bottom: 6px;
-    cursor: default;
-  }
-  .img-thumb {
-    width: 150px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
-    cursor: pointer;
-    margin: 8px;
-    transition: transform 0.25s ease;
-  }
-  .img-thumb:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 14px rgb(0 0 0 / 0.2);
-  }
-
-  /* Modal Fullscreen */
-  .modal-fullscreen {
-    position: fixed;       /* Mutlaka ekledik */
-    top: 0;                /* Mutlaka ekledik */
-    left: 0;               /* Mutlaka ekledik */
-    width: 100vw;          /* Mutlaka ekledik */
-    height: 100vh;         /* Mutlaka ekledik */
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1050;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .modal-fullscreen.show {
-    visibility: visible;
-    opacity: 1;
-  }
-  .modal-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 85vh;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-  }
-  .modal-content img {
+  /* Footer sabit altta */
+  #footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60px;
     width: 100%;
-    height: auto;
-    display: block;
-    user-select: none;
-  }
-  .modal-close {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    font-size: 2rem;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    user-select: none;
-    transition: color 0.3s ease;
-    z-index: 2;
-  }
-  .modal-close:hover {
-    color: #f44336;
-  }
-  .modal-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 3rem;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    padding: 10px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 50%;
-    transition: background 0.3s ease;
-    z-index: 2;
-  }
-  .modal-nav:hover {
-    background: rgba(0,0,0,0.6);
-  }
-  .modal-nav.prev {
-    left: 10px;
-  }
-  .modal-nav.next {
-    right: 10px;
+    background-color: #222;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
   }
 </style>
 </head>
 <body>
 
-<!-- Header Footer -->
-<div id="header-footer"></div>
-
-<h1>🏞️ Tuana Sitesi Galeri</h1>
-
-<div class="container">
-  <!-- Boya Bölümü -->
-  <div id="boya-section">
-    <div class="section-title">Boya</div>
-    <div id="boya-images" class="d-flex flex-wrap"></div>
-  </div>
-
-  <!-- Asansör Bölümü -->
-  <div id="asansor-section">
-    <div class="section-title">Asansör</div>
-    <div id="asansor-images" class="d-flex flex-wrap"></div>
-  </div>
-
-  <!-- Sitemiz Bölümü -->
-  <div id="sitemiz-section">
-    <div class="section-title">Sitemiz</div>
-    <div id="sitemiz-images" class="d-flex flex-wrap"></div>
-  </div>
-
-  <!-- Alt linkler -->
-  <div class="nav-links text-center mt-4">
-    <a href="index.html">🏠 Ana Sayfa</a>
-    <a href="duyurular.html">📢 Duyurular</a>
-    <a href="raporlar.html">📑 Raporlar</a>
-    <a href="odeme.html">💳 Ödeme</a>
-    <a href="haberler.html">📰 Haberler</a>
-    <a href="ilanlar.html">📋 İlanlar</a>
-    <a href="giris.html">🔐 Giriş</a>
+<!-- Header -->
+<div id="header-footer">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div>🏘️ <strong>Tuana Sitesi</strong></div>
+    <nav>
+      <a href="index.html">Ana Sayfa</a>
+      <a href="duyurular.html">Duyurular</a>
+      <a href="raporlar.html">Raporlar</a>
+      <a href="odeme.html">Ödeme</a>
+      <a href="galeri.html">Galeri</a>
+      <a href="haberler.html">Haberler</a>
+      <a href="ilanlar.html">İlanlar</a>
+      <a href="giris.html">Giriş</a>
+    </nav>
   </div>
 </div>
 
+<!-- Ana içerik -->
+<main>
+  <h1>🏞️ Tuana Sitesi Galeri</h1>
+
+  <!-- Buraya galeri içeriği gelecek -->
+  <p>Buraya galeri veya diğer sayfa içeriği gelecek.</p>
+</main>
+
+<!-- Footer -->
 <div id="footer">
   © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
 </div>
-
-<!-- Modal Yapısı -->
-<div id="modal" class="modal-fullscreen" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-content">
-    <span class="modal-close" title="Kapat">&times;</span>
-    <span class="modal-nav prev" title="Önceki">&#10094;</span>
-    <span class="modal-nav next" title="Sonraki">&#10095;</span>
-    <img src="" alt="Büyük Görsel" id="modal-img"/>
-  </div>
-</div>
-
-<script>
-  // Header-footer yükle
-  fetch('header-footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header-footer').innerHTML = data;
-    });
-
-  // Klasör ve görseller
-  const folders = {
-    boya: ['boya1.jpeg', 'boya2.jpeg', 'boya3.jpeg'],
-    asansor: ['asansor1.jpeg', 'asansor2.jpeg', 'asansor3.jpeg'],
-    sitemiz: ['giris (1).jpeg', 'giris (2).jpeg', 'giris (3).jpeg', 'giris (4).jpeg']
-  };
-
-  // Bölümlere görselleri yükle
-  function loadImages(folderName, containerId) {
-    const container = document.getElementById(containerId);
-    folders[folderName].forEach(fileName => {
-      const img = document.createElement('img');
-      img.src = `assets/${folderName}/${fileName}`;
-      img.alt = `${folderName} fotoğrafı`;
-      img.className = 'img-thumb';
-      container.appendChild(img);
-    });
-  }
-
-  loadImages('boya', 'boya-images');
-  loadImages('asansor', 'asansor-images');
-  loadImages('sitemiz', 'sitemiz-images');
-
-  // Modal elemanları
-  const modal = document.getElementById('modal');
-  const modalImg = document.getElementById('modal-img');
-  const modalClose = modal.querySelector('.modal-close');
-  const modalPrev = modal.querySelector('.modal-nav.prev');
-  const modalNext = modal.querySelector('.modal-nav.next');
-
-  // Modal açma için global
-  let currentFolder = null;
-  let currentIndex = 0;
-
-  // Görsele tıklandığında modal aç
-  document.querySelectorAll('.img-thumb').forEach(img => {
-    img.addEventListener('click', () => {
-      const src = img.src;
-      const folder = src.split('/').slice(-2)[0]; // assets/klasor/ dosya ismi => klasör ismi
-      const fileName = src.split('/').pop();
-
-      currentFolder = folder;
-      currentIndex = folders[folder].indexOf(fileName);
-
-      modalImg.src = src;
-      modal.classList.add('show');
-      modal.focus();
-    });
-  });
-
-  // Modal kapama
-  modalClose.addEventListener('click', () => {
-    modal.classList.remove('show');
-  });
-
-  // Önceki foto
-  modalPrev.addEventListener('click', () => {
-    if(currentFolder === null) return;
-    currentIndex = (currentIndex - 1 + folders[currentFolder].length) % folders[currentFolder].length;
-    modalImg.src = `assets/${currentFolder}/${folders[currentFolder][currentIndex]}`;
-  });
-
-  // Sonraki foto
-  modalNext.addEventListener('click', () => {
-    if(currentFolder === null) return;
-    currentIndex = (currentIndex + 1) % folders[currentFolder].length;
-    modalImg.src = `assets/${currentFolder}/${folders[currentFolder][currentIndex]}`;
-  });
-
-  // ESC ile kapat
-  document.addEventListener('keydown', e => {
-    if(e.key === "Escape" && modal.classList.contains('show')) {
-      modal.classList.remove('show');
-    }
-    if(e.key === "ArrowLeft" && modal.classList.contains('show')) {
-      modalPrev.click();
-    }
-    if(e.key === "ArrowRight" && modal.classList.contains('show')) {
-      modalNext.click();
-    }
-  });
-
-</script>
 
 </body>
 </html>
