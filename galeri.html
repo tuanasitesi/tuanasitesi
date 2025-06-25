@@ -44,212 +44,245 @@
     margin: 30px 0 20px;
     font-weight: 700;
   }
-  h2.section-title {
-    color: #1a73e8;
-    border-bottom: 2px solid #1a73e8;
-    padding-bottom: 5px;
+  .section-title {
+    font-size: 1.5rem;
     margin-top: 40px;
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 6px;
+    cursor: default;
   }
-  .img-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 15px;
-  }
-  .img-grid img {
-    cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    width: 200px;
-    height: 130px;
+  .img-thumb {
+    width: 150px;
+    height: 100px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    margin: 8px;
+    transition: transform 0.25s ease;
   }
-  .img-grid img:hover {
+  .img-thumb:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 14px rgb(0 0 0 / 0.2);
   }
-  /* Modal styles */
+
+  /* Modal Fullscreen */
   .modal-fullscreen {
+    position: fixed;       /* Mutlaka ekledik */
+    top: 0;                /* Mutlaka ekledik */
+    left: 0;               /* Mutlaka ekledik */
+    width: 100vw;          /* Mutlaka ekledik */
+    height: 100vh;         /* Mutlaka ekledik */
     background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1050;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-  .modal-img {
+  .modal-fullscreen.show {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal-content {
+    position: relative;
     max-width: 90vw;
-    max-height: 80vh;
-    border-radius: 10px;
+    max-height: 85vh;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
   }
-  .modal-nav {
-    position: fixed;
-    top: 50%;
+  .modal-content img {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    color: white;
-    font-size: 2.5rem;
+    height: auto;
+    display: block;
     user-select: none;
   }
-  .modal-nav span {
-    cursor: pointer;
-    background: rgba(0,0,0,0.4);
-    border-radius: 50%;
-    padding: 5px 12px;
-  }
   .modal-close {
-    position: fixed;
-    top: 20px;
-    right: 30px;
+    position: absolute;
+    top: 10px;
+    right: 14px;
     font-size: 2rem;
     color: white;
     cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: color 0.3s ease;
+    z-index: 2;
+  }
+  .modal-close:hover {
+    color: #f44336;
+  }
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+    z-index: 2;
+  }
+  .modal-nav:hover {
+    background: rgba(0,0,0,0.6);
+  }
+  .modal-nav.prev {
+    left: 10px;
+  }
+  .modal-nav.next {
+    right: 10px;
   }
 </style>
 </head>
 <body>
 
-<div id="header-footer">
-  <div class="container d-flex justify-content-between align-items-center">
-    <div>🏘️ <strong>Tuana Sitesi</strong></div>
-    <nav>
-      <a href="index.html">Ana Sayfa</a>
-      <a href="duyurular.html">Duyurular</a>
-      <a href="raporlar.html">Raporlar</a>
-      <a href="odeme.html">Ödeme</a>
-      <a href="galeri.html">Galeri</a>
-      <a href="haberler.html">Haberler</a>
-      <a href="ilanlar.html">İlanlar</a>
-      <a href="giris.html">Giriş</a>
-    </nav>
-  </div>
-</div>
+<!-- Header Footer -->
+<div id="header-footer"></div>
 
-<h1>📸 Tuana Sitesi Galeri</h1>
+<h1>🏞️ Tuana Sitesi Galeri</h1>
 
 <div class="container">
-
-  <div id="gallery-container">
-    <!-- Bölümler ve görseller buraya JS ile yüklenecek -->
+  <!-- Boya Bölümü -->
+  <div id="boya-section">
+    <div class="section-title">Boya</div>
+    <div id="boya-images" class="d-flex flex-wrap"></div>
   </div>
 
+  <!-- Asansör Bölümü -->
+  <div id="asansor-section">
+    <div class="section-title">Asansör</div>
+    <div id="asansor-images" class="d-flex flex-wrap"></div>
+  </div>
+
+  <!-- Sitemiz Bölümü -->
+  <div id="sitemiz-section">
+    <div class="section-title">Sitemiz</div>
+    <div id="sitemiz-images" class="d-flex flex-wrap"></div>
+  </div>
+
+  <!-- Alt linkler -->
+  <div class="nav-links text-center mt-4">
+    <a href="index.html">🏠 Ana Sayfa</a>
+    <a href="duyurular.html">📢 Duyurular</a>
+    <a href="raporlar.html">📑 Raporlar</a>
+    <a href="odeme.html">💳 Ödeme</a>
+    <a href="haberler.html">📰 Haberler</a>
+    <a href="ilanlar.html">📋 İlanlar</a>
+    <a href="giris.html">🔐 Giriş</a>
+  </div>
 </div>
 
 <div id="footer">
   © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
 </div>
 
-<!-- Modal -->
-<div id="imgModal" class="modal-fullscreen" style="display:none;">
-  <span id="modalClose" class="modal-close">&times;</span>
-  <span id="modalPrev" class="modal-nav" style="left:10px;">&#10094;</span>
-  <img id="modalImg" class="modal-img" src="" alt=""/>
-  <span id="modalNext" class="modal-nav" style="right:10px;">&#10095;</span>
+<!-- Modal Yapısı -->
+<div id="modal" class="modal-fullscreen" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <span class="modal-close" title="Kapat">&times;</span>
+    <span class="modal-nav prev" title="Önceki">&#10094;</span>
+    <span class="modal-nav next" title="Sonraki">&#10095;</span>
+    <img src="" alt="Büyük Görsel" id="modal-img"/>
+  </div>
 </div>
 
 <script>
-  // Galeri verisi
-  const galleries = {
-    boya: [
-      "assets/boya/boya1.jpeg",
-      "assets/boya/boya2.jpeg",
-      "assets/boya/boya3.jpeg"
-    ],
-    asansor: [
-      "assets/asansor/asansor1.jpeg",
-      "assets/asansor/asansor2.jpeg",
-      "assets/asansor/asansor3.jpeg"
-    ],
-    sitemiz: [
-      "assets/sitemiz/giris (1).jpeg",
-      "assets/sitemiz/giris (2).jpeg",
-      "assets/sitemiz/giris (3).jpeg",
-      "assets/sitemiz/giris (4).jpeg"
-    ]
-  };
-
-  const galleryContainer = document.getElementById("gallery-container");
-
-  // Her klasör için bölüm oluştur
-  Object.entries(galleries).forEach(([section, images]) => {
-    const sectionDiv = document.createElement("div");
-    const sectionTitle = document.createElement("h2");
-    sectionTitle.className = "section-title";
-    // Başlık büyük harfe çevirip, özel isimse ilk harf büyük yapabilirsiniz.
-    sectionTitle.textContent = section.charAt(0).toUpperCase() + section.slice(1);
-    sectionDiv.appendChild(sectionTitle);
-
-    const imgGrid = document.createElement("div");
-    imgGrid.className = "img-grid";
-
-    images.forEach((src, index) => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.alt = section + " fotoğraf " + (index + 1);
-      img.dataset.section = section;
-      img.dataset.index = index;
-      img.addEventListener("click", openModal);
-      imgGrid.appendChild(img);
+  // Header-footer yükle
+  fetch('header-footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('header-footer').innerHTML = data;
     });
 
-    sectionDiv.appendChild(imgGrid);
-    galleryContainer.appendChild(sectionDiv);
-  });
+  // Klasör ve görseller
+  const folders = {
+    boya: ['boya1.jpeg', 'boya2.jpeg', 'boya3.jpeg'],
+    asansor: ['asansor1.jpeg', 'asansor2.jpeg', 'asansor3.jpeg'],
+    sitemiz: ['giris (1).jpeg', 'giris (2).jpeg', 'giris (3).jpeg', 'giris (4).jpeg']
+  };
 
-  // Modal işlemleri
-  const modal = document.getElementById("imgModal");
-  const modalImg = document.getElementById("modalImg");
-  const modalClose = document.getElementById("modalClose");
-  const modalPrev = document.getElementById("modalPrev");
-  const modalNext = document.getElementById("modalNext");
+  // Bölümlere görselleri yükle
+  function loadImages(folderName, containerId) {
+    const container = document.getElementById(containerId);
+    folders[folderName].forEach(fileName => {
+      const img = document.createElement('img');
+      img.src = `assets/${folderName}/${fileName}`;
+      img.alt = `${folderName} fotoğrafı`;
+      img.className = 'img-thumb';
+      container.appendChild(img);
+    });
+  }
 
-  let currentSection = null;
+  loadImages('boya', 'boya-images');
+  loadImages('asansor', 'asansor-images');
+  loadImages('sitemiz', 'sitemiz-images');
+
+  // Modal elemanları
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalClose = modal.querySelector('.modal-close');
+  const modalPrev = modal.querySelector('.modal-nav.prev');
+  const modalNext = modal.querySelector('.modal-nav.next');
+
+  // Modal açma için global
+  let currentFolder = null;
   let currentIndex = 0;
 
-  function openModal(event) {
-    currentSection = event.target.dataset.section;
-    currentIndex = parseInt(event.target.dataset.index);
-    updateModal();
-    modal.style.display = "flex";
-  }
+  // Görsele tıklandığında modal aç
+  document.querySelectorAll('.img-thumb').forEach(img => {
+    img.addEventListener('click', () => {
+      const src = img.src;
+      const folder = src.split('/').slice(-2)[0]; // assets/klasor/ dosya ismi => klasör ismi
+      const fileName = src.split('/').pop();
 
-  function closeModal() {
-    modal.style.display = "none";
-    currentSection = null;
-    currentIndex = 0;
-  }
+      currentFolder = folder;
+      currentIndex = folders[folder].indexOf(fileName);
 
-  function updateModal() {
-    modalImg.src = galleries[currentSection][currentIndex];
-    modalImg.alt = currentSection + " fotoğraf " + (currentIndex + 1);
-  }
-
-  function prevImage() {
-    if (currentIndex === 0) {
-      currentIndex = galleries[currentSection].length - 1;
-    } else {
-      currentIndex--;
-    }
-    updateModal();
-  }
-
-  function nextImage() {
-    if (currentIndex === galleries[currentSection].length - 1) {
-      currentIndex = 0;
-    } else {
-      currentIndex++;
-    }
-    updateModal();
-  }
-
-  modalClose.addEventListener("click", closeModal);
-  modalPrev.addEventListener("click", prevImage);
-  modalNext.addEventListener("click", nextImage);
-
-  // Modal dışında bir yere tıklanırsa kapat
-  window.addEventListener("click", e => {
-    if (e.target === modal) closeModal();
+      modalImg.src = src;
+      modal.classList.add('show');
+      modal.focus();
+    });
   });
+
+  // Modal kapama
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  // Önceki foto
+  modalPrev.addEventListener('click', () => {
+    if(currentFolder === null) return;
+    currentIndex = (currentIndex - 1 + folders[currentFolder].length) % folders[currentFolder].length;
+    modalImg.src = `assets/${currentFolder}/${folders[currentFolder][currentIndex]}`;
+  });
+
+  // Sonraki foto
+  modalNext.addEventListener('click', () => {
+    if(currentFolder === null) return;
+    currentIndex = (currentIndex + 1) % folders[currentFolder].length;
+    modalImg.src = `assets/${currentFolder}/${folders[currentFolder][currentIndex]}`;
+  });
+
+  // ESC ile kapat
+  document.addEventListener('keydown', e => {
+    if(e.key === "Escape" && modal.classList.contains('show')) {
+      modal.classList.remove('show');
+    }
+    if(e.key === "ArrowLeft" && modal.classList.contains('show')) {
+      modalPrev.click();
+    }
+    if(e.key === "ArrowRight" && modal.classList.contains('show')) {
+      modalNext.click();
+    }
+  });
+
 </script>
 
 </body>
