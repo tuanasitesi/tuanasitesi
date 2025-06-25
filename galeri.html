@@ -1,66 +1,143 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>Galeri - Tuana Sitesi</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
 <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f4f8;
-      margin: 0;
-      padding: 2rem;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #2c3e50;
-    }
-    .galeri {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-    .galeri img {
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding-bottom: 100px;
+  }
+  h1 {
+    color: #1a73e8;
+    font-weight: 700;
+    margin: 40px 0 30px;
+    text-align: center;
+  }
+  #header-footer {
+    background-color: #222;
+    color: #ddd;
+    padding: 15px 0;
+  }
+  #header-footer a {
+    color: #ddd;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  #header-footer a:hover {
+    color: #1a73e8;
+    text-decoration: underline;
+  }
+  #footer {
+    background-color: #222;
+    color: #aaa;
+    padding: 15px 0;
+    font-size: 0.85rem;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .galeri-listesi {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 15px;
+  }
+  .galeri-item {
+    background: white;
+    box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    width: 230px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+  .galeri-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 0.15);
+  }
+  .galeri-item img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  .galeri-baslik {
+    margin-top: 10px;
+    font-weight: 700;
+    color: #1a73e8;
+    font-size: 1.1rem;
+  }
+  @media (max-width: 600px) {
+    .galeri-item {
       width: 100%;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
     }
-    .galeri img:hover {
-      transform: scale(1.05);
-    }
-  </style>
-<style>body { padding-bottom: 160px !important; }</style></head>
+  }
+</style>
+</head>
 <body>
-<div id="header-footer"></div>
+
+<div id="header-footer">
+  <div class="container d-flex justify-content-between align-items-center">
+    <div style="font-weight:bold; font-size:1.2rem;">🏘️ Tuana Sitesi</div>
+    <nav>
+      <a href="index.html">Ana Sayfa</a>
+      <a href="duyurular.html">Duyurular</a>
+      <a href="raporlar.html">Raporlar</a>
+      <a href="odeme.html">Ödeme</a>
+      <a href="galeri.html">Galeri</a>
+      <a href="haberler.html">Haberler</a>
+      <a href="ilanlar.html">İlanlar</a>
+      <a href="giris.html">Giriş</a>
+    </nav>
+  </div>
+</div>
+
+<h1>📸 Galeri</h1>
+
+<div class="galeri-listesi" id="galeri-listesi">
+  <!-- Galeri görselleri buraya yüklenecek -->
+</div>
+
+<div id="footer">
+  © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
+</div>
+
 <script>
-  fetch('header-footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('header-footer').innerHTML = data;
-    });
+  // Örnek galeri verisi (dosya yolunu kendi projenize göre ayarlayın)
+  const galeriVerisi = [
+    { baslik: "Yazlık Manzara", resim: "assets/galeri/yazlik1.jpg" },
+    { baslik: "Bahçe Çiçekleri", resim: "assets/galeri/bahce1.jpg" },
+    { baslik: "Havuz Keyfi", resim: "assets/galeri/havuz1.jpg" },
+    { baslik: "Akşam Günbatımı", resim: "assets/galeri/gunbatimi1.jpg" },
+    { baslik: "Toplantı Alanı", resim: "assets/galeri/toplanti1.jpg" }
+  ];
+
+  const liste = document.getElementById('galeri-listesi');
+  liste.innerHTML = '';
+
+  galeriVerisi.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'galeri-item';
+    div.innerHTML = `
+      <img src="${item.resim}" alt="${item.baslik}" />
+      <div class="galeri-baslik">${item.baslik}</div>
+    `;
+    liste.appendChild(div);
+  });
 </script>
-<h1>🖼️ Tuana Sitesi Galeri</h1>
-<div class="galeri" id="galeriListesi"></div>
-<script>
-    const resimler = [
-      "https://i.ibb.co/m8Wzmq5/site1.jpg",
-      "https://i.ibb.co/3FfyGcG/site2.jpg",
-      "https://i.ibb.co/DY09mSk/site3.jpg",
-      "https://i.ibb.co/j4QZQLZ/site4.jpg"
-    ];
 
-    const galeriDiv = document.getElementById("galeriListesi");
-
-    resimler.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Galeri Resmi";
-      galeriDiv.appendChild(img);
-    });
-  </script>
 </body>
 </html>
