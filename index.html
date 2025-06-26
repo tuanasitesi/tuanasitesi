@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tuana Sitesi - Ana Sayfa</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background: linear-gradient(to bottom, #f3f6fb, #e9edf4);
@@ -83,15 +82,17 @@
   </style>
 </head>
 <body>
-  <!-- Sahte Giriş Butonu -->
+  <!-- Giriş Butonu -->
   <div class="login-box">
-    <button class="login-btn" onclick="fakeLogin()">🔐 Giriş Yap</button>
+    <button class="login-btn" onclick="goToLogin()">🔐 Giriş Yap</button>
   </div>
+
   <!-- Hoş Geldiniz ve Slogan -->
   <div class="hero-text">
     <h1>Tuana Sitesi'ne Hoş Geldiniz</h1>
     <em>"Güvenin, huzurun ve komşuluğun yeniden tanımlandığı yer..."</em>
   </div>
+
   <!-- Görsel Geçiş Galerisi -->
   <div id="tuanaCarousel" class="carousel slide container mb-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded">
@@ -115,46 +116,11 @@
       <span class="carousel-control-next-icon"></span>
     </button>
   </div>
-  <!-- Mottolar -->
-  <section class="motto-section">
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-shield-alt"></i></div>
-          <h5>Güvenli Yaşam</h5>
-          <p>Kamera, aydınlatma ve 7/24 kontrol ile huzur.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-broom"></i></div>
-          <h5>Temizlik ve Düzen</h5>
-          <p>Her gün temizlenen, düzenli ortak alanlar.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-briefcase"></i></div>
-          <h5>Profesyonel Yönetim</h5>
-          <p>Planlı, belgeli ve mali şeffaf yönetim.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-users"></i></div>
-          <h5>Güçlü Komşuluk</h5>
-          <p>Birlikte karar alan, dayanışma içinde bir site.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Duyurular Bölümü -->
-  <div class="motto-section">
-    <h3>Son Duyurular</h3>
-    <div id="duyurularAlani"></div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <div class="footer-minimal">
+    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
+  </div>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
@@ -175,27 +141,12 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    // Duyuruları göster
-    firebase.database().ref("duyurular").on("value", snapshot => {
-      const duyurular = snapshot.val();
-      let html = "<ul>";
-
-      if (duyurular) {
-        for (let key in duyurular) {
-          html += `<li><strong>${duyurular[key].tarih}</strong>: ${duyurular[key].metin}</li>`;
-        }
-      } else {
-        html += "<li>Henüz duyuru bulunmuyor.</li>";
-      }
-
-      html += "</ul>";
-      document.getElementById("duyurularAlani").innerHTML = html;
-    });
+    function goToLogin() {
+      window.location.href = "giris.html"; // Giriş sayfasına yönlendir
+    }
   </script>
 
-  <!-- Footer -->
-  <div class="footer-minimal">
-    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
-  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
