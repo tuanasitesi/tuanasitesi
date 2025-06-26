@@ -9,48 +9,71 @@
     body { font-family: Arial, sans-serif; padding: 20px; }
     .error { color: red; margin-top: 10px; }
   </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
+
+  <script>
+    // Firebase Config → Buraya Firebase'den aldığın bilgileri yapıştır
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcWV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      authDomain: "site-duyuru-sistemi.firebaseapp.com",
+      databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app ",
+      projectId: "site-duyuru-sistemi",
+      storageBucket: "site-duyuru-sistemi.appspot.com",
+      messagingSenderId: "969231855403",
+      appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
+    };
+
+    // Firebase'i başlat
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
-
   <h2>Tuana Sitesi Giriş</h2>
-
   <form id="loginForm">
-    <input type="text" id="username" placeholder="Kullanıcı Adı" required /><br /><br />
-    <input type="password" id="password" placeholder="Şifre" required /><br /><br />
+    <input type="email" id="email" placeholder="E-posta" required /><br><br>
+    <input type="password" id="password" placeholder="Şifre" required /><br><br>
     <button type="submit">Giriş Yap</button>
+    <button onclick="register()">Kayıt Ol</button>
   </form>
-
   <div id="errorMsg" class="error"></div>
 
   <script>
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          alert("Giriş başarılı!");
+          window.location.href = "admin-panel.html"; // Yönetici paneline yönlendir
+        })
+        .catch((error) => {
+          document.getElementById("errorMsg").innerText = "Hata: " + error.message;
+        });
+    }
+
+    function register() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          alert("Kayıt başarılı!");
+        })
+        .catch((error) => {
+          document.getElementById("errorMsg").innerText = "Hata: " + error.message;
+        });
+    }
+
+    // Form submit olduğunda giriş yap
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      // Giriş kontrolü için API çağrısı
-      fetch('https://script.google.com/macros/s/AKfycbx_YwV61xCClL22mneUWbmthc55ZRAdGLMfeul8SwtQyDmkkHaEe-W75ag_a4b-bhM/exec', {
-        method: "POST",
-        body: JSON.stringify({ adSoyad: username, sifre: password }),
-        headers: { "Content-Type": "application/json" }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          // Giriş başarılıysa haberler sayfasına yönlendir
-          window.location.href = "haberler.html";
-        } else {
-          // Başarısızsa hata mesajı göster
-          document.getElementById("errorMsg").innerText = "Kullanıcı adı veya şifre hatalı!";
-        }
-      })
-      .catch(err => {
-        document.getElementById("errorMsg").innerText = "Sunucu hatası, lütfen tekrar deneyin.";
-        console.error(err);
-      });
+      login();
     });
   </script>
-
 </body>
 </html>
