@@ -4,179 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tuana Sitesi - Ana Sayfa</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "/>
   <style>
-    body {
-      background: linear-gradient(to bottom, #f3f6fb, #e9edf4);
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .login-box {
-      position: fixed;
-      top: 20px;
-      right: 30px;
-      z-index: 1000;
-    }
-
-    .login-btn {
-      background-color: #fff;
-      border: 2px solid #0d6efd;
-      color: #0d6efd;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: 0.3s ease;
-      cursor: pointer;
-    }
-
-    .login-btn:hover {
-      background-color: #0d6efd;
-      color: #fff;
-    }
-
-    .hero-text {
-      text-align: center;
-      margin-top: 100px;
-      margin-bottom: 20px;
-    }
-
-    .hero-text h1 {
-      font-size: 3rem;
-      color: #2c3e50;
-      font-weight: bold;
-    }
-
-    .hero-text em {
-      font-size: 1.2rem;
-      color: #555;
-    }
-
-    .carousel-inner img {
-      height: 400px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .motto-section {
-      padding: 3rem 2rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .motto-card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      padding: 2rem;
-      text-align: center;
-      height: 100%;
-      transition: all 0.3s;
-    }
-
-    .motto-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    }
-
-    .motto-icon {
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-      color: #0d6efd;
-    }
-
-    .footer-minimal {
-      text-align: center;
-      color: #777;
-      font-size: 0.9rem;
-      margin: 2rem 0 1rem;
-    }
+    /* Önceki stil kodları buraya gelecek */
   </style>
 </head>
 <body>
-
   <!-- Sahte Giriş Butonu -->
   <div class="login-box">
     <button class="login-btn" onclick="fakeLogin()">🔐 Giriş Yap</button>
   </div>
-
-  <script>
-    function fakeLogin() {
-      alert("Giriş başarılı! Haberler sayfasına yönlendiriliyorsunuz...");
-      window.location.href = "haberler.html";  // Haberler sayfasına yönlendirme
-    }
-  </script>
-
   <!-- Hoş Geldiniz ve Slogan -->
   <div class="hero-text">
     <h1>Tuana Sitesi'ne Hoş Geldiniz</h1>
     <em>"Güvenin, huzurun ve komşuluğun yeniden tanımlandığı yer..."</em>
   </div>
+  <!-- Diğer içerikler -->
 
-  <!-- Görsel Geçiş Galerisi -->
-  <div id="tuanaCarousel" class="carousel slide container mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner rounded">
-      <div class="carousel-item active">
-        <img src="assets/Ekran görüntüsü 2025-06-20 233939.jpg" class="d-block w-100" alt="Tuana 1">
-      </div>
-      <div class="carousel-item">
-        <img src="assets/Ekran görüntüsü 2025-06-20 234002.jpg" class="d-block w-100" alt="Tuana 2">
-      </div>
-      <div class="carousel-item">
-        <img src="assets/Ekran görüntüsü 2025-06-20 234021.jpg" class="d-block w-100" alt="Tuana 3">
-      </div>
-      <div class="carousel-item">
-        <img src="assets/Ekran görüntüsü 2025-06-20 234043.jpg" class="d-block w-100" alt="Tuana 4">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#tuanaCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#tuanaCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
+  <!-- Duyurular Bölümü -->
+  <div class="motto-section">
+    <h3>Son Duyurular</h3>
+    <div id="duyurularAlani"></div>
   </div>
 
-  <!-- Mottolar -->
-  <section class="motto-section">
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-shield-alt"></i></div>
-          <h5>Güvenli Yaşam</h5>
-          <p>Kamera, aydınlatma ve 7/24 kontrol ile huzur.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-broom"></i></div>
-          <h5>Temizlik ve Düzen</h5>
-          <p>Her gün temizlenen, düzenli ortak alanlar.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-briefcase"></i></div>
-          <h5>Profesyonel Yönetim</h5>
-          <p>Planlı, belgeli ve mali şeffaf yönetim.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="motto-card">
-          <div class="motto-icon"><i class="fas fa-users"></i></div>
-          <h5>Güçlü Komşuluk</h5>
-          <p>Birlikte karar alan, dayanışma içinde bir site.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Footer -->
-  <div class="footer-minimal">
-    © 2025 Tuana Sitesi - Tüm Hakları Saklıdır.
-  </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Firebase Config → Buraya Firebase'den aldığın bilgileri yapıştır
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcWV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      authDomain: "site-duyuru-sistemi.firebaseapp.com",
+      databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app ",
+      projectId: "site-duyuru-sistemi",
+      storageBucket: "site-duyuru-sistemi.appspot.com",
+      messagingSenderId: "969231855403",
+      appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Duyuruları göster
+    firebase.database().ref("duyurular").on("value", snapshot => {
+      const duyurular = snapshot.val();
+      let html = "<ul>";
+
+      if (duyurular) {
+        for (let key in duyurular) {
+          html += `<li><strong>${duyurular[key].tarih}</strong>: ${duyurular[key].metin}</li>`;
+        }
+      } else {
+        html += "<li>Henüz duyuru bulunmuyor.</li>";
+      }
+
+      html += "</ul>";
+      document.getElementById("duyurularAlani").innerHTML = html;
+    });
+  </script>
 </body>
 </html>
