@@ -16,9 +16,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
 
   <script>
-    // Firebase Config → Buraya Firebase'den aldığın bilgileri yapıştır
+    // Firebase Config → Kendi projenden aldığın bilgileri buraya yapıştır
     const firebaseConfig = {
-      apiKey: "AIzaSyDcWV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
       databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app ",
       projectId: "site-duyuru-sistemi",
@@ -27,21 +27,8 @@
       appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
     };
 
-    // Firebase'i başlat
     firebase.initializeApp(firebaseConfig);
-  </script>
-</head>
-<body>
-  <h2>Tuana Sitesi Giriş</h2>
-  <form id="loginForm">
-    <input type="email" id="email" placeholder="E-posta" required /><br><br>
-    <input type="password" id="password" placeholder="Şifre" required /><br><br>
-    <button type="submit">Giriş Yap</button>
-    <button onclick="register()">Kayıt Ol</button>
-  </form>
-  <div id="errorMsg" class="error"></div>
 
-  <script>
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
@@ -68,7 +55,19 @@
           document.getElementById("errorMsg").innerText = "Hata: " + error.message;
         });
     }
+  </script>
+</head>
+<body>
+  <h2>Tuana Sitesi Giriş</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="E-posta" required /><br><br>
+    <input type="password" id="password" placeholder="Şifre" required /><br><br>
+    <button type="submit">Giriş Yap</button>
+    <button onclick="register()">Kayıt Ol</button>
+  </form>
+  <div id="errorMsg" class="error"></div>
 
+  <script>
     // Form submit olduğunda giriş yap
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
