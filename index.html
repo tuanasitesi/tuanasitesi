@@ -101,7 +101,7 @@
 <body>
   <!-- Giriş Butonu -->
   <div class="login-box">
-    <button class="login-btn" onclick="fakeLogin()">🔐 Giriş Yap</button>
+    <button class="login-btn" onclick="goToLogin()">🔐 Giriş Yap</button>
   </div>
 
   <!-- Hoş Geldiniz ve Slogan -->
@@ -188,6 +188,10 @@
       html += "</ul>";
       document.getElementById("duyurularAlani").innerHTML = html;
     });
+
+    function goToLogin() {
+      window.location.href = "giris.html";
+    }
   </script>
 
   <!-- Bootstrap JS -->
