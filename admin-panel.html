@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Yönetici Paneli</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js "></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
+
+  <script>
+    // Firebase Config → Buraya Firebase'den aldığın bilgileri yapıştır
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcWV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      authDomain: "site-duyuru-sistemi.firebaseapp.com",
+      databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app ",
+      projectId: "site-duyuru-sistemi",
+      storageBucket: "site-duyuru-sistemi.appspot.com",
+      messagingSenderId: "969231855403",
+      appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
+    };
+
+    // Firebase'i başlat
+    firebase.initializeApp(firebaseConfig);
+
+    function duyuruGonder() {
+      const metin = document.getElementById("duyuruMetni").value;
+      const duyuruRef = firebase.database().ref("duyurular").push();
+      duyuruRef.set({
+        metin: metin,
+        tarih: new Date().toLocaleString()
+      }, () => {
+        alert("Duyuru gönderildi!");
+      });
+    }
+  </script>
+</head>
+<body>
+  <h2>Duyuru Gönder</h2>
+  <textarea id="duyuruMetni" rows="5" cols="50" placeholder="Duyurunuzu yazın..."></textarea><br>
+  <button onclick="duyuruGonder()">Gönder</button>
+</body>
+</html>
