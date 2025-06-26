@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tuana Sitesi - Ana Sayfa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css "/>
   <style>
     body {
       background: linear-gradient(to bottom, #f3f6fb, #e9edf4);
@@ -79,12 +80,28 @@
       font-size: 0.9rem;
       margin: 2rem 0 1rem;
     }
+    /* Duyurular için stil */
+    #duyurularAlani {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    #duyurularAlani ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    #duyurularAlani li {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <!-- Giriş Butonu -->
   <div class="login-box">
-    <button class="login-btn" onclick="goToLogin()">🔐 Giriş Yap</button>
+    <button class="login-btn" onclick="fakeLogin()">🔐 Giriş Yap</button>
   </div>
 
   <!-- Hoş Geldiniz ve Slogan -->
@@ -93,8 +110,14 @@
     <em>"Güvenin, huzurun ve komşuluğun yeniden tanımlandığı yer..."</em>
   </div>
 
-  <!-- Görsel Geçiş Galerisi -->
+  <!-- Kayan Banner (Carousel) -->
   <div id="tuanaCarousel" class="carousel slide container mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#tuanaCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#tuanaCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#tuanaCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#tuanaCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
     <div class="carousel-inner rounded">
       <div class="carousel-item active">
         <img src="assets/Ekran görüntüsü 2025-06-20 233939.jpg" class="d-block w-100" alt="Tuana 1">
@@ -115,6 +138,14 @@
     <button class="carousel-control-next" type="button" data-bs-target="#tuanaCarousel" data-bs-slide="next">
       <span class="carousel-control-next-icon"></span>
     </button>
+  </div>
+
+  <!-- Son Duyurular -->
+  <div class="motto-section">
+    <h3>Son Duyurular</h3>
+    <div id="duyurularAlani">
+      <ul></ul>
+    </div>
   </div>
 
   <!-- Footer -->
@@ -141,9 +172,22 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    function goToLogin() {
-      window.location.href = "giris.html"; // Giriş sayfasına yönlendir
-    }
+    // Duyuruları göster
+    firebase.database().ref("duyurular").on("value", snapshot => {
+      const duyurular = snapshot.val();
+      let html = "<ul>";
+
+      if (duyurular) {
+        for (let key in duyurular) {
+          html += `<li><strong>${duyurular[key].tarih}</strong>: ${duyurular[key].metin}</li>`;
+        }
+      } else {
+        html += "<li>Henüz duyuru bulunmuyor.</li>";
+      }
+
+      html += "</ul>";
+      document.getElementById("duyurularAlani").innerHTML = html;
+    });
   </script>
 
   <!-- Bootstrap JS -->
