@@ -3,12 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Yönetici Paneli</title>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js "></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -29,6 +23,8 @@
       list-style: none;
       padding: 0;
       margin: 0;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 20px;
     }
     .nav-tabs li {
       flex: 1;
@@ -39,7 +35,6 @@
       padding: 10px;
       text-decoration: none;
       color: #333;
-      border: 1px solid transparent;
       border-bottom: 3px solid transparent;
     }
     .nav-tabs a.active {
@@ -65,6 +60,47 @@
       background-color: #0b5ed7;
     }
   </style>
+</head>
+<body>
+  <div class="container">
+    <ul class="nav-tabs">
+      <li><a href="#" onclick="showTab('duyuru')" class="active">Duyuru</a></li>
+      <li><a href="#" onclick="showTab('haber')">Haber</a></li>
+      <li><a href="#" onclick="showTab('odeme')">Ödeme</a></li>
+      <li><a href="#" onclick="showTab('galeri')">Galeri</a></li>
+      <li><a href="#" onclick="showTab('rapor')">Rapor</a></li>
+    </ul>
+
+    <div id="duyuru" class="tab-content" style="display: block;">
+      <h2>Duyuru Gönder</h2>
+      <textarea id="duyuruMetni" placeholder="Duyurunuzu yazın..."></textarea><br>
+      <button onclick="duyuruGonder()">Gönder</button>
+    </div>
+
+    <div id="haber" class="tab-content" style="display: none;">
+      <h2>Haber Gönder</h2>
+      <textarea id="haberMetni" placeholder="Haber metnini yazın..."></textarea><br>
+      <button onclick="haberGonder()">Gönder</button>
+    </div>
+
+    <div id="odeme" class="tab-content" style="display: none;">
+      <h2>Ödeme Bilgisi Ekle</h2>
+      <textarea id="odemeMetni" placeholder="Ödeme detaylarını yazın..."></textarea><br>
+      <button onclick="odemeGonder()">Kaydet</button>
+    </div>
+
+    <div id="galeri" class="tab-content" style="display: none;">
+      <h2>Galeri Açıklaması Ekle</h2>
+      <textarea id="galeriMetni" placeholder="Galeri açıklamasını yazın..."></textarea><br>
+      <button onclick="galeriGonder()">Kaydet</button>
+    </div>
+
+    <div id="rapor" class="tab-content" style="display: none;">
+      <h2>Rapor Ekle</h2>
+      <textarea id="raporMetni" placeholder="Rapor detaylarını yazın..."></textarea><br>
+      <button onclick="raporGonder()">Kaydet</button>
+    </div>
+  </div>
 
   <script>
     // Firebase Config → Kendi projenden aldığın bilgileri buraya yapıştır
@@ -80,20 +116,24 @@
 
     firebase.initializeApp(firebaseConfig);
 
+    function showTab(tabId) {
+      document.querySelectorAll(".tab-content").forEach(div => div.style.display = "none");
+      document.getElementById(tabId).style.display = "block";
+    }
+
     function duyuruGonder() {
       const metin = document.getElementById("duyuruMetni").value.trim();
       if (metin === "") {
         alert("Lütfen duyuru metnini girin!");
         return;
       }
-
       const duyuruRef = firebase.database().ref("duyurular").push();
       duyuruRef.set({
         metin: metin,
         tarih: new Date().toLocaleString()
       }, () => {
         alert("Duyuru başarıyla gönderildi!");
-        document.getElementById("duyuruMetni").value = ""; // Metin kutusunu temizle
+        document.getElementById("duyuruMetni").value = "";
       });
     }
 
@@ -103,14 +143,13 @@
         alert("Lütfen haber metnini girin!");
         return;
       }
-
       const haberRef = firebase.database().ref("haberler").push();
       haberRef.set({
         metin: metin,
         tarih: new Date().toLocaleString()
       }, () => {
         alert("Haber başarıyla gönderildi!");
-        document.getElementById("haberMetni").value = ""; // Metin kutusunu temizle
+        document.getElementById("haberMetni").value = "";
       });
     }
 
@@ -120,14 +159,13 @@
         alert("Lütfen ödeme detaylarını girin!");
         return;
       }
-
       const odemeRef = firebase.database().ref("odemeler").push();
       odemeRef.set({
         metin: metin,
         tarih: new Date().toLocaleString()
       }, () => {
         alert("Ödeme başarıyla kaydedildi!");
-        document.getElementById("odemeMetni").value = ""; // Metin kutusunu temizle
+        document.getElementById("odemeMetni").value = "";
       });
     }
 
@@ -137,14 +175,13 @@
         alert("Lütfen galeri açıklamasını girin!");
         return;
       }
-
       const galeriRef = firebase.database().ref("galeri").push();
       galeriRef.set({
         metin: metin,
         tarih: new Date().toLocaleString()
       }, () => {
         alert("Galeri başarıyla güncellendi!");
-        document.getElementById("galeriMetni").value = ""; // Metin kutusunu temizle
+        document.getElementById("galeriMetni").value = "";
       });
     }
 
@@ -154,57 +191,15 @@
         alert("Lütfen rapor detaylarını girin!");
         return;
       }
-
       const raporRef = firebase.database().ref("raporlar").push();
       raporRef.set({
         metin: metin,
         tarih: new Date().toLocaleString()
       }, () => {
         alert("Rapor başarıyla kaydedildi!");
-        document.getElementById("raporMetni").value = ""; // Metin kutusunu temizle
+        document.getElementById("raporMetni").value = "";
       });
     }
   </script>
-</head>
-<body>
-  <div class="container">
-    <ul class="nav-tabs">
-      <li><a href="#duyuru" class="active">Duyuru</a></li>
-      <li><a href="#haber">Haber</a></li>
-      <li><a href="#odeme">Ödeme</a></li>
-      <li><a href="#galeri">Galeri</a></li>
-      <li><a href="#rapor">Rapor</a></li>
-    </ul>
-
-    <div id="duyuru" style="display: block;">
-      <h2>Duyuru Gönder</h2>
-      <textarea id="duyuruMetni" placeholder="Duyurunuzu yazın..."></textarea><br>
-      <button onclick="duyuruGonder()">Gönder</button>
-    </div>
-
-    <div id="haber" style="display: none;">
-      <h2>Haber Gönder</h2>
-      <textarea id="haberMetni" placeholder="Haber metnini yazın..."></textarea><br>
-      <button onclick="haberGonder()">Gönder</button>
-    </div>
-
-    <div id="odeme" style="display: none;">
-      <h2>Ödeme Bilgisi Ekle</h2>
-      <textarea id="odemeMetni" placeholder="Ödeme detaylarını yazın..."></textarea><br>
-      <button onclick="odemeGonder()">Kaydet</button>
-    </div>
-
-    <div id="galeri" style="display: none;">
-      <h2>Galeri Açıklaması Ekle</h2>
-      <textarea id="galeriMetni" placeholder="Galeri açıklamasını yazın..."></textarea><br>
-      <button onclick="galeriGonder()">Kaydet</button>
-    </div>
-
-    <div id="rapor" style="display: none;">
-      <h2>Rapor Ekle</h2>
-      <textarea id="raporMetni" placeholder="Rapor detaylarını yazın..."></textarea><br>
-      <button onclick="raporGonder()">Kaydet</button>
-    </div>
-  </div>
 </body>
 </html>
