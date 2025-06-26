@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Yönetici Paneli</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-  </style>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js "></script>
@@ -13,9 +10,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js "></script>
 
   <script>
-    // Firebase Config → Buraya Firebase'den aldığın bilgileri yapıştır
+    // Firebase Config → Kendi projenden aldığın bilgileri buraya yapıştır
     const firebaseConfig = {
-      apiKey: "AIzaSyDcWV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
       databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app ",
       projectId: "site-duyuru-sistemi",
@@ -24,7 +21,6 @@
       appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
     };
 
-    // Firebase'i başlat
     firebase.initializeApp(firebaseConfig);
 
     function duyuruGonder() {
