@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<title>Dashboard Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Veri Testi</h1>
+  <canvas id="testChart" width="600" height="400"></canvas>
+
+  <script>
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbxn9xwERGQY2ywckHi1HbKQNoYfGU-yvEwIrHkrjsaAhLaNCKf3pJqJezauVkNGFvQ/exec';
+
+    async function fetchData() {
+      const res = await fetch(sheetUrl);
+      if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
+      const data = await res.json();
+      return data;
+    }
+
+    function processData(data) {
+      // Örnek: ilk 5 dönemi alalım
+      return data.slice(0, 5).map(row => ({
+        donem: row['DÖNEM'] || row['Dönem'],
+        gelir: parseFloat((row['GELİR (TL)'] || row['Gelir (TL)'] || '0').toString().replace(/[^\d.-]/g, '')) || 0,
+        gider: parseFloat((row['GİDER (TL)'] || row['Gider (TL)'] || '0').toString().replace(/[^\d.-]/g, '')) || 0
+      }));
+    }
+
+    function drawChart(data) {
+      const ctx = document.getElementById('testChart').getContext('2d');
+      const labels = data.map(d => d.donem);
+      const gelirData = data.map(d => d.gelir);
+      const giderData = data.map(d => d.gider);
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Gelir (TL)', data: gelirData, backgroundColor: 'rgba(26,115,232,0.7)' },
+            { label: 'Gider (TL)', data: giderData, backgroundColor: 'rgba(232,26,26,0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    fetchData()
+      .then(data => {
+        console.log('Gelen veri:', data);
+        const processed = processData(data);
+        drawChart(processed);
+      })
+      .catch(err => alert("Veri alınırken hata: " + err.message));
+  </script>
+</body>
+</html>
