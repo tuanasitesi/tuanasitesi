@@ -21,7 +21,6 @@
     }
 
     function processData(data) {
-      // Örnek: ilk 5 dönemi alalım
       return data.slice(0, 5).map(row => ({
         donem: row['DÖNEM'] || row['Dönem'],
         gelir: parseFloat((row['GELİR (TL)'] || row['Gelir (TL)'] || '0').toString().replace(/[^\d.-]/g, '')) || 0,
