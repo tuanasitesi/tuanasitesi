@@ -24,7 +24,7 @@
     const sheetUrl = 'https://script.google.com/macros/s/AKfycbw7L0d8_lPaB9anIHSXZNXnJ75nc5x7-uvMUpEftf013yvcfVKiyXWmbcyb3QqXfZOA/exec';
 
     async function fetchData() {
-      const res = await fetch(sheetUrl);
+      const res = await fetch('https://script.google.com/macros/s/AKfycbw7L0d8_lPaB9anIHSXZNXnJ75nc5x7-uvMUpEftf013yvcfVKiyXWmbcyb3QqXfZOA/exec');
       if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
       const data = await res.json();
       return data;
