@@ -1,89 +1,13 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<title>Tuana Sitesi Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
-  h1 { color: #1a73e8; }
-  .chart-container { width: 90%; max-width: 900px; margin: auto; }
-</style>
+  <meta charset="UTF-8" />
+  <title>Admin Paneli</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-  <h1>Tuana Sitesi Dashboard</h1>
-  <div class="chart-container">
-    <canvas id="aidatChart"></canvas>
-  </div>
-  <div class="chart-container" style="margin-top: 40px;">
-    <canvas id="giderChart"></canvas>
-  </div>
-
-  <script>
-    const sheetUrl = 'https://script.google.com/macros/s/AKfycbw7L0d8_lPaB9anIHSXZNXnJ75nc5x7-uvMUpEftf013yvcfVKiyXWmbcyb3QqXfZOA/exec';
-
-    async function fetchData() {
-      const res = await fetch('https://script.google.com/macros/s/AKfycbw7L0d8_lPaB9anIHSXZNXnJ75nc5x7-uvMUpEftf013yvcfVKiyXWmbcyb3QqXfZOA/exec');
-      if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
-      const data = await res.json();
-      return data;
-    }
-
-    function processData(data) {
-      const aylikAidat = {};
-      const aylikGider = {};
-
-      data.forEach(row => {
-        const donem = row['DÖNEM'] || row['Dönem'] || '';
-        const gelir = parseFloat((row['GELİR (TL)'] || row['Gelir (TL)'] || '0').toString().replace(/[^\d.-]/g, '')) || 0;
-        const gider = parseFloat((row['GİDER (TL)'] || row['Gider (TL)'] || '0').toString().replace(/[^\d.-]/g, '')) || 0;
-
-        if (donem) {
-          aylikAidat[donem] = (aylikAidat[donem] || 0) + gelir;
-          aylikGider[donem] = (aylikGider[donem] || 0) + gider;
-        }
-      });
-
-      return { aylikAidat, aylikGider };
-    }
-
-    function drawChart(ctx, labels, dataSet1, label1, dataSet2, label2) {
-      return new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            { label: label1, data: dataSet1, backgroundColor: 'rgba(26,115,232,0.7)' },
-            { label: label2, data: dataSet2, backgroundColor: 'rgba(232,26,26,0.7)' }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    }
-
-    async function init() {
-      try {
-        const data = await fetchData();
-        const { aylikAidat, aylikGider } = processData(data);
-        const labels = Object.keys(aylikAidat);
-
-        const aidatData = labels.map(l => aylikAidat[l]);
-        const giderData = labels.map(l => aylikGider[l]);
-
-        drawChart(document.getElementById('aidatChart').getContext('2d'), labels, aidatData, 'Aylık Aidat', giderData, 'Aylık Gider');
-        drawChart(document.getElementById('giderChart').getContext('2d'), labels, giderData, 'Aylık Gider', aidatData, 'Aylık Aidat');
-      } catch (error) {
-        alert("Veri yüklenirken hata oluştu: " + error.message);
-      }
-    }
-
-    init();
-  </script>
+  <h1>Admin Paneli</h1>
+  <p>Tüm yönetim verileri ve araçları burada gösterilecek.</p>
+  <a href="giris.html">Çıkış</a>
 </body>
 </html>
