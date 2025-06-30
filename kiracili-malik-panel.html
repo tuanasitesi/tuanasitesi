@@ -4,12 +4,19 @@
 <meta charset="UTF-8" />
 <title>Kiracılı Malik Paneli</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; } h1 { color: #1a73e8; }</style>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+  h1 { color: #1a73e8; }
+  button { margin-top: 20px; padding: 10px 15px; cursor: pointer; }
+</style>
 </head>
 <body>
   <h1>Kiracılı Malik Paneli</h1>
   <p>Sadece site genel gelir-gider verisi burada gösterilecek.</p>
+
   <button id="logoutBtn">Çıkış Yap</button>
+
+  <div id="siteFinancials"></div>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
@@ -29,31 +36,31 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    async function getGeneralIncomeExpense() {
-      const doc = await db.collection("genelGelirGider").doc("veriler").get();
-      return doc.exists ? doc.data() : {};
-    }
-
     auth.onAuthStateChanged(async user => {
       if (!user) {
         window.location.href = "giris.html";
         return;
       }
+
       const doc = await db.collection("users").doc(user.uid).get();
-      if (!doc.exists || doc.data().role !== "kiracili-malikler") {
-        alert("Bu sayfayı görüntülemeye yetkiniz yok!");
+      if (!doc.exists || doc.data().role !== 'kiracili-malikler') {
+        alert("Bu sayfaya erişim yetkiniz yok!");
         await auth.signOut();
         window.location.href = "giris.html";
         return;
       }
 
-      const genel = await getGeneralIncomeExpense();
-      document.body.insertAdjacentHTML('beforeend', `<pre>Site Genel Gelir-Gider: ${JSON.stringify(genel, null, 2)}</pre>`);
+      const siteFinDoc = await db.collection("genelGelirGider").doc("sonDurum").get();
+      const siteFinancialsDiv = document.getElementById("siteFinancials");
+      if (siteFinDoc.exists) {
+        siteFinancialsDiv.innerHTML = "<h2>Site Genel Gelir-Gider:</h2>" + JSON.stringify(siteFinDoc.data());
+      }
     });
 
-    document.getElementById("logoutBtn").onclick = () => {
-      auth.signOut();
-    };
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await auth.signOut();
+      window.location.href = "giris.html";
+    });
   </script>
 </body>
 </html>
