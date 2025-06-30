@@ -5,108 +5,95 @@
   <title>Malik Paneli - Tuana Sitesi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
     h1 { color: #1a73e8; }
-    button { padding: 10px 15px; margin-bottom: 20px; cursor: pointer; }
+    button { padding: 8px 15px; font-size: 16px; cursor: pointer; margin-bottom: 20px; }
+    table { border-collapse: collapse; width: 100%; max-width: 900px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #1a73e8; color: white; }
+    .error { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
   <h1>Malik Paneli</h1>
   <p>Kendi ödeme kayıtlarınız ve site genel gelir-gider bilgileri burada gösterilecek.</p>
   <button id="logoutBtn">Çıkış Yap</button>
-  <div>
-    <h2>Ödeme Kayıtları</h2>
-    <table border="1" cellpadding="8" cellspacing="0" id="paymentsTable"></table>
-  </div>
-  <div style="margin-top:40px;">
-    <h2>Site Genel Gelir-Gider</h2>
-    <pre id="generalFinance"></pre>
-  </div>
+
+  <h2>Ödeme Kayıtları</h2>
+  <div id="paymentSection">Yükleniyor...</div>
+
+  <h2>Site Genel Gelir-Gider</h2>
+  <div id="siteSummarySection">Yükleniyor...</div>
 
   <script>
-    const userEmail = localStorage.getItem("userEmail");
-    if (!userEmail) {
-      alert("Lütfen önce giriş yapınız.");
-      window.location.href = "giris.html";
-    }
+    // Apps Script URL
+    const DATA_URL = 'https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec';
 
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("userEmail");
-      window.location.href = "giris.html";
-    });
+    // Kullanıcının email'i girişten veya localStorage'dan alınmalı (örnek için sabit verdim)
+    const loggedInUserEmail = localStorage.getItem('userEmail') || 'malik@example.com';
 
-    async function fetchPayments() {
-      // Buraya senin Google Apps Script API linkini yapıştır
-      const apiURL = "https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec";
+    // Çıkış butonu işlevi
+    document.getElementById('logoutBtn').onclick = function() {
+      localStorage.removeItem('userEmail');
+      window.location.href = 'giris.html';
+    };
 
+    // Verileri çek ve işleyip ekrana yazdır
+    async function loadPayments() {
       try {
-        const res = await fetch(apiURL);
-        if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
+        const res = await fetch(DATA_URL);
+        if (!res.ok) throw new Error('Veri alınamadı: ' + res.statusText);
         const data = await res.json();
 
-        // Sadece userEmail ile eşleşen kayıtlar filtreleniyor
-        return data.filter(row => row.MALIK_EMAIL === userEmail);
-      } catch (err) {
-        alert("Ödeme kayıtları yüklenirken hata: " + err.message);
-        return [];
-      }
-    }
+        // Ödeme kayıtlarını filtrele: sadece login kullanıcısının ödemeleri
+        const userPayments = data.filter(row => row.MALİK && row.MALİK.toLowerCase() === loggedInUserEmail.toLowerCase());
 
-    async function fetchGeneralFinance() {
-      // Genel gelir-gider bilgisini çek (burayı kendi API'ne göre ayarla)
-      const apiURL = "https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec";
+        if (userPayments.length === 0) {
+          document.getElementById('paymentSection').innerHTML = '<p>Hiç ödeme kaydı bulunamadı.</p>';
+        } else {
+          let html = '<table><thead><tr>';
+          // Tablo başlıkları: AİDAT TAKİP 2024-2025 sayfasındaki sütun adlarını kullanıyoruz
+          const headers = Object.keys(userPayments[0]);
+          headers.forEach(h => { html += `<th>${h}</th>`; });
+          html += '</tr></thead><tbody>';
+          userPayments.forEach(row => {
+            html += '<tr>';
+            headers.forEach(h => { html += `<td>${row[h]}</td>`; });
+            html += '</tr>';
+          });
+          html += '</tbody></table>';
+          document.getElementById('paymentSection').innerHTML = html;
+        }
 
-      try {
-        const res = await fetch(apiURL);
-        if (!res.ok) throw new Error("Genel finans verisi alınamadı: " + res.statusText);
-        const data = await res.json();
-
-        // Burada site geneli gelir-gider özetini istediğin formatta işleyebilirsin
-        // Örnek olarak tüm veriyi JSON formatında gösteriyoruz
-        return data;
-      } catch (err) {
-        alert("Genel finans verisi yüklenirken hata: " + err.message);
-        return null;
-      }
-    }
-
-    function renderPayments(payments) {
-      const table = document.getElementById("paymentsTable");
-      table.innerHTML = "";
-      if (payments.length === 0) {
-        table.innerHTML = "<tr><td colspan='5'>Ödeme kaydı bulunamadı.</td></tr>";
-        return;
-      }
-
-      // Tablo başlığı
-      const headers = Object.keys(payments[0]);
-      let thead = "<tr>";
-      headers.forEach(h => {
-        thead += `<th>${h}</th>`;
-      });
-      thead += "</tr>";
-      table.innerHTML = thead;
-
-      // Satırları ekle
-      payments.forEach(payment => {
-        let row = "<tr>";
-        headers.forEach(h => {
-          row += `<td>${payment[h]}</td>`;
+        // Site genel gelir-gider hesaplama ve gösterme
+        const siteSummary = {
+          toplamGelir: 0,
+          toplamGider: 0
+        };
+        data.forEach(row => {
+          Object.entries(row).forEach(([key, value]) => {
+            if (typeof value === 'string') {
+              // Türkçe format veya ? işaretleri olabilir, sayıya çevir
+              const num = Number(value.replace(/[^\d.-]/g, '')) || 0;
+              if (/ödenen/i.test(key) || /gelir/i.test(key)) siteSummary.toplamGelir += num;
+              else if (/gider/i.test(key)) siteSummary.toplamGider += num;
+            }
+          });
         });
-        row += "</tr>";
-        table.innerHTML += row;
-      });
+
+        document.getElementById('siteSummarySection').innerHTML = `
+          <p><strong>Toplam Gelir:</strong> ${siteSummary.toplamGelir.toLocaleString('tr-TR', {style:'currency', currency:'TRY'})}</p>
+          <p><strong>Toplam Gider:</strong> ${siteSummary.toplamGider.toLocaleString('tr-TR', {style:'currency', currency:'TRY'})}</p>
+        `;
+
+      } catch (error) {
+        document.getElementById('paymentSection').innerHTML = `<p class="error">Ödeme kayıtları yüklenirken hata: ${error.message}</p>`;
+        document.getElementById('siteSummarySection').innerHTML = `<p class="error">Site genel gelir-gider bilgisi yüklenirken hata: ${error.message}</p>`;
+      }
     }
 
-    async function renderPage() {
-      const payments = await fetchPayments();
-      renderPayments(payments);
-
-      const generalFinance = await fetchGeneralFinance();
-      document.getElementById("generalFinance").textContent = JSON.stringify(generalFinance, null, 2);
-    }
-
-    renderPage();
+    // Sayfa yüklendiğinde verileri yükle
+    window.onload = loadPayments;
   </script>
 </body>
 </html>
