@@ -3,104 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <title>Malik Paneli - Tuana Sitesi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
     h1 { color: #1a73e8; }
-    table { border-collapse: collapse; width: 100%; max-width: 900px; margin: auto; background: white; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background: #007bff; color: white; }
-    #logoutBtn {
-      margin: 20px auto;
-      display: block;
-      background: #d33;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    #logoutBtn:hover {
-      background: #a00;
-    }
+    button { padding: 10px 15px; margin-bottom: 20px; cursor: pointer; }
   </style>
 </head>
 <body>
-
   <h1>Malik Paneli</h1>
-  <p>Burada sadece kendi aidat ve gider bilgilerin gösterilecek.</p>
-  
+  <p>Kendi ödeme kayıtlarınız ve site genel gelir-gider bilgileri burada gösterilecek.</p>
   <button id="logoutBtn">Çıkış Yap</button>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Blok</th>
-        <th>Daire</th>
-        <th>Malik</th>
-        <th>Eylül Ödeme</th>
-        <th>Ekim Ödeme</th>
-        <th>Kasım Ödeme</th>
-        <!-- Dilediğin ayları buraya ekleyebilirsin -->
-      </tr>
-    </thead>
-    <tbody id="dataBody">
-      <tr><td colspan="6">Yükleniyor...</td></tr>
-    </tbody>
-  </table>
+  <div>
+    <h2>Ödeme Kayıtları</h2>
+    <table border="1" cellpadding="8" cellspacing="0" id="paymentsTable"></table>
+  </div>
+  <div style="margin-top:40px;">
+    <h2>Site Genel Gelir-Gider</h2>
+    <pre id="generalFinance"></pre>
+  </div>
 
   <script>
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("userEmail");
-      window.location.href = "giris.html";  // Giriş sayfasına yönlendir
-    });
-
-    async function fetchData(email) {
-      const url = "https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec";
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Veri alınamadı");
-        const data = await res.json();
-
-        const tbody = document.getElementById("dataBody");
-        tbody.innerHTML = "";
-
-        // Sadece kendi mail adresine ait verileri filtrele
-        const filtered = data.filter(row => row["MALİK"] && row["MALİK"].toLowerCase() === email.toLowerCase());
-
-        if (filtered.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6">Kayıt bulunamadı.</td></tr>`;
-          return;
-        }
-
-        filtered.forEach(row => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${row["BLOK"] || ""}</td>
-            <td>${row["DAİRE"] || ""}</td>
-            <td>${row["MALİK"] || ""}</td>
-            <td>${row["ÖDENEN EYLÜL"] || ""}</td>
-            <td>${row["ÖDENEN EKİM"] || ""}</td>
-            <td>${row["ÖDENEN KASIM"] || ""}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      } catch (error) {
-        document.getElementById("dataBody").innerHTML = `<tr><td colspan="6">Hata: ${error.message}</td></tr>`;
-      }
-    }
-
-    // Kullanıcının mailini localStorage veya query param'dan al (girişte ayarla)
-    const userEmail = localStorage.getItem("userEmail") || "";
-
+    const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
       alert("Lütfen önce giriş yapınız.");
       window.location.href = "giris.html";
-    } else {
-      fetchData(userEmail);
     }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("userEmail");
+      window.location.href = "giris.html";
+    });
+
+    async function fetchPayments() {
+      // Buraya senin Google Apps Script API linkini yapıştır
+      const apiURL = "https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec";
+
+      try {
+        const res = await fetch(apiURL);
+        if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
+        const data = await res.json();
+
+        // Sadece userEmail ile eşleşen kayıtlar filtreleniyor
+        return data.filter(row => row.MALIK_EMAIL === userEmail);
+      } catch (err) {
+        alert("Ödeme kayıtları yüklenirken hata: " + err.message);
+        return [];
+      }
+    }
+
+    async function fetchGeneralFinance() {
+      // Genel gelir-gider bilgisini çek (burayı kendi API'ne göre ayarla)
+      const apiURL = "https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec";
+
+      try {
+        const res = await fetch(apiURL);
+        if (!res.ok) throw new Error("Genel finans verisi alınamadı: " + res.statusText);
+        const data = await res.json();
+
+        // Burada site geneli gelir-gider özetini istediğin formatta işleyebilirsin
+        // Örnek olarak tüm veriyi JSON formatında gösteriyoruz
+        return data;
+      } catch (err) {
+        alert("Genel finans verisi yüklenirken hata: " + err.message);
+        return null;
+      }
+    }
+
+    function renderPayments(payments) {
+      const table = document.getElementById("paymentsTable");
+      table.innerHTML = "";
+      if (payments.length === 0) {
+        table.innerHTML = "<tr><td colspan='5'>Ödeme kaydı bulunamadı.</td></tr>";
+        return;
+      }
+
+      // Tablo başlığı
+      const headers = Object.keys(payments[0]);
+      let thead = "<tr>";
+      headers.forEach(h => {
+        thead += `<th>${h}</th>`;
+      });
+      thead += "</tr>";
+      table.innerHTML = thead;
+
+      // Satırları ekle
+      payments.forEach(payment => {
+        let row = "<tr>";
+        headers.forEach(h => {
+          row += `<td>${payment[h]}</td>`;
+        });
+        row += "</tr>";
+        table.innerHTML += row;
+      });
+    }
+
+    async function renderPage() {
+      const payments = await fetchPayments();
+      renderPayments(payments);
+
+      const generalFinance = await fetchGeneralFinance();
+      document.getElementById("generalFinance").textContent = JSON.stringify(generalFinance, null, 2);
+    }
+
+    renderPage();
   </script>
 </body>
 </html>
