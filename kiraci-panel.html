@@ -4,12 +4,20 @@
 <meta charset="UTF-8" />
 <title>Kiracı Paneli</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; } h1 { color: #1a73e8; }</style>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+  h1 { color: #1a73e8; }
+  button { margin-top: 20px; padding: 10px 15px; cursor: pointer; }
+</style>
 </head>
 <body>
   <h1>Kiracı Paneli</h1>
-  <p>Kendi ödemeleriniz ve site genel gelir-gider verisi burada gösterilecek.</p>
+  <p>Kendi ödeme kayıtlarınız ve site genel gelir-gider bilgileri burada gösterilecek.</p>
+
   <button id="logoutBtn">Çıkış Yap</button>
+
+  <div id="userPayments"></div>
+  <div id="siteFinancials"></div>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
@@ -29,40 +37,45 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    async function getMyPayments(uid) {
-      const paymentsSnapshot = await db.collection("odemeler")
-        .where("ownerId", "==", uid).get();
-      return paymentsSnapshot.docs.map(doc => doc.data());
-    }
-
-    async function getGeneralIncomeExpense() {
-      const doc = await db.collection("genelGelirGider").doc("veriler").get();
-      return doc.exists ? doc.data() : {};
-    }
-
     auth.onAuthStateChanged(async user => {
       if (!user) {
         window.location.href = "giris.html";
         return;
       }
+
       const doc = await db.collection("users").doc(user.uid).get();
-      if (!doc.exists || doc.data().role !== "kiraci") {
-        alert("Bu sayfayı görüntülemeye yetkiniz yok!");
+      if (!doc.exists || doc.data().role !== 'kiraci') {
+        alert("Bu sayfaya erişim yetkiniz yok!");
         await auth.signOut();
         window.location.href = "giris.html";
         return;
       }
 
-      const payments = await getMyPayments(user.uid);
-      const genel = await getGeneralIncomeExpense();
+      // Kiracı ödemelerini çek (örnek: odemeler koleksiyonu, userId ile filtre)
+      const paymentsSnapshot = await db.collection("odemeler")
+        .where("userId", "==", user.uid)
+        .get();
 
-      document.body.insertAdjacentHTML('beforeend', `<pre>Kendi Ödemeleriniz: ${JSON.stringify(payments, null, 2)}</pre>`);
-      document.body.insertAdjacentHTML('beforeend', `<pre>Site Genel Gelir-Gider: ${JSON.stringify(genel, null, 2)}</pre>`);
+      const userPaymentsDiv = document.getElementById("userPayments");
+      userPaymentsDiv.innerHTML = "<h2>Ödeme Kayıtlarınız:</h2>";
+      paymentsSnapshot.forEach(doc => {
+        const p = document.createElement("p");
+        p.textContent = JSON.stringify(doc.data());
+        userPaymentsDiv.appendChild(p);
+      });
+
+      // Site genel gelir-gider bilgisi (örnek collection: genelGelirGider)
+      const siteFinDoc = await db.collection("genelGelirGider").doc("sonDurum").get();
+      const siteFinancialsDiv = document.getElementById("siteFinancials");
+      if (siteFinDoc.exists) {
+        siteFinancialsDiv.innerHTML = "<h2>Site Genel Gelir-Gider:</h2>" + JSON.stringify(siteFinDoc.data());
+      }
     });
 
-    document.getElementById("logoutBtn").onclick = () => {
-      auth.signOut();
-    };
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await auth.signOut();
+      window.location.href = "giris.html";
+    });
   </script>
 </body>
 </html>
