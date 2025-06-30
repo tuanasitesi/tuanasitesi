@@ -24,11 +24,11 @@
   <div id="general-finance">Yükleniyor...</div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzs9n7ZY-SYnBThOFNPfsgttSmoV19-D_HRdBm0HUQaseC0rkS8xvvY_H065BjVS9Aq/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzyrbrWZoajfMj5oBSK88N7mE4w-sxBL9Otn7H5TKKYcValockPMtPAt3ELhfZz_LC/exec";
 
     async function fetchData() {
       try {
-        const res = await fetch(SCRIPT_URL);
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwzyrbrWZoajfMj5oBSK88N7mE4w-sxBL9Otn7H5TKKYcValockPMtPAt3ELhfZz_LC/exec');
         if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
         const data = await res.json();
         return data;
