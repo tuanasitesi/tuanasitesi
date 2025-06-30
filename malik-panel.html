@@ -1,99 +1,112 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Malik Paneli - Tuana Sitesi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
-    h1 { color: #1a73e8; }
-    button { padding: 8px 15px; font-size: 16px; cursor: pointer; margin-bottom: 20px; }
-    table { border-collapse: collapse; width: 100%; max-width: 900px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #1a73e8; color: white; }
-    .error { color: red; font-weight: bold; }
-  </style>
+<meta charset="UTF-8" />
+<title>Malik Paneli - Tuana Sitesi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+  h1 { color: #1a73e8; }
+  button { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; }
+  table { border-collapse: collapse; width: 100%; max-width: 900px; margin-top: 20px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background-color: #007bff; color: white; }
+  .error { color: red; margin-top: 10px; }
+</style>
 </head>
 <body>
-  <h1>Malik Paneli</h1>
-  <p>Kendi ödeme kayıtlarınız ve site genel gelir-gider bilgileri burada gösterilecek.</p>
-  <button id="logoutBtn">Çıkış Yap</button>
 
-  <h2>Ödeme Kayıtları</h2>
-  <div id="paymentSection">Yükleniyor...</div>
+<h1>Malik Paneli</h1>
+<p>Kendi ödeme kayıtlarınız ve site genel gelir-gider bilgileri burada gösterilecek.</p>
+<button onclick="logout()">Çıkış Yap</button>
 
-  <h2>Site Genel Gelir-Gider</h2>
-  <div id="siteSummarySection">Yükleniyor...</div>
+<h2>Ödeme Kayıtları</h2>
+<div id="paymentRecords">Yükleniyor...</div>
 
-  <script>
-    // Apps Script URL
-    const DATA_URL = 'https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec';
+<h2>Site Genel Gelir-Gider</h2>
+<div id="generalFinance">Yükleniyor...</div>
 
-    // Kullanıcının email'i girişten veya localStorage'dan alınmalı (örnek için sabit verdim)
-    const loggedInUserEmail = localStorage.getItem('userEmail') || 'malik@example.com';
+<script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweq8coY48LrL1TlZrpr4Aqn3eqNUS30mj6d7cgFxePYVCoCAmWyEtHzCRJ5RZSoT0/exec'; // Apps Script URL
 
-    // Çıkış butonu işlevi
-    document.getElementById('logoutBtn').onclick = function() {
-      localStorage.removeItem('userEmail');
-      window.location.href = 'giris.html';
-    };
+  function logout() {
+    if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+      window.location.href = "giris.html"; // Giriş sayfasına yönlendir
+    }
+  }
 
-    // Verileri çek ve işleyip ekrana yazdır
-    async function loadPayments() {
-      try {
-        const res = await fetch(DATA_URL);
-        if (!res.ok) throw new Error('Veri alınamadı: ' + res.statusText);
-        const data = await res.json();
+  async function fetchData() {
+    try {
+      const res = await fetch(SCRIPT_URL);
+      if (!res.ok) throw new Error("Veri alınamadı: " + res.statusText);
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
 
-        // Ödeme kayıtlarını filtrele: sadece login kullanıcısının ödemeleri
-        const userPayments = data.filter(row => row.MALİK && row.MALİK.toLowerCase() === loggedInUserEmail.toLowerCase());
+  function displayPayments(data, userEmail) {
+    // userEmail kendi mail adresiniz olmalı, bu kısım kullanıcıya göre filtreleme için
+    const userPayments = data.filter(row => row.MALİK.toLowerCase() === userEmail.toLowerCase());
 
-        if (userPayments.length === 0) {
-          document.getElementById('paymentSection').innerHTML = '<p>Hiç ödeme kaydı bulunamadı.</p>';
-        } else {
-          let html = '<table><thead><tr>';
-          // Tablo başlıkları: AİDAT TAKİP 2024-2025 sayfasındaki sütun adlarını kullanıyoruz
-          const headers = Object.keys(userPayments[0]);
-          headers.forEach(h => { html += `<th>${h}</th>`; });
-          html += '</tr></thead><tbody>';
-          userPayments.forEach(row => {
-            html += '<tr>';
-            headers.forEach(h => { html += `<td>${row[h]}</td>`; });
-            html += '</tr>';
-          });
-          html += '</tbody></table>';
-          document.getElementById('paymentSection').innerHTML = html;
-        }
-
-        // Site genel gelir-gider hesaplama ve gösterme
-        const siteSummary = {
-          toplamGelir: 0,
-          toplamGider: 0
-        };
-        data.forEach(row => {
-          Object.entries(row).forEach(([key, value]) => {
-            if (typeof value === 'string') {
-              // Türkçe format veya ? işaretleri olabilir, sayıya çevir
-              const num = Number(value.replace(/[^\d.-]/g, '')) || 0;
-              if (/ödenen/i.test(key) || /gelir/i.test(key)) siteSummary.toplamGelir += num;
-              else if (/gider/i.test(key)) siteSummary.toplamGider += num;
-            }
-          });
-        });
-
-        document.getElementById('siteSummarySection').innerHTML = `
-          <p><strong>Toplam Gelir:</strong> ${siteSummary.toplamGelir.toLocaleString('tr-TR', {style:'currency', currency:'TRY'})}</p>
-          <p><strong>Toplam Gider:</strong> ${siteSummary.toplamGider.toLocaleString('tr-TR', {style:'currency', currency:'TRY'})}</p>
-        `;
-
-      } catch (error) {
-        document.getElementById('paymentSection').innerHTML = `<p class="error">Ödeme kayıtları yüklenirken hata: ${error.message}</p>`;
-        document.getElementById('siteSummarySection').innerHTML = `<p class="error">Site genel gelir-gider bilgisi yüklenirken hata: ${error.message}</p>`;
-      }
+    if (userPayments.length === 0) {
+      return "<p>Ödeme kaydınız bulunamadı.</p>";
     }
 
-    // Sayfa yüklendiğinde verileri yükle
-    window.onload = loadPayments;
-  </script>
+    let html = '<table><tr>';
+    // Tablo başlıkları
+    for (const key in userPayments[0]) {
+      html += `<th>${key}</th>`;
+    }
+    html += '</tr>';
+
+    userPayments.forEach(row => {
+      html += '<tr>';
+      for (const key in row) {
+        html += `<td>${row[key]}</td>`;
+      }
+      html += '</tr>';
+    });
+
+    html += '</table>';
+    return html;
+  }
+
+  function displayGeneralFinance(data) {
+    // Örnek basit toplam hesaplama (aylık toplam gelir ve gider)
+    let totalGelir = 0;
+    let totalGider = 0;
+
+    data.forEach(row => {
+      // Burada GELİR ve GİDER sütunları tam isimle uyumlu olmalı
+      let gelir = parseFloat(row['GELİR (TL)'] || '0') || 0;
+      let gider = parseFloat(row['GİDER (TL)'] || '0') || 0;
+      totalGelir += gelir;
+      totalGider += gider;
+    });
+
+    return `<p><strong>Toplam Gelir:</strong> ${totalGelir.toFixed(2)} TL</p>
+            <p><strong>Toplam Gider:</strong> ${totalGider.toFixed(2)} TL</p>`;
+  }
+
+  async function init() {
+    try {
+      const userEmail = "malik@example.com"; // Burayı giriş yapan kullanıcının maili ile değiştirin
+
+      const data = await fetchData();
+
+      document.getElementById('paymentRecords').innerHTML = displayPayments(data, userEmail);
+      document.getElementById('generalFinance').innerHTML = displayGeneralFinance(data);
+
+    } catch (error) {
+      document.getElementById('paymentRecords').innerHTML = `<p class="error">Ödeme kayıtları yüklenirken hata: ${error.message}</p>`;
+      document.getElementById('generalFinance').innerHTML = `<p class="error">Site genel gelir-gider bilgisi yüklenirken hata: ${error.message}</p>`;
+    }
+  }
+
+  init();
+</script>
+
 </body>
 </html>
