@@ -94,7 +94,6 @@
 
       try {
         await auth.signInWithEmailAndPassword(email, password);
-        localStorage.setItem("userEmail", email);
 
         const userDoc = await db.collection("users").where("email", "==", email).limit(1).get();
 
