@@ -1,13 +1,50 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Yönetici Paneli</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<title>Yönetici Paneli</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; } h1 { color: #1a73e8; }</style>
 </head>
 <body>
   <h1>Yönetici Paneli</h1>
-  <p>Yönetici araçları ve veriler burada.</p>
-  <a href="giris.html">Çıkış</a>
+  <p>Tüm yönetim verileri ve araçları burada gösterilecek.</p>
+  <button id="logoutBtn">Çıkış Yap</button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
+      authDomain: "site-duyuru-sistemi.firebaseapp.com",
+      projectId: "site-duyuru-sistemi",
+      storageBucket: "site-duyuru-sistemi.appspot.com",
+      messagingSenderId: "969231855403",
+      appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(async user => {
+      if (!user) {
+        window.location.href = "giris.html";
+        return;
+      }
+      const doc = await db.collection("users").doc(user.uid).get();
+      if (!doc.exists || doc.data().role !== "yonetici") {
+        alert("Bu sayfayı görüntülemeye yetkiniz yok!");
+        await auth.signOut();
+        window.location.href = "giris.html";
+      }
+    });
+
+    document.getElementById("logoutBtn").onclick = () => {
+      auth.signOut();
+    };
+  </script>
 </body>
 </html>
