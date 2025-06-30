@@ -72,7 +72,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase config - kendi bilgilerini ekle
+    // Firebase config - kendi bilgilerin
     const firebaseConfig = {
       apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
@@ -88,7 +88,6 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Login işlemi
     async function login() {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
@@ -96,19 +95,20 @@
       errorMsg.innerText = "";
 
       try {
-        // Firebase Authentication ile giriş
-        await auth.signInWithEmailAndPassword(email, password);
+        // Firebase Authentication ile giriş yap
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-        // Kullanıcının rolünü Firestore'dan al
-        const userDoc = await db.collection("users").where("email", "==", email).limit(1).get();
+        // Kullanıcının rolünü Firestore'dan UID ile al
+        const userDoc = await db.collection("users").doc(user.uid).get();
 
-        if (userDoc.empty) {
+        if (!userDoc.exists) {
           errorMsg.innerText = "Kullanıcı rolü bulunamadı!";
           await auth.signOut();
           return;
         }
 
-        const userData = userDoc.docs[0].data();
+        const userData = userDoc.data();
 
         // Rol bazlı yönlendirme
         switch(userData.role) {
@@ -133,12 +133,10 @@
             break;
         }
       } catch (error) {
-        // Hata mesajını göster
         errorMsg.innerText = "Hata: " + error.message;
       }
     }
 
-    // Form submit eventi
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
       login();
