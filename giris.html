@@ -72,6 +72,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
   <script>
+    // Firebase config - kendi bilgilerini ekle
     const firebaseConfig = {
       apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
@@ -82,6 +83,7 @@
       appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
     };
 
+    // Firebase başlat
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -93,8 +95,10 @@
       errorMsg.innerText = "";
 
       try {
+        // Firebase Authentication ile giriş
         await auth.signInWithEmailAndPassword(email, password);
 
+        // Kullanıcının rolünü Firestore'dan al
         const userDoc = await db.collection("users").where("email", "==", email).limit(1).get();
 
         if (userDoc.empty) {
@@ -105,6 +109,10 @@
 
         const userData = userDoc.docs[0].data();
 
+        // Email'i localStorage'a kaydet (panel sayfalarında kullanılacak)
+        localStorage.setItem("userEmail", email);
+
+        // Rol bazlı yönlendirme
         switch(userData.role) {
           case 'admin':
             window.location.href = 'admin-panel.html';
