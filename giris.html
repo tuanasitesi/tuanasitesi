@@ -72,32 +72,45 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
   <script>
+    // Firebase config - kendi bilgilerini ekle
     const firebaseConfig = {
       apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
+      databaseURL: "https://site-duyuru-sistemi-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "site-duyuru-sistemi",
       storageBucket: "site-duyuru-sistemi.appspot.com",
       messagingSenderId: "969231855403",
       appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
     };
 
+    // Firebase başlat
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Login işlemi
     async function login() {
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("errorMsg");
+      errorMsg.innerText = "";
 
       try {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
-        const user = firebase.auth().currentUser;
+        // Firebase Authentication ile giriş
+        await auth.signInWithEmailAndPassword(email, password);
 
-        const doc = await db.collection('users').doc(user.uid).get();
-        if (!doc.exists) {
-          throw new Error("Kullanıcı rolü bulunamadı!");
+        // Kullanıcının rolünü Firestore'dan al
+        const userDoc = await db.collection("users").where("email", "==", email).limit(1).get();
+
+        if (userDoc.empty) {
+          errorMsg.innerText = "Kullanıcı rolü bulunamadı!";
+          await auth.signOut();
+          return;
         }
-        const userData = doc.data();
 
+        const userData = userDoc.docs[0].data();
+
+        // Rol bazlı yönlendirme
         switch(userData.role) {
           case 'admin':
             window.location.href = 'admin-panel.html';
@@ -115,14 +128,17 @@
             window.location.href = 'kiracili-malik-panel.html';
             break;
           default:
-            document.getElementById("errorMsg").innerText = "Bilinmeyen kullanıcı rolü!";
-            await firebase.auth().signOut();
+            errorMsg.innerText = "Bilinmeyen kullanıcı rolü!";
+            await auth.signOut();
+            break;
         }
-      } catch(error) {
-        document.getElementById("errorMsg").innerText = "Hata: " + error.message;
+      } catch (error) {
+        // Hata mesajını göster
+        errorMsg.innerText = "Hata: " + error.message;
       }
     }
 
+    // Form submit eventi
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
       login();
