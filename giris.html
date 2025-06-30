@@ -72,7 +72,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase config - kendi bilgilerin
     const firebaseConfig = {
       apiKey: "AIzaSyDCwV9WPT06QEzbpagTStv6ZEpWDGch46g",
       authDomain: "site-duyuru-sistemi.firebaseapp.com",
@@ -83,7 +82,6 @@
       appId: "1:969231855403:web:5acf7ae5ba64c31a901f6e"
     };
 
-    // Firebase başlat
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -95,22 +93,19 @@
       errorMsg.innerText = "";
 
       try {
-        // Firebase Authentication ile giriş yap
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
+        await auth.signInWithEmailAndPassword(email, password);
+        localStorage.setItem("userEmail", email);
 
-        // Kullanıcının rolünü Firestore'dan UID ile al
-        const userDoc = await db.collection("users").doc(user.uid).get();
+        const userDoc = await db.collection("users").where("email", "==", email).limit(1).get();
 
-        if (!userDoc.exists) {
+        if (userDoc.empty) {
           errorMsg.innerText = "Kullanıcı rolü bulunamadı!";
           await auth.signOut();
           return;
         }
 
-        const userData = userDoc.data();
+        const userData = userDoc.docs[0].data();
 
-        // Rol bazlı yönlendirme
         switch(userData.role) {
           case 'admin':
             window.location.href = 'admin-panel.html';
